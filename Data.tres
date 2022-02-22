@@ -1,0 +1,29 @@
+{
+	"Cards": [
+		{
+			"name": "Punch",
+			"description": "Punch Hard",
+			"strength": 10,
+			"variance": 5,
+			"type": "Harmful",
+			"attribute": "Physical"
+		},
+		{
+			"name": "Short Rest",
+			"description": "Take A 10 Second Nap",
+			"strength": 5,
+			"type": "Healing",
+			"attribute": "Holy"
+		}
+	],
+	"Entities": [
+		{
+			"name": "Slime",
+			"hp": 10,
+			"str": 5,
+			"def": 5,
+			"mag": 5,
+			"lvlRate": "[2,1,1,1]"
+		}
+	]
+}

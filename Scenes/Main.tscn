@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr6gdtkvpoiq3"]
+
+[ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_g2ppp"]
+
+[node name="Main" type="Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" parent="." instance=ExtResource( "1_g2ppp" )]
+offset_left = 48.0
+offset_top = 156.0
+offset_right = 48.0
+offset_bottom = 156.0
+
+[node name="Control2" parent="." instance=ExtResource( "1_g2ppp" )]
+offset_left = 246.0
+offset_top = 208.0
+offset_right = 246.0
+offset_bottom = 208.0
+
+[node name="Control3" parent="." instance=ExtResource( "1_g2ppp" )]
+offset_left = 334.0
+offset_top = 175.0
+offset_right = 334.0
+offset_bottom = 175.0
