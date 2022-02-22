@@ -5,19 +5,23 @@ var last_anim=false
 
 var base = Classes.combat_object.new()
 
+
 func _ready():
 	base.root=self
-	base.object_type="Enemy"
-
+	base.object_type="Ally"
 
 func hover_over():
+	if been_seleced():return false
 	var succeeded = base.hover()
 	if succeeded:$AnimationPlayer.play("hovered")
 
-func stop_hover():base.stop_hover()
+func stop_hover():
+	if been_seleced():return false
+	base.stop_hover()
 
 
 func stop_hovering():
+	if been_seleced():return false
 	last_anim=true
 	base.reset_position()
 
@@ -36,7 +40,7 @@ func get_next_target(cur_turn):
 
 #returns position to hit self to
 func hit_direction():
-	return rect_position-Vector2(32,0)
+	return rect_position+Vector2(32,0)
 
 
 #selects and deselects

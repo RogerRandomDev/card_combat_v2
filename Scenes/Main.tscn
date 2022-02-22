@@ -1,26 +1,83 @@
-[gd_scene load_steps=2 format=3 uid="uid://dr6gdtkvpoiq3"]
+[gd_scene load_steps=4 format=3 uid="uid://ckad47rw0cn4s"]
 
-[ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_g2ppp"]
+[ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
+[ext_resource type="PackedScene" uid="uid://dsoibnltwojmr" path="res://Scenes/ally.tscn" id="2_q6vu5"]
+[ext_resource type="Script" path="res://Nodes/Card.gd" id="3_oy14w"]
 
-[node name="Main" type="Control"]
+[node name="main" type="Control"]
+texture_filter = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" parent="." instance=ExtResource( "1_g2ppp" )]
-offset_left = 48.0
-offset_top = 156.0
-offset_right = 48.0
-offset_bottom = 156.0
+[node name="EnemyList" type="VBoxContainer" parent="."]
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 30.0
+offset_bottom = 200.0
+theme_override_constants/separation = 80
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Control2" parent="." instance=ExtResource( "1_g2ppp" )]
-offset_left = 246.0
-offset_top = 208.0
-offset_right = 246.0
-offset_bottom = 208.0
+[node name="enemy" parent="EnemyList" instance=ExtResource( "1_0nfr2" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
-[node name="Control3" parent="." instance=ExtResource( "1_g2ppp" )]
-offset_left = 334.0
-offset_top = 175.0
-offset_right = 334.0
-offset_bottom = 175.0
+[node name="enemy2" parent="EnemyList" instance=ExtResource( "1_0nfr2" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 80.0
+offset_right = 0.0
+offset_bottom = 80.0
+
+[node name="enemy3" parent="EnemyList" instance=ExtResource( "1_0nfr2" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 160.0
+offset_right = 0.0
+offset_bottom = 160.0
+
+[node name="AllyList" type="VBoxContainer" parent="."]
+offset_left = 994.0
+offset_top = 40.0
+offset_right = 994.0
+offset_bottom = 200.0
+theme_override_constants/separation = 80
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ally" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="ally2" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 80.0
+offset_bottom = 80.0
+
+[node name="ally3" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 160.0
+offset_bottom = 160.0
+
+[node name="CardList" type="HBoxContainer" parent="."]
+offset_top = 568.0
+offset_right = 1024.0
+offset_bottom = 600.0
+alignment = 1
+
+[node name="card_object" type="Control" parent="CardList"]
+offset_left = 512.0
+offset_right = 512.0
+offset_bottom = 32.0
+script = ExtResource( "3_oy14w" )

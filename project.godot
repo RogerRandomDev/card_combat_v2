@@ -8,10 +8,20 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "Control",
+"class": &"card_object",
+"language": &"GDScript",
+"path": "res://Nodes/Card.gd"
+}]
+_global_script_class_icons={
+"card_object": ""
+}
+
 [application]
 
 config/name="card_combat_2.0"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="res://Scenes/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0")
 
@@ -20,6 +30,7 @@ config/features=PackedStringArray("4.0")
 Combat="*res://global/combat.gd"
 Data="*res://global/data.gd"
 Global="*res://global/global.gd"
+Classes="*res://global/classes.gd"
 
 [input]
 

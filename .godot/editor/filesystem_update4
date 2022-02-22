@@ -1,0 +1,7 @@
+res://Nodes/Card.gd
+res://Scenes/enemy.tscn
+res://Scenes/main.tscn
+res://Scripts/ally.gd
+res://Scripts/enemy.gd
+res://global/classes.gd
+res://global/combat.gd
