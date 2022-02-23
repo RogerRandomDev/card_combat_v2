@@ -1,13 +1,73 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckad47rw0cn4s"]
+[gd_scene load_steps=9 format=3 uid="uid://bfvyc68qi7w02"]
 
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_1hmnv"]
 [ext_resource type="PackedScene" uid="uid://dsoibnltwojmr" path="res://Scenes/ally.tscn" id="2_q6vu5"]
-[ext_resource type="Script" path="res://Nodes/Card.gd" id="3_oy14w"]
+[ext_resource type="Texture2D" uid="uid://cu3fyp100elcq" path="res://Textures/Card.png" id="5_eivyd"]
+[ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_l201b"]
 
-[node name="main" type="Control"]
+[sub_resource type="Animation" id="Animation_ppuey"]
+resource_name = "fillhand"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"add_card_to_hand"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_utqgd"]
+resource_name = "flipcards"
+length = 0.375
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove_card"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ubbt7"]
+resource_name = "shuffle"
+length = 0.125
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shuffle"
+}]
+}
+
+[node name="game_combat" type="Control"]
 texture_filter = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( "1_1hmnv" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -74,10 +134,72 @@ offset_bottom = 160.0
 offset_top = 568.0
 offset_right = 1024.0
 offset_bottom = 600.0
+theme_override_constants/separation = 16
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="card_object" type="Control" parent="CardList"]
-offset_left = 512.0
-offset_right = 512.0
-offset_bottom = 32.0
-script = ExtResource( "3_oy14w" )
+[node name="cardstack" type="Control" parent="."]
+offset_left = 960.0
+offset_top = 536.0
+offset_right = 960.0
+offset_bottom = 536.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="c1" type="TextureRect" parent="cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+texture = ExtResource( "5_eivyd" )
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="c2" type="TextureRect" parent="cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+texture = ExtResource( "5_eivyd" )
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="c3" type="TextureRect" parent="cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+texture = ExtResource( "5_eivyd" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="storestack" type="TextureRect" parent="."]
+self_modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = 32.0
+offset_top = 488.0
+offset_right = 96.0
+offset_bottom = 582.0
+texture = ExtResource( "5_eivyd" )
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource( "6_l201b" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fillhand = SubResource( "Animation_ppuey" )
+anims/flipcards = SubResource( "Animation_utqgd" )
+anims/shuffle = SubResource( "Animation_ubbt7" )
+
+[connection signal="mouse_entered" from="storestack" to="storestack" method="hover_over"]
+[connection signal="mouse_exited" from="storestack" to="storestack" method="stop_hover"]

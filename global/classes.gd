@@ -15,7 +15,8 @@ class combat_object extends Node:
 		"Def":5,
 		"Sup":5
 		}
-	
+	func _ready():
+		randomize()
 	
 	func hover():return Combat.set_hovered(root,object_type)
 	
@@ -38,11 +39,18 @@ class combat_object extends Node:
 		else:
 			if Combat.active_target==object_type:return "next_turn"
 			return "Card"
-
-
+	
+	#deals damage and shows the float text
+	func hurt(val):
+		var floaty=Classes.float_text.new()
+		floaty.load_self(str(val),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)))
+		floaty.rect_global_position=root.rect_global_position
+		root.get_parent().get_parent().add_child(floaty)
+		stats.Hp-=val
 class float_text extends Label:
 	var float_dir=Vector2.ZERO
 	var grav = Vector2.ZERO
+	var time = 0.0
 	func load_self(textnew="Blank",direction=Vector2(0,-64),gravity=Vector2(0,128),heal=false):
 		text = textnew
 		float_dir=direction
@@ -52,6 +60,9 @@ class float_text extends Label:
 	func _process(delta):
 		float_dir += grav*delta
 		rect_position += float_dir*delta
+		time +=delta
+		if time >=1:
+			queue_free()
 
 
 

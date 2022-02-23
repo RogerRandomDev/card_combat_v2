@@ -1,4 +1,7 @@
+Control
+TextureRect
+AnimationPlayer
+Timer
 card_object (Card.gd)
 HBoxContainer
 VBoxContainer
-Control
