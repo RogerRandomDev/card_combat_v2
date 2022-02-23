@@ -1,14 +1,34 @@
-[gd_scene load_steps=9 format=3 uid="uid://bfvyc68qi7w02"]
+[gd_scene load_steps=11 format=3 uid="uid://b3rt4knlc6dkk"]
 
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_1hmnv"]
 [ext_resource type="PackedScene" uid="uid://dsoibnltwojmr" path="res://Scenes/ally.tscn" id="2_q6vu5"]
 [ext_resource type="Texture2D" uid="uid://cu3fyp100elcq" path="res://Textures/Card.png" id="5_eivyd"]
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="6_8q8xe"]
 [ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_l201b"]
+
+[sub_resource type="Animation" id="Animation_bw3in"]
+resource_name = "activate_action"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"trigger_action"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_ppuey"]
 resource_name = "fillhand"
-length = 0.25
+length = 0.125
 loop_mode = 1
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -74,11 +94,11 @@ __meta__ = {
 
 [node name="EnemyList" type="VBoxContainer" parent="."]
 offset_left = 30.0
-offset_top = 40.0
+offset_top = 72.0
 offset_right = 30.0
-offset_bottom = 200.0
-theme_override_constants/separation = 80
-alignment = 1
+offset_bottom = 392.0
+size_flags_vertical = 3
+alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -87,29 +107,32 @@ __meta__ = {
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 0.0
-offset_bottom = 0.0
+offset_bottom = 104.0
+size_flags_vertical = 3
 
 [node name="enemy2" parent="EnemyList" instance=ExtResource( "1_0nfr2" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 80.0
+offset_top = 108.0
 offset_right = 0.0
-offset_bottom = 80.0
+offset_bottom = 212.0
+size_flags_vertical = 3
 
 [node name="enemy3" parent="EnemyList" instance=ExtResource( "1_0nfr2" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 160.0
+offset_top = 216.0
 offset_right = 0.0
-offset_bottom = 160.0
+offset_bottom = 320.0
+size_flags_vertical = 3
 
 [node name="AllyList" type="VBoxContainer" parent="."]
 offset_left = 994.0
-offset_top = 40.0
+offset_top = 72.0
 offset_right = 994.0
-offset_bottom = 200.0
-theme_override_constants/separation = 80
-alignment = 1
+offset_bottom = 392.0
+size_flags_vertical = 3
+alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -117,18 +140,22 @@ __meta__ = {
 [node name="ally" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_bottom = 104.0
+size_flags_vertical = 3
 
 [node name="ally2" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 80.0
-offset_bottom = 80.0
+offset_top = 108.0
+offset_bottom = 212.0
+size_flags_vertical = 3
 
 [node name="ally3" parent="AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 160.0
-offset_bottom = 160.0
+offset_top = 216.0
+offset_bottom = 320.0
+size_flags_vertical = 3
 
 [node name="CardList" type="HBoxContainer" parent="."]
 offset_top = 568.0
@@ -197,9 +224,20 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/activate_action = SubResource( "Animation_bw3in" )
 anims/fillhand = SubResource( "Animation_ppuey" )
 anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
+
+[node name="action_stopper" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+rect_min_size = Vector2(1024, 600)
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( "6_8q8xe" )
 
 [connection signal="mouse_entered" from="storestack" to="storestack" method="hover_over"]
 [connection signal="mouse_exited" from="storestack" to="storestack" method="stop_hover"]

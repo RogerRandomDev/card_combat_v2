@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhc122b4t2wwa"]
+
+[ext_resource type="Texture2D" uid="uid://dsv8od7rxibk8" path="res://Textures/combatSelect.png" id="1_dx386"]
+[ext_resource type="Script" path="res://Scripts/combat_select_particle.gd" id="1_rstit"]
+
+[sub_resource type="Curve" id="Curve_sxv8p"]
+max_value = 2.5
+_data = [Vector2(0, 0.818182), 0.0, 1.625, 0, 0, Vector2(0.520202, 1.31818), 0.0, 0.128571, 0, 0, Vector2(1, 0), -5.58, 0.0, 0, 0]
+
+[sub_resource type="Gradient" id="Gradient_urs14"]
+offsets = PackedFloat32Array(0, 0.188571, 0.445714, 0.788571)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="combat_particles" type="CPUParticles2D"]
+texture_filter = 1
+emitting = false
+amount = 3
+one_shot = true
+explosiveness = 0.63
+texture = ExtResource( "1_dx386" )
+gravity = Vector2(0, 0)
+scale_amount_min = 1.5
+scale_amount_max = 1.5
+scale_amount_curve = SubResource( "Curve_sxv8p" )
+color_ramp = SubResource( "Gradient_urs14" )
+script = ExtResource( "1_rstit" )

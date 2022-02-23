@@ -11,7 +11,7 @@ var card_data = {
 	"variance":5,
 	"attribute":"Physical",
 	"type":'Harmful',
-	"actions":[]
+	"color":"#ffffff"
 }
 
 #sets up the back texture
@@ -23,6 +23,7 @@ var description=Label.new()
 
 func _ready():
 	randomize()
+	
 	card_backing.texture=texture
 	card_backing.ignore_texture_size=true
 	card_backing.rect_size = Vector2(64,94)
@@ -35,6 +36,7 @@ func _ready():
 	set_text_format(description)
 	description.rect_position+=Vector2(0,12)
 	connect("mouse_entered",hover_over)
+	set_data(Data.get_card_from_deck())
 
 func set_text_format(ob):
 	ob.rect_size = Vector2(56,86)
@@ -80,7 +82,7 @@ func reset():
 
 #data value types
 func harmful():return card_data.type=="Harmful"
-
+func heals():return card_data.type=="Healing"
 
 #select and deselect
 func select():return
@@ -106,3 +108,4 @@ func set_data(data):
 	card_data=data
 	name_of.text=data.name
 	description.text = data.description
+	modulate = Color(data.color)

@@ -9,10 +9,14 @@ var base = Classes.combat_object.new()
 func _ready():
 	base.root=self
 	base.object_type="Ally"
+	base.set_data(Data.entities.values()[0])
+	base.load_texture()
+	$SpriteHolder/TextureRect.flip_h=true
 
 func hover_over():
-	if been_seleced():return false
-	var succeeded = base.hover()
+	Combat.update_target()
+	if been_seleced()&&(Combat.current_target_type=="Card"||Combat.current_target_type=="Target"):return false
+	var succeeded = base.hover(Combat.current_target_type!="Card")
 	if succeeded:$AnimationPlayer.play("hovered")
 
 func stop_hover():
@@ -21,7 +25,9 @@ func stop_hover():
 
 
 func stop_hovering():
-	if been_seleced():return false
+	if been_seleced():
+		if Combat.current_target_type!="Card":base.reset_scale()
+		return false
 	last_anim=true
 	base.reset_position()
 
@@ -44,7 +50,8 @@ func hit_direction():
 
 
 #selects and deselects
-func select():base.selected=true
+func select():
+	if Combat.current_target_type=="Card":base.selected=true
 func deselect():base.selected=false
 
 func been_seleced():return base.selected

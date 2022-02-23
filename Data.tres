@@ -1,29 +1,33 @@
 {
-	"Cards": [
-		{
-			"name": "Punch",
-			"description": "Punch Hard",
-			"strength": 10,
-			"variance": 5,
-			"type": "Harmful",
-			"attribute": "Physical"
-		},
-		{
-			"name": "Short Rest",
-			"description": "Take A 10 Second Nap",
-			"strength": 5,
-			"type": "Healing",
-			"attribute": "Holy"
-		}
-	],
-	"Entities": [
-		{
-			"name": "Slime",
-			"hp": 10,
-			"str": 5,
-			"def": 5,
-			"mag": 5,
-			"lvlRate": "[2,1,1,1]"
-		}
-	]
+    "Cards": [
+        {
+            "name": "Punch",
+            "description": "Punch Hard",
+            "strength": 10,
+            "variance": 5,
+            "type": "Harmful",
+            "attribute": "Physical",
+            "color": "#D41E0B"
+        },
+        {
+            "name": "Short Rest",
+            "description": "Take A 10 Second Nap",
+            "strength": 5,
+            "variance": 0,
+            "type": "Healing",
+            "attribute": "Holy",
+            "color": "#39D491"
+        }
+    ],
+    "Entities": [
+        {
+            "name": "Frog",
+            "texture": "Frog",
+            "hp": 10,
+            "str": 5,
+            "def": 5,
+            "sup": 5,
+            "lvlRate": "[2,1,1,1]"
+        }
+    ]
 }

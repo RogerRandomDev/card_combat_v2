@@ -2,7 +2,7 @@ extends Node
 
 
 var active_hover = null
-var current_target_type="Ally"
+var current_target_type="Target"
 
 
 var selected_now = {}
@@ -20,22 +20,24 @@ var hovering_card = null
 
 var store_for_next_turn=[]
 
+var cur_enemy_turn = 0
+
+
+
+
+#preload scenes
+var combatParticles = preload("res://Scenes/combat_select_particle.tscn")
 
 
 
 
 
-
-
-
-
-
-func set_hovered(target,type):
+func set_hovered(target,type,animate=true):
 	if current_target_type.replace("Target",whos_turn)!=type:return false
 	current_target_type=current_target_type.replace("Target",whos_turn)
 	if current_target_type!=type&&current_target_type!=whos_turn:return false
 	if target==active_hover:return false
-	if current_target_type==whos_turn&&selected_now.size()==0:
+	if current_target_type==whos_turn&&selected_now.size()<=1:
 		current_target_type="Target"
 	
 	#stops targeting current hover target
@@ -46,11 +48,11 @@ func set_hovered(target,type):
 		if active_hover.has_method("stop_hovering"):
 			active_hover.stop_hovering()
 	#if there is a target, it will scale them up
-	if target!=null:
-		var tween:Tween=target.create_tween()
-		tween.parallel().tween_property(target,"rect_scale",Vector2(1.5,1.5),0.125)
+	if animate:
+		if target!=null:
+			var tween:Tween=target.create_tween()
+			tween.parallel().tween_property(target,"rect_scale",Vector2(1.5,1.5),0.125)
 	active_hover = target
-	
 	return true
 
 
@@ -98,18 +100,21 @@ func _input(_event):
 		current_target_type = active_hover.get_next_target(current_target_type)
 		#selects and stops hovering the current target
 		active_hover.select()
+		if header!="Card":
+			var particles = combatParticles.instantiate()
+			active_hover.get_parent().get_parent().add_child(particles)
+			particles.global_position = active_hover.rect_global_position
 		stop_hovering()
 		#if its the next turn action, reloads the actions
 		if current_target_type=="next_turn":
-			do_enemy_turns()
-			current_target_type="Ally"
-			current_turn+=1
+			selected_now.Self.base.reset_scale()
+			current_target_type="Target"
 			action_list.append(selected_now)
 			selected_now["Card"].reset()
 			selected_now={}
 			if action_list.size()>=ally_count:
-				activate_actions()
-			
+				get_tree().current_scene.get_node("AnimationPlayer").play("activate_action")
+				
 
 
 
@@ -124,37 +129,23 @@ func stop_hovering():
 
 #triggers the actions
 func activate_actions():
-	var timer = Timer.new()
-	action_list[0].Self.get_parent().get_parent().add_child(timer)
-	timer.wait_time = 0.375
-	timer.one_shot=true
 	active_target=""
-	for selected in action_list:
-		selected_now = selected
-		
-		
-		var card = selected_now.Card
-		var does_action = selected_now.Self
-		var recieves_action = selected_now.Target
-		#stops action if one of the required is invalid
-		if !is_instance_valid(card):continue
-		if !is_instance_valid(does_action):continue
-		if !is_instance_valid(recieves_action):continue
-		
+	selected_now = action_list[0]
+	var card = selected_now.Card
+	var does_action = selected_now.Self
+	var recieves_action = selected_now.Target
+	
+	#stops action if one of the required is invalid
+	if is_instance_valid(card)&&is_instance_valid(does_action)&&is_instance_valid(recieves_action):
 		card.reset()
 		does_action.reset()
 		recieves_action.reset()
 		var out = card.get_output_value()
 		if card.harmful():hit_target(recieves_action,out)
-		
-		timer.start()
-		await (timer.timeout)
-		
-	if is_instance_valid(timer):
-		timer.queue_free()
+		elif card.heals():heal_target(recieves_action,out)
+	action_list.erase(action_list[0])
 	selected_now={}
-	action_list = []
-	if get_tree().current_scene.has_method("reload_hand"):
+	if get_tree().current_scene.has_method("reload_hand")&&action_list.size()==0:
 		get_tree().current_scene.reload_hand()
 
 
@@ -162,14 +153,36 @@ func activate_actions():
 func hit_target(target=null,strength_of=1):
 	if(target==null):return false
 	target.base.hurt(strength_of)
-	
+	shake_camera(0.125)
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
 	tween.parallel().tween_property(target,"modulate",Color(1.0,0.5,0.5),0.125)
 	tween.tween_property(target,"rect_position",target.rect_position,0.125)
+	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
+
+#same as hit_target but green and heals
+func heal_target(target=null,strength_of=1):
+	if(target==null):return false
+	target.base.hurt(-strength_of)
+	var tween:Tween=target.create_tween()
+	tween.parallel().tween_property(target,"rect_scale",Vector2(1.25,1.25),0.125)
+	tween.parallel().tween_property(target,"modulate",Color(0.5,1.0,0.5),0.125)
+	tween.tween_property(target,"rect_scale",Vector2.ONE,0.125)
 	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
 	
 
 #enemy actions
 func do_enemy_turns():
 	pass
+
+
+var camera = null
+#camera to be shaken
+func shake_camera(val):
+	if camera==null:return
+	camera.add_shake(val)
+
+#makes sure the taret works as it should
+func update_target():
+	if current_target_type=="Ally"&&selected_now.size()==0:
+		current_target_type="Target"

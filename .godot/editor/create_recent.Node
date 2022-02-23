@@ -1,4 +1,6 @@
+Camera2D
 Control
+CPUParticles2D
 TextureRect
 AnimationPlayer
 Timer

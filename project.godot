@@ -32,6 +32,37 @@ Data="*res://global/data.gd"
 Global="*res://global/global.gd"
 Classes="*res://global/classes.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_width"
+
+[editor]
+
+import/use_multiple_threads=false
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/channel_pack": 0,
+"compress/hdr_compression": 1,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"compress/streamed": false,
+"detect_3d/compress_to": 1,
+"mipmaps/generate": false,
+"mipmaps/limit": -1,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"process/size_limit": 0,
+"roughness/mode": 0,
+"roughness/src_normal": ""
+}
+
 [input]
 
 left_mouse={
@@ -51,4 +82,7 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+textures/decals/filter=0
+textures/light_projectors/filter=0
+textures/canvas_textures/default_texture_filter=0
 environment/default_environment="res://default_env.tres"

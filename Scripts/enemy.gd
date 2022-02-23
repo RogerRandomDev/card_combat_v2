@@ -8,6 +8,8 @@ var base = Classes.combat_object.new()
 func _ready():
 	base.root=self
 	base.object_type="Enemy"
+	base.set_data(Data.entities.values()[0])
+	base.load_texture()
 
 
 func hover_over():
@@ -48,3 +50,6 @@ func been_seleced():return base.selected
 #resets scaling
 func reset():
 	base.next_reset()
+
+func set_data(data):
+	base.set_data(data)
