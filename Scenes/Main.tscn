@@ -119,7 +119,7 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjbiw"]
 shader = SubResource( "Shader_24f2r" )
-shader_param/lod = 4.0
+shader_param/lod = 2.0
 
 [sub_resource type="Shader" id="Shader_u7m4y"]
 code = "/*
@@ -348,7 +348,6 @@ void fragment()
 		float midpoint = pow(0.5, 2.2);
 		text.rgb = (text.rgb - vec3(midpoint)) * contrast + midpoint;
 	}
-	
 	COLOR = text;
 }"
 
@@ -367,7 +366,7 @@ shader_param/roll_variation = 0.213
 shader_param/distort_intensity = 0.005
 shader_param/noise_opacity = 0.1
 shader_param/noise_speed = 0.331
-shader_param/static_noise_intensity = 0.05
+shader_param/static_noise_intensity = 0.02
 shader_param/aberration = 0.025
 shader_param/brightness = 1.0
 shader_param/discolor = false
