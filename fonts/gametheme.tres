@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://depumydraltld"]
+
+[ext_resource type="Font" uid="uid://b7w13153ckv3i" path="res://fonts/basefont.tres" id="1_lhjh6"]
+
+[resource]
+default_font = ExtResource( "1_lhjh6" )

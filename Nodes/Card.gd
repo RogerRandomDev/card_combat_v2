@@ -14,12 +14,13 @@ var card_data = {
 	"color":"#ffffff"
 }
 
+
 #sets up the back texture
 var texture = preload("res://Textures/Card.png")
 var card_backing = TextureRect.new()
 #the text for it
 var name_of=Label.new()
-var description=Label.new()
+
 
 func _ready():
 	randomize()
@@ -30,22 +31,20 @@ func _ready():
 	card_backing.rect_position -= Vector2(32,47)
 	add_child(card_backing)
 	card_backing.add_child(name_of)
-	card_backing.add_child(description)
 	rect_min_size=Vector2(64,32)
 	set_text_format(name_of)
-	set_text_format(description)
-	description.rect_position+=Vector2(0,12)
 	connect("mouse_entered",hover_over)
 	connect("mouse_exited",stop_hover)
 	set_data(Data.get_card_from_deck())
 
-func set_text_format(ob):
-	ob.rect_size = Vector2(56,86)
+func set_text_format(ob,scale_rate=1):
+	ob.rect_size = Vector2(56,84)
 	ob.rect_position=Vector2(4,4)
 	ob.modulate=Color(0,0,0,1)
+	ob.rect_scale=Vector2(1,1)/scale_rate
 	ob.text ="hello there"
 	ob.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	ob.autowrap_mode=name_of.AUTOWRAP_WORD_SMART
+	ob.autowrap_mode=name_of.AUTOWRAP_WORD
 	
 	
 	mouse_filter=Control.MOUSE_FILTER_PASS
@@ -64,6 +63,7 @@ func get_next_target(_a):
 
 func hover_over():
 	if get_parent().name=="cardstack":return
+	get_parent().get_parent().show_card_description(card_data.description)
 	var success = Combat.set_hovered(self,"Card")
 	Combat.set_deferred('hovering_card',self)
 	if success:
@@ -71,7 +71,9 @@ func hover_over():
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-77),0.125)
 
 func stop_hover():
-	if Combat.hovering_card==self:Combat.hovering_card=null
+	get_parent().get_parent().show_card_description("")
+	if Combat.hovering_card==self:
+		Combat.hovering_card=null
 
 
 func stop_hovering():
@@ -98,11 +100,8 @@ func deselect():return
 #hide and show the content
 func hide_content():
 	name_of.visible=false
-	description.visible=false
 func show_content():
 	name_of.visible=true
-	description.visible=true
-
 
 #gets the output strength of the action
 func get_output_value():
@@ -113,5 +112,5 @@ func get_output_value():
 func set_data(data):
 	card_data=data
 	name_of.text=data.name
-	description.text = data.description
+	
 	modulate = Color(data.color)

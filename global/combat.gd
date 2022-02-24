@@ -62,7 +62,7 @@ func _input(_event):
 	if Input.is_action_just_pressed("right_mouse")&&hovering_card!=null:
 		var start_pos = hovering_card.rect_global_position
 		var move_to = get_tree().current_scene.get_node("CombatContainer/game_combat/storestack")
-		if move_to.get_child_count()>=3:return
+		if move_to.get_child_count()>=4:return
 		hovering_card.get_parent().remove_child(hovering_card)
 		move_to.add_child(hovering_card)
 		hovering_card.rect_global_position=start_pos
@@ -180,47 +180,47 @@ func heal_target(target=null,strength_of=1):
 #enemy actions
 func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	if enemy==null:return
-	
-	#health ratios of self and ally enemies
-	var ally_health_ratios = []
-	if enemy_neighbors!=null:
-		for ally in enemy_neighbors:
-			ally_health_ratios.append(ally.base.stats.Hp/ally.base.stats.maxHp)
-	var heal_requirement_this_turn = randf_range(0.0,0.875)
-	var least_health=1.0
-	var target_now = null
-	var target_action = "hit_target"
-	
-	for ally in ally_health_ratios.size():
-		var health = ally_health_ratios[ally]
-		if health <= heal_requirement_this_turn&&health<=least_health:
-			if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
-				target_now=enemy_neighbors[ally]
-				target_action="heal_target"
-				least_health=health
-	
-	
-	#health ratios for the allies of the player
-	var enemy_health_ratios = []
-	for enemyy in ally_neighbors:
-		enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
-	var attack_enemy=randf_range(0.5,1.0)
-	var lowest_ally_hp = 100.0
-	var target_now_a=null
-	for enemyy in enemy_health_ratios.size():
-		var health = enemy_health_ratios[enemyy]
-		if health <=attack_enemy&&health <=lowest_ally_hp:
-			if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
-				target_now_a=ally_neighbors[enemyy]
-				lowest_ally_hp=health
-	#chooses if it will do a hurt action or heal action
-	if lowest_ally_hp*randf_range(0.625,0.875) < least_health&&target_now_a!=null:
-		target_action="hit_target"
-		target_now = target_now_a
-	var output_strength = enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
-	if target_action=="heal_target":
-		output_strength = enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
-	call(target_action,target_now,output_strength)
+	var target_now = null;
+	while target_now==null:
+		#health ratios of self and ally enemies
+		var ally_health_ratios = []
+		if enemy_neighbors!=null:
+			for ally in enemy_neighbors:
+				ally_health_ratios.append(ally.base.stats.Hp/ally.base.stats.maxHp)
+		var heal_requirement_this_turn = randf_range(0.0,0.875)
+		var least_health=1.0
+		var target_action = "hit_target"
+		
+		for ally in ally_health_ratios.size():
+			var health = ally_health_ratios[ally]
+			if health <= heal_requirement_this_turn&&health<=least_health:
+				if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
+					target_now=enemy_neighbors[ally]
+					target_action="heal_target"
+					least_health=health
+		
+		
+		#health ratios for the allies of the player
+		var enemy_health_ratios = []
+		for enemyy in ally_neighbors:
+			enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+		var attack_enemy=randf_range(0.5,1.0)
+		var lowest_ally_hp = 100.0
+		var target_now_a=null
+		for enemyy in enemy_health_ratios.size():
+			var health = enemy_health_ratios[enemyy]
+			if health <=attack_enemy&&health <=lowest_ally_hp||target_now==null:
+				if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
+					target_now_a=ally_neighbors[enemyy]
+					lowest_ally_hp=health
+		#chooses if it will do a hurt action or heal action
+		if lowest_ally_hp*randf_range(0.625,0.875) < least_health&&target_now_a!=null:
+			target_action="hit_target"
+			target_now = target_now_a
+		var output_strength = enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
+		if target_action=="heal_target":
+			output_strength = enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
+		call(target_action,target_now,output_strength)
 
 
 

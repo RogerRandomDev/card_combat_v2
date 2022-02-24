@@ -63,6 +63,7 @@ func add_card_to_hand():
 	Data.shuffle_deck()
 	var cards_removed=[]
 	for card_id in $storestack.get_children():
+		if card_id.get_class()=="Label":continue
 		cards_removed.append(card_id.card_data.name)
 	
 	Data.set_unavailable_cards(cards_removed)
@@ -88,3 +89,8 @@ func trigger_enemy_action():
 	var me = $EnemyList.get_child(enemy_actions)
 	Combat.do_enemy_turns(me,$EnemyList.get_children(),$AllyList.get_children())
 	enemy_actions+=1
+
+
+#shows the card's description
+func show_card_description(card_data=""):
+	$card_description.text=card_data

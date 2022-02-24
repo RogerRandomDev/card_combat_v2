@@ -1,1 +1,6 @@
+res://Nodes/Card.gd
 res://Scenes/main.tscn
+res://Scripts/main.gd
+res://fonts/basefont.tres
+res://global/classes.gd
+res://global/combat.gd
