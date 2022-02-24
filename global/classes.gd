@@ -54,7 +54,7 @@ class combat_object extends Node:
 		floaty.load_self(str(abs(val)),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)),Vector2(0,128),val<0)
 		floaty.rect_global_position=root.rect_global_position
 		root.get_parent().get_parent().add_child(floaty)
-		stats.Hp-=val
+		stats.Hp=max(min(val+stats.Hp,stats.maxHp),0)
 	
 	var texture = ""
 	func set_data(data):

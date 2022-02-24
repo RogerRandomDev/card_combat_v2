@@ -19,6 +19,7 @@ func _input(_event):
 	if !hovered:return
 	if get_child_count()==0:return
 	if get_parent().get_node("CardList").get_child_count()>9:return
+	if get_child(get_child_count()-1).rect_position!=Vector2(32,47):return
 	if Input.is_action_just_pressed("left_mouse"):
 		var moving = get_child(get_child_count()-1)
 		remove_child(moving)

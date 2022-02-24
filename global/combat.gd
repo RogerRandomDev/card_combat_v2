@@ -55,7 +55,6 @@ func set_hovered(target,type,animate=true):
 	active_hover = target
 	return true
 
-
 #inputs for the game
 func _input(_event):
 	if get_tree().current_scene.name!="game_combat":return
@@ -88,6 +87,8 @@ func _input(_event):
 			target_of.add_child(active_hover)
 			
 			active_hover.rect_global_position=start_at
+			#tweens the colors and actions for the select of a card
+			#moves it over to the deck and flips it so a lot of tweening
 			tween.tween_property(active_hover,"rect_scale",Vector2(0,1.5),0.25)
 			tween.parallel().tween_property(active_hover,"rect_position",active_hover.rect_position/2,0.25)
 			tween.tween_property(active_hover,"modulate",Color8(128,108,88),0.0625)
@@ -96,6 +97,8 @@ func _input(_event):
 			tween.parallel().tween_property(active_hover,"rect_position",Vector2(0,0),0.25)
 			tween.parallel().tween_property(active_hover.card_backing,"rect_position",Vector2(-32,-47),0.25)
 			tween.tween_property(active_hover,"rect_scale",Vector2.ONE,0.0)
+		
+		
 		#changes the target to the new target
 		current_target_type = active_hover.get_next_target(current_target_type)
 		#selects and stops hovering the current target
@@ -105,6 +108,7 @@ func _input(_event):
 			active_hover.get_parent().get_parent().add_child(particles)
 			particles.global_position = active_hover.rect_global_position
 		stop_hovering()
+		
 		#if its the next turn action, reloads the actions
 		if current_target_type=="next_turn":
 			selected_now.Self.base.reset_scale()
@@ -145,8 +149,8 @@ func activate_actions():
 		elif card.heals():heal_target(recieves_action,out)
 	action_list.erase(action_list[0])
 	selected_now={}
-	if get_tree().current_scene.has_method("reload_hand")&&action_list.size()==0:
-		get_tree().current_scene.reload_hand()
+	if get_tree().current_scene.has_method("enemy_turn_trigger")&&action_list.size()==0:
+		get_tree().current_scene.enemy_turn_trigger()
 
 
 #makes them red and push back slightly
@@ -171,9 +175,56 @@ func heal_target(target=null,strength_of=1):
 	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
 	
 
+
+
 #enemy actions
-func do_enemy_turns():
-	pass
+func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
+	if enemy==null:return
+	
+	#health ratios of self and ally enemies
+	var ally_health_ratios = []
+	if enemy_neighbors!=null:
+		for ally in enemy_neighbors:
+			ally_health_ratios.append(ally.base.stats.Hp/ally.base.stats.maxHp)
+	var heal_requirement_this_turn = randf_range(0.0,0.875)
+	var least_health=1.0
+	var target_now = null
+	var target_action = "hit_target"
+	
+	for ally in ally_health_ratios.size():
+		var health = ally_health_ratios[ally]
+		if health <= heal_requirement_this_turn&&health<=least_health:
+			if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
+				target_now=enemy_neighbors[ally]
+				target_action="heal_target"
+				least_health=health
+	
+	
+	#health ratios for the allies of the player
+	var enemy_health_ratios = []
+	for enemyy in ally_neighbors:
+		enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+	var attack_enemy=randf_range(0.5,1.0)
+	var lowest_ally_hp = 100.0
+	var target_now_a=null
+	for enemyy in enemy_health_ratios.size():
+		var health = enemy_health_ratios[enemyy]
+		if health <=attack_enemy&&health <=lowest_ally_hp:
+			if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
+				target_now_a=ally_neighbors[enemyy]
+				lowest_ally_hp=health
+	#chooses if it will do a hurt action or heal action
+	if lowest_ally_hp*randf_range(0.625,0.875) < least_health&&target_now_a!=null:
+		target_action="hit_target"
+		target_now = target_now_a
+	var output_strength = enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
+	if target_action=="heal_target":
+		output_strength = enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
+	call(target_action,target_now,output_strength)
+
+
+
+
 
 
 var camera = null

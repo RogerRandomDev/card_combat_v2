@@ -1,7 +1,8 @@
+ColorRect
+TextureRect
 Camera2D
 Control
 CPUParticles2D
-TextureRect
 AnimationPlayer
 Timer
 card_object (Card.gd)

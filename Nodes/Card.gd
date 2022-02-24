@@ -36,6 +36,7 @@ func _ready():
 	set_text_format(description)
 	description.rect_position+=Vector2(0,12)
 	connect("mouse_entered",hover_over)
+	connect("mouse_exited",stop_hover)
 	set_data(Data.get_card_from_deck())
 
 func set_text_format(ob):
@@ -62,11 +63,16 @@ func get_next_target(_a):
 		return "Ally"
 
 func hover_over():
+	if get_parent().name=="cardstack":return
 	var success = Combat.set_hovered(self,"Card")
 	Combat.set_deferred('hovering_card',self)
 	if success:
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-77),0.125)
+
+func stop_hover():
+	if Combat.hovering_card==self:Combat.hovering_card=null
+
 
 func stop_hovering():
 	Combat.hovering_card=null

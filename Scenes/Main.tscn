@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3rt4knlc6dkk"]
+[gd_scene load_steps=13 format=3 uid="uid://cg4x02nppapma"]
 
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_1hmnv"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cu3fyp100elcq" path="res://Textures/Card.png" id="5_eivyd"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="6_8q8xe"]
 [ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_l201b"]
+[ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="7_1a4vk"]
 
 [sub_resource type="Animation" id="Animation_bw3in"]
 resource_name = "activate_action"
@@ -26,6 +27,25 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_igwnr"]
+resource_name = "enemy_turn"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"trigger_enemy_action"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_ppuey"]
 resource_name = "fillhand"
 length = 0.125
@@ -37,7 +57,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.125),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -225,6 +245,7 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/activate_action = SubResource( "Animation_bw3in" )
+anims/enemy_turn = SubResource( "Animation_igwnr" )
 anims/fillhand = SubResource( "Animation_ppuey" )
 anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
@@ -238,6 +259,19 @@ rect_min_size = Vector2(1024, 600)
 anchor_mode = 0
 current = true
 script = ExtResource( "6_8q8xe" )
+
+[node name="background" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_top = -96.0
+offset_right = 1024.0
+offset_bottom = 416.0
+mouse_filter = 2
+texture = ExtResource( "7_1a4vk" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="mouse_entered" from="storestack" to="storestack" method="hover_over"]
 [connection signal="mouse_exited" from="storestack" to="storestack" method="stop_hover"]

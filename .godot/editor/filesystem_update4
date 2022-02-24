@@ -2,10 +2,9 @@ res://Nodes/Card.gd
 res://Scenes/ally.tscn
 res://Scenes/enemy.tscn
 res://Scenes/main.tscn
-res://Scripts/ally.gd
-res://Scripts/enemy.gd
+res://Scenes/mainshader.tres
 res://Scripts/main.gd
 res://Scripts/storestack.gd
+res://default_env.tres
 res://global/classes.gd
 res://global/combat.gd
-res://global/data.gd

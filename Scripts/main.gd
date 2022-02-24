@@ -11,7 +11,11 @@ func _ready():
 	Combat.camera=$Camera
 
 
-
+#plays the enemy's turn
+func enemy_turn_trigger():
+	enemy_actions = 0
+	$action_stopper.visible=true
+	$AnimationPlayer.play("enemy_turn")
 #empty and refill the player's hand
 func reload_hand():
 	$action_stopper.visible=true
@@ -58,7 +62,8 @@ func shuffle():
 func add_card_to_hand():
 	Data.shuffle_deck()
 	var cards_removed=[]
-	for card_id in $storestack.get_children():cards_removed.push(card_id.stats.name)
+	for card_id in $storestack.get_children():
+		cards_removed.append(card_id.card_data.name)
 	
 	Data.set_unavailable_cards(cards_removed)
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
@@ -74,6 +79,12 @@ func trigger_action():
 	Combat.activate_actions()
 
 
+var enemy_actions = 0
 #does the enemy actions
 func trigger_enemy_action():
-	Combat.enemy_turn()
+	if enemy_actions >= $EnemyList.get_child_count():
+		reload_hand()
+		return
+	var me = $EnemyList.get_child(enemy_actions)
+	Combat.do_enemy_turns(me,$EnemyList.get_children(),$AllyList.get_children())
+	enemy_actions+=1
