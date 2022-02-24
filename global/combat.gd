@@ -57,11 +57,11 @@ func set_hovered(target,type,animate=true):
 
 #inputs for the game
 func _input(_event):
-	if get_tree().current_scene.name!="game_combat":return
+	if get_tree().current_scene.get_node_or_null("CombatContainer")==null:return
 	#lets you store a card for the next turn
 	if Input.is_action_just_pressed("right_mouse")&&hovering_card!=null:
 		var start_pos = hovering_card.rect_global_position
-		var move_to = get_tree().current_scene.get_node("storestack")
+		var move_to = get_tree().current_scene.get_node("CombatContainer/game_combat/storestack")
 		if move_to.get_child_count()>=3:return
 		hovering_card.get_parent().remove_child(hovering_card)
 		move_to.add_child(hovering_card)
@@ -117,7 +117,7 @@ func _input(_event):
 			selected_now["Card"].reset()
 			selected_now={}
 			if action_list.size()>=ally_count:
-				get_tree().current_scene.get_node("AnimationPlayer").play("activate_action")
+				get_tree().current_scene.get_node("CombatContainer/game_combat/AnimationPlayer").play("activate_action")
 				
 
 
@@ -149,8 +149,8 @@ func activate_actions():
 		elif card.heals():heal_target(recieves_action,out)
 	action_list.erase(action_list[0])
 	selected_now={}
-	if get_tree().current_scene.has_method("enemy_turn_trigger")&&action_list.size()==0:
-		get_tree().current_scene.enemy_turn_trigger()
+	if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
+		get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
 
 
 #makes them red and push back slightly

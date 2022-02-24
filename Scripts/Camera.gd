@@ -5,7 +5,8 @@ var shake = 0.0
 var shake_decay=0.25
 var max_offset=32
 
-func _ready():randomize()
+func _ready():
+	randomize()
 
 func _process(delta):
 	if shake:

@@ -1,7 +1,12 @@
-ColorRect
-TextureRect
-Camera2D
+CanvasLayer
 Control
+Camera2D
+ColorRect
+Sprite2D
+SubViewport
+SubViewportContainer
+Node2D
+TextureRect
 CPUParticles2D
 AnimationPlayer
 Timer
