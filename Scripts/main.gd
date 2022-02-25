@@ -9,6 +9,7 @@ func _ready():
 	randomize()
 	$AnimationPlayer.play("flipcards")
 	Combat.camera=$Camera
+	Combat.root = self
 
 
 #plays the enemy's turn
@@ -43,6 +44,7 @@ func remove_card():
 	tween.tween_callback(object.hide_content)
 	tween.parallel().tween_property(object,"rect_scale",Vector2(-1,1),0.125)
 	tween.parallel().tween_property(object,"rect_position",Vector2(0,0),0.125)
+	get_node("Turn").text = "Ally's Turn"
 #shuffle the deck of cards
 func shuffle():
 	if shuffle_count==0:
@@ -86,6 +88,8 @@ func trigger_enemy_action():
 	if enemy_actions >= $EnemyList.get_child_count():
 		reload_hand()
 		return
+	else:
+		get_node("Turn").text = "Enemy's Turn"
 	var me = $EnemyList.get_child(enemy_actions)
 	Combat.do_enemy_turns(me,$EnemyList.get_children(),$AllyList.get_children())
 	enemy_actions+=1

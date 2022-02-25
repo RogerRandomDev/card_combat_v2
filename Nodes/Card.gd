@@ -44,6 +44,7 @@ func set_text_format(ob,scale_rate=1):
 	ob.rect_scale=Vector2(1,1)/scale_rate
 	ob.text ="hello there"
 	ob.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	ob.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	ob.autowrap_mode=name_of.AUTOWRAP_WORD
 	
 	
@@ -63,10 +64,10 @@ func get_next_target(_a):
 
 func hover_over():
 	if get_parent().name=="cardstack":return
-	get_parent().get_parent().show_card_description(card_data.description)
 	var success = Combat.set_hovered(self,"Card")
 	Combat.set_deferred('hovering_card',self)
 	if success:
+		get_parent().get_parent().show_card_description(card_data.description)
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-77),0.125)
 
@@ -79,6 +80,7 @@ func stop_hover():
 func stop_hovering():
 	Combat.hovering_card=null
 	if Combat.current_target_type=="Card":
+		get_parent().get_parent().show_card_description(card_data.description)
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-47),0.125)
 

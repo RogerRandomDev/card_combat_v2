@@ -23,7 +23,7 @@ var store_for_next_turn=[]
 var cur_enemy_turn = 0
 
 
-
+var root = null
 
 #preload scenes
 var combatParticles = preload("res://Scenes/combat_select_particle.tscn")
@@ -72,14 +72,26 @@ func _input(_event):
 	
 	#if hovering, then it selects this for the current target
 	if Input.is_action_just_pressed("left_mouse")&&active_hover!=null:
+		root.get_node("selectable_particles").emitting=false
+		root.get_node("Turn/Enemy").modulate=Color.WHITE
+		root.get_node("Turn/Ally").modulate=Color.WHITE
 		#sets the action header to be better read by the code
 		var header = current_target_type
 		match current_target_type:
 			"Target":header="Self"
-			"Ally":header="Target"
-			"Enemy":header="Target"
+			"Ally":
+				header="Target"
+			"Enemy":
+				header="Target"
+			"Card":
+				var will_harm = active_hover.card_data.type=="Harmful"
+				root.get_node("Turn/Enemy").modulate=Color(1.0,int(!will_harm),int(!will_harm))
+				root.get_node("Turn/Ally").modulate=Color(1.0,int(will_harm),int(will_harm))
+				root.get_node("selectable_particles").position = Vector2(96+int(!will_harm)*800,180)
+				root.get_node("selectable_particles").emitting=true
 		selected_now[header]=active_hover
 		if header=="Card":
+			active_hover.get_parent().get_parent().show_card_description("")
 			var tween:Tween=active_hover.create_tween()
 			var target_of = active_hover.get_parent().get_parent().get_node("cardstack")
 			var start_at = active_hover.rect_global_position
@@ -156,7 +168,7 @@ func activate_actions():
 #makes them red and push back slightly
 func hit_target(target=null,strength_of=1):
 	if(target==null):return false
-	target.base.hurt(strength_of)
+	target.base.hurt(max(strength_of,1))
 	shake_camera(0.125)
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
@@ -167,7 +179,7 @@ func hit_target(target=null,strength_of=1):
 #same as hit_target but green and heals
 func heal_target(target=null,strength_of=1):
 	if(target==null):return false
-	target.base.hurt(-strength_of)
+	target.base.hurt(-max(strength_of,1))
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_scale",Vector2(1.25,1.25),0.125)
 	tween.parallel().tween_property(target,"modulate",Color(0.5,1.0,0.5),0.125)
@@ -181,24 +193,24 @@ func heal_target(target=null,strength_of=1):
 func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	if enemy==null:return
 	var target_now = null;
+	#health ratios of self and ally enemies
+	var ally_health_ratios = []
+	if enemy_neighbors!=null:
+		for ally in enemy_neighbors:
+			ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
 	while target_now==null:
-		#health ratios of self and ally enemies
-		var ally_health_ratios = []
-		if enemy_neighbors!=null:
-			for ally in enemy_neighbors:
-				ally_health_ratios.append(ally.base.stats.Hp/ally.base.stats.maxHp)
 		var heal_requirement_this_turn = randf_range(0.0,0.875)
 		var least_health=1.0
 		var target_action = "hit_target"
 		
 		for ally in ally_health_ratios.size():
 			var health = ally_health_ratios[ally]
-			if health <= heal_requirement_this_turn&&health<=least_health:
+			if randf_range(0.0,1.0)<=health:continue
+			if health <= heal_requirement_this_turn&&health<=least_health||target_now==null:
 				if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
 					target_now=enemy_neighbors[ally]
 					target_action="heal_target"
 					least_health=health
-		
 		
 		#health ratios for the allies of the player
 		var enemy_health_ratios = []
@@ -209,18 +221,19 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		var target_now_a=null
 		for enemyy in enemy_health_ratios.size():
 			var health = enemy_health_ratios[enemyy]
-			if health <=attack_enemy&&health <=lowest_ally_hp||target_now==null:
+			if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
 				if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
 					target_now_a=ally_neighbors[enemyy]
 					lowest_ally_hp=health
 		#chooses if it will do a hurt action or heal action
-		if lowest_ally_hp*randf_range(0.625,0.875) < least_health&&target_now_a!=null:
+		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
 			target_action="hit_target"
 			target_now = target_now_a
-		var output_strength = enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
+		var output_strength = max(enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def),1)
 		if target_action=="heal_target":
-			output_strength = enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def)
-		call(target_action,target_now,output_strength)
+			output_strength = max(enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def),1)
+		if target_now!=null:
+			call(target_action,target_now,output_strength)
 
 
 

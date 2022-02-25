@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dpg8uvrct67nx"]
+[gd_scene load_steps=23 format=3 uid="uid://fk5e4jmklt3v"]
 
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_1hmnv"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_l201b"]
 [ext_resource type="Texture2D" uid="uid://cmlqnuu2smw4c" path="res://Textures/icons/combat/store_icon.png" id="6_w02hj"]
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="7_1a4vk"]
+[ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="9_4oybm"]
 
 [sub_resource type="Animation" id="Animation_bw3in"]
 resource_name = "activate_action"
@@ -105,6 +106,32 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Gradient" id="Gradient_m76ym"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_km78f"]
+gradient = SubResource( "Gradient_m76ym" )
+
+[sub_resource type="ParticlesMaterial" id="ParticlesMaterial_ah3kx"]
+emission_shape = 5
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 144.0
+emission_ring_inner_radius = 144.0
+particle_flag_align_y = true
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = -0.25
+orbit_velocity_max = 0.25
+radial_accel_min = -50.0
+radial_accel_max = -50.0
+scale_min = 8.0
+scale_max = 8.0
+color = Color(0, 1, 0.980392, 1)
+color_ramp = SubResource( "GradientTexture1D_km78f" )
+hue_variation_min = -0.13
+hue_variation_max = 0.13
+
 [sub_resource type="Shader" id="Shader_24f2r"]
 code = "shader_type canvas_item;
 
@@ -121,7 +148,7 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjbiw"]
 shader = SubResource( "Shader_24f2r" )
-shader_param/lod = 1.5
+shader_param/lod = 2.5
 
 [sub_resource type="Shader" id="Shader_u7m4y"]
 code = "/*
@@ -343,7 +370,7 @@ void fragment()
 	if (discolor)
 	{
 		// Saturation
-		vec3 greyscale = vec3(text.r + text.g + text.b) / 3.;
+		vec3 greyscale = vec3(text.r + text.g + text.b) / 4.;
 		text.rgb = mix(text.rgb, greyscale, saturation);
 		
 		// Contrast
@@ -358,7 +385,7 @@ shader = SubResource( "Shader_u7m4y" )
 shader_param/overlay = true
 shader_param/scanlines_opacity = 0.05
 shader_param/scanlines_width = 0.5
-shader_param/grille_opacity = 0.01
+shader_param/grille_opacity = 0.05
 shader_param/resolution = Vector2(512, 300)
 shader_param/pixelate = false
 shader_param/roll = true
@@ -366,7 +393,7 @@ shader_param/roll_speed = 8.0
 shader_param/roll_size = 25.286
 shader_param/roll_variation = 0.213
 shader_param/distort_intensity = 0.005
-shader_param/noise_opacity = 0.1
+shader_param/noise_opacity = 0.125
 shader_param/noise_speed = 0.331
 shader_param/static_noise_intensity = 0.01
 shader_param/aberration = 0.005
@@ -389,11 +416,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 script = ExtResource( "1_1hmnv" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="EnemyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
-offset_left = 30.0
+offset_left = 94.0
 offset_top = 72.0
-offset_right = 30.0
+offset_right = 94.0
 offset_bottom = 392.0
 size_flags_vertical = 3
 theme = ExtResource( "2_wu3dd" )
@@ -429,9 +459,9 @@ size_flags_vertical = 3
 theme = ExtResource( "2_wu3dd" )
 
 [node name="AllyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
-offset_left = 994.0
+offset_left = 900.0
 offset_top = 72.0
-offset_right = 994.0
+offset_right = 900.0
 offset_bottom = 392.0
 size_flags_vertical = 3
 theme = ExtResource( "2_wu3dd" )
@@ -476,9 +506,9 @@ __meta__ = {
 
 [node name="cardstack" type="Control" parent="CombatContainer/game_combat"]
 offset_left = 960.0
-offset_top = 536.0
+offset_top = 472.0
 offset_right = 960.0
-offset_bottom = 536.0
+offset_bottom = 472.0
 theme = ExtResource( "2_wu3dd" )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -523,9 +553,9 @@ __meta__ = {
 [node name="storestack" type="TextureRect" parent="CombatContainer/game_combat"]
 self_modulate = Color(0.501961, 0.423529, 0.345098, 1)
 offset_left = 32.0
-offset_top = 488.0
+offset_top = 424.0
 offset_right = 96.0
-offset_bottom = 582.0
+offset_bottom = 518.0
 theme = ExtResource( "2_wu3dd" )
 texture = ExtResource( "5_eivyd" )
 ignore_texture_size = true
@@ -556,9 +586,9 @@ anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
 
 [node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
-rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
+rect_min_size = Vector2(1024, 600)
 
 [node name="background" type="TextureRect" parent="CombatContainer/game_combat"]
 show_behind_parent = true
@@ -573,33 +603,92 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="table" type="TextureRect" parent="CombatContainer/game_combat"]
+show_behind_parent = true
+offset_top = 320.0
+offset_right = 1024.0
+offset_bottom = 832.0
+mouse_filter = 2
+texture = ExtResource( "9_4oybm" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Camera" type="Camera2D" parent="CombatContainer/game_combat"]
 anchor_mode = 0
 current = true
 script = ExtResource( "6_8q8xe" )
 
 [node name="Turn" type="Label" parent="CombatContainer/game_combat"]
-rect_min_size = Vector2(256, 0)
 offset_left = 320.0
 offset_top = 32.0
 offset_right = 704.0
 offset_bottom = 74.0
+rect_min_size = Vector2(256, 0)
 theme = ExtResource( "2_wu3dd" )
 theme_type_variation = &"HeaderLarge"
 text = "ALLY'S TURN"
 horizontal_alignment = 1
 autowrap_mode = 2
 uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Enemy" type="Label" parent="CombatContainer/game_combat/Turn"]
+offset_left = -384.0
+offset_top = -12.0
+offset_bottom = 30.0
+rect_min_size = Vector2(256, 0)
+theme = ExtResource( "2_wu3dd" )
+theme_type_variation = &"HeaderLarge"
+text = "ENEMY"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ally" type="Label" parent="CombatContainer/game_combat/Turn"]
+offset_left = 384.0
+offset_top = -12.0
+offset_right = 768.0
+offset_bottom = 30.0
+rect_min_size = Vector2(256, 0)
+rect_scale = Vector2(0.992197, 0.995221)
+theme = ExtResource( "2_wu3dd" )
+theme_type_variation = &"HeaderLarge"
+text = "ALLY"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="card_description" type="Label" parent="CombatContainer/game_combat"]
-rect_min_size = Vector2(512, 0)
 offset_left = 256.0
 offset_top = 408.0
 offset_right = 768.0
 offset_bottom = 431.0
+rect_min_size = Vector2(512, 0)
 theme_type_variation = &"HeaderSmall"
 horizontal_alignment = 1
 autowrap_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="selectable_particles" type="GPUParticles2D" parent="CombatContainer/game_combat"]
+position = Vector2(896, 180)
+scale = Vector2(0.5, 1)
+emitting = false
+amount = 128
+lifetime = 2.0
+process_material = SubResource( "ParticlesMaterial_ah3kx" )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -608,18 +697,21 @@ anchor_mode = 0
 
 [node name="shader_layer" type="ColorRect" parent="glow_shader"]
 material = SubResource( "ShaderMaterial_jjbiw" )
-rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
+rect_min_size = Vector2(1024, 600)
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="screen_shader" type="CanvasLayer" parent="."]
 
 [node name="shader_layer2" type="ColorRect" parent="screen_shader"]
 material = SubResource( "ShaderMaterial_qssfs" )
-rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
+rect_min_size = Vector2(1024, 600)
 mouse_filter = 2
 
 [connection signal="mouse_entered" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="hover_over"]
