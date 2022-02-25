@@ -12,6 +12,7 @@ var current_turn = 0
 var whos_turn="Ally"
 var active_target=""
 var ally_count = 3
+var enemy_count = 3
 
 var default_deck = []
 
@@ -87,7 +88,11 @@ func _input(_event):
 				var will_harm = active_hover.card_data.type=="Harmful"
 				root.get_node("Turn/Enemy").modulate=Color(1.0,int(!will_harm),int(!will_harm))
 				root.get_node("Turn/Ally").modulate=Color(1.0,int(will_harm),int(will_harm))
-				root.get_node("selectable_particles").position = Vector2(96+int(!will_harm)*800,180)
+				if !will_harm:
+					root.get_node("selectable_particles").scale.y = ally_count/3.0
+				else:
+					root.get_node("selectable_particles").scale.y = enemy_count/3.0
+				root.get_node("selectable_particles").position = Vector2(96+int(!will_harm)*800,224)
 				root.get_node("selectable_particles").emitting=true
 		selected_now[header]=active_hover
 		if header=="Card":
@@ -156,11 +161,28 @@ func activate_actions():
 		card.reset()
 		does_action.reset()
 		recieves_action.reset()
-		var out = card.get_output_value()
-		if card.harmful():hit_target(recieves_action,out)
-		elif card.heals():heal_target(recieves_action,out)
+		if does_action.base.stats.Hp>0&&recieves_action.base.stats.Hp>0:
+			var out = card.get_output_value()
+			
+			var recieves_action_defense = recieves_action.base.stats.Def
+			
+			#gets the attribute to use for the action
+			var does_action_power = 0
+			if card.card_data.attribute.split(",").has("Physical"):does_action_power += does_action.base.stats.Str
+			if card.card_data.attribute.split(",").has("Magic"):does_action_power += does_action.base.stats.Mag
+			if card.card_data.attribute.split(",").has("Support"):does_action_power += does_action.base.stats.Sup
+			
+			#determines if it should be modified by the final stat check
+			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
+			
+			#final modifier for the strength of the action
+			out = does_action.base.modify_action_power(out,card.card_data.attribute,does_action_power,recieves_action_defense,stats_modifier_switch)
+			#finishes the action
+			if card.harmful():hit_target(recieves_action,out)
+			elif card.heals():heal_target(recieves_action,out)
 	action_list.erase(action_list[0])
 	selected_now={}
+	#changes current action
 	if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
 		get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
 
@@ -199,7 +221,7 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		for ally in enemy_neighbors:
 			ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
 	while target_now==null:
-		var heal_requirement_this_turn = randf_range(0.0,0.875)
+		var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
 		var least_health=1.0
 		var target_action = "hit_target"
 		
@@ -226,12 +248,31 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 					target_now_a=ally_neighbors[enemyy]
 					lowest_ally_hp=health
 		#chooses if it will do a hurt action or heal action
+		var output_attribute = "Physical"
+		
 		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
 			target_action="hit_target"
 			target_now = target_now_a
-		var output_strength = max(enemy.base.stats.Str+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def),1)
+			output_attribute = enemy.base.stats.AttackAttribute
+		var output_strength = 0.0
+		var recieves_action_defense = target_now.base.stats.Def
+			
+		#gets the attribute to use for the action
+		var does_action_power = 0
+		if enemy.base.stats.AttackAttribute.split(",").has("Physical"):does_action_power += enemy.base.stats.Str
+		if enemy.base.stats.AttackAttribute.split(",").has("Magic"):does_action_power += enemy.base.stats.Mag
+		if enemy.base.stats.AttackAttribute.split(",").has("Support"):does_action_power += enemy.base.stats.Sup
+		
+		#switches stat to support to enure it heals correctly
 		if target_action=="heal_target":
-			output_strength = max(enemy.base.stats.Sup+randi_range(-enemy.base.stats.Def,enemy.base.stats.Def),1)
+			does_action_power = enemy.base.stats.Sup
+			output_attribute = enemy.base.stats.HealAttribute
+		output_strength = does_action_power
+		#determines if it should be modified by the final stat check
+		var stats_modifier_switch = enemy.base.object_type!=target_now.base.object_type
+		
+		output_strength = enemy.base.modify_action_power(output_strength,output_attribute,does_action_power,recieves_action_defense,stats_modifier_switch)
+		
 		if target_now!=null:
 			call(target_action,target_now,output_strength)
 

@@ -7,7 +7,7 @@ var entities={}
 
 var current_deck={
 	"Punch":5,
-	"Short Rest":5
+	"Weak Healing":5
 }
 
 
@@ -53,3 +53,7 @@ func get_card_from_deck():
 	var output = cards[available_cards[selected_card]]
 	available_cards.remove_at(selected_card)
 	return output
+
+
+func random_entity():
+	return entities.values()[randi_range(0.0,entities.size()-1)]

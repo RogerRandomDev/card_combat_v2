@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://fk5e4jmklt3v"]
+[gd_scene load_steps=23 format=3 uid="uid://cwxgfv4e04c04"]
 
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/enemy.tscn" id="1_0nfr2"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_1hmnv"]
@@ -107,7 +107,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Gradient" id="Gradient_m76ym"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.397351, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_km78f"]
 gradient = SubResource( "Gradient_m76ym" )
@@ -116,15 +117,15 @@ gradient = SubResource( "Gradient_m76ym" )
 emission_shape = 5
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
-emission_ring_radius = 144.0
-emission_ring_inner_radius = 144.0
+emission_ring_radius = 164.0
+emission_ring_inner_radius = 164.0
 particle_flag_align_y = true
 particle_flag_disable_z = true
 gravity = Vector3(0, 0, 0)
-orbit_velocity_min = -0.25
-orbit_velocity_max = 0.25
-radial_accel_min = -50.0
-radial_accel_max = -50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = -100.0
+radial_accel_max = -100.0
 scale_min = 8.0
 scale_max = 8.0
 color = Color(0, 1, 0.980392, 1)
@@ -416,9 +417,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 script = ExtResource( "1_1hmnv" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="EnemyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
 offset_left = 94.0
@@ -427,35 +425,33 @@ offset_right = 94.0
 offset_bottom = 392.0
 size_flags_vertical = 3
 theme = ExtResource( "2_wu3dd" )
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+alignment = 1
 
 [node name="enemy" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "1_0nfr2" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_top = 52.0
 offset_right = 0.0
-offset_bottom = 104.0
-size_flags_vertical = 3
+offset_bottom = 52.0
+size_flags_horizontal = 0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="enemy2" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "1_0nfr2" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 108.0
+offset_top = 160.0
 offset_right = 0.0
-offset_bottom = 212.0
-size_flags_vertical = 3
+offset_bottom = 160.0
+size_flags_horizontal = 0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="enemy3" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "1_0nfr2" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 216.0
+offset_top = 268.0
 offset_right = 0.0
-offset_bottom = 320.0
-size_flags_vertical = 3
+offset_bottom = 268.0
+size_flags_horizontal = 0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="AllyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
@@ -465,32 +461,27 @@ offset_right = 900.0
 offset_bottom = 392.0
 size_flags_vertical = 3
 theme = ExtResource( "2_wu3dd" )
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+alignment = 1
 
 [node name="ally" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_bottom = 104.0
-size_flags_vertical = 3
+offset_top = 52.0
+offset_bottom = 52.0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="ally2" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 108.0
-offset_bottom = 212.0
-size_flags_vertical = 3
+offset_top = 160.0
+offset_bottom = 160.0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="ally3" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "2_q6vu5" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 216.0
-offset_bottom = 320.0
-size_flags_vertical = 3
+offset_top = 268.0
+offset_bottom = 268.0
 theme = ExtResource( "2_wu3dd" )
 
 [node name="CardList" type="HBoxContainer" parent="CombatContainer/game_combat"]
@@ -510,9 +501,6 @@ offset_top = 472.0
 offset_right = 960.0
 offset_bottom = 472.0
 theme = ExtResource( "2_wu3dd" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="c1" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
 modulate = Color(0.501961, 0.423529, 0.345098, 1)
@@ -586,9 +574,9 @@ anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
 
 [node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
+rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
-rect_min_size = Vector2(1024, 600)
 
 [node name="background" type="TextureRect" parent="CombatContainer/game_combat"]
 show_behind_parent = true
@@ -622,11 +610,11 @@ current = true
 script = ExtResource( "6_8q8xe" )
 
 [node name="Turn" type="Label" parent="CombatContainer/game_combat"]
+rect_min_size = Vector2(256, 0)
 offset_left = 320.0
 offset_top = 32.0
 offset_right = 704.0
 offset_bottom = 74.0
-rect_min_size = Vector2(256, 0)
 theme = ExtResource( "2_wu3dd" )
 theme_type_variation = &"HeaderLarge"
 text = "ALLY'S TURN"
@@ -638,10 +626,10 @@ __meta__ = {
 }
 
 [node name="Enemy" type="Label" parent="CombatContainer/game_combat/Turn"]
+rect_min_size = Vector2(256, 0)
 offset_left = -384.0
 offset_top = -12.0
 offset_bottom = 30.0
-rect_min_size = Vector2(256, 0)
 theme = ExtResource( "2_wu3dd" )
 theme_type_variation = &"HeaderLarge"
 text = "ENEMY"
@@ -653,11 +641,11 @@ __meta__ = {
 }
 
 [node name="Ally" type="Label" parent="CombatContainer/game_combat/Turn"]
+rect_min_size = Vector2(256, 0)
 offset_left = 384.0
 offset_top = -12.0
 offset_right = 768.0
 offset_bottom = 30.0
-rect_min_size = Vector2(256, 0)
 rect_scale = Vector2(0.992197, 0.995221)
 theme = ExtResource( "2_wu3dd" )
 theme_type_variation = &"HeaderLarge"
@@ -670,24 +658,20 @@ __meta__ = {
 }
 
 [node name="card_description" type="Label" parent="CombatContainer/game_combat"]
+rect_min_size = Vector2(512, 0)
 offset_left = 256.0
 offset_top = 408.0
 offset_right = 768.0
 offset_bottom = 431.0
-rect_min_size = Vector2(512, 0)
 theme_type_variation = &"HeaderSmall"
 horizontal_alignment = 1
 autowrap_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="selectable_particles" type="GPUParticles2D" parent="CombatContainer/game_combat"]
-position = Vector2(896, 180)
+position = Vector2(896, 224)
 scale = Vector2(0.5, 1)
 emitting = false
 amount = 128
-lifetime = 2.0
 process_material = SubResource( "ParticlesMaterial_ah3kx" )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -697,9 +681,9 @@ anchor_mode = 0
 
 [node name="shader_layer" type="ColorRect" parent="glow_shader"]
 material = SubResource( "ShaderMaterial_jjbiw" )
+rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
-rect_min_size = Vector2(1024, 600)
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -709,9 +693,9 @@ __meta__ = {
 
 [node name="shader_layer2" type="ColorRect" parent="screen_shader"]
 material = SubResource( "ShaderMaterial_qssfs" )
+rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
-rect_min_size = Vector2(1024, 600)
 mouse_filter = 2
 
 [connection signal="mouse_entered" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="hover_over"]

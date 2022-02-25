@@ -9,7 +9,7 @@ var base = Classes.combat_object.new()
 func _ready():
 	base.root=self
 	base.object_type="Ally"
-	base.set_data(Data.entities.values()[0])
+	base.set_data(Data.random_entity())
 	base.load_texture()
 	$SpriteHolder/TextureRect.flip_h=true
 

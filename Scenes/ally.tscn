@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsoibnltwojmr"]
+[gd_scene load_steps=5 format=3 uid="uid://dsoibnltwojmr"]
 
 [ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="1_2vm76"]
 [ext_resource type="Script" path="res://Scripts/ally.gd" id="1_w8a60"]
+[ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="3_snanb"]
 
 [sub_resource type="Animation" id="Animation_rt4j1"]
 resource_name = "hovered"
@@ -35,10 +36,8 @@ tracks/1/keys = {
 [node name="ally" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_vertical = 6
 script = ExtResource( "1_w8a60" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="SpriteHolder" type="Control" parent="."]
 rect_min_size = Vector2(1, 1)
@@ -72,6 +71,14 @@ mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Hp" type="Label" parent="."]
+offset_left = -92.0
+offset_top = -16.0
+offset_right = 36.0
+offset_bottom = 9.0
+theme = ExtResource( "3_snanb" )
+text = "HP:"
 
 [connection signal="mouse_entered" from="." to="." method="hover_over"]
 [connection signal="mouse_exited" from="." to="." method="stop_hover"]

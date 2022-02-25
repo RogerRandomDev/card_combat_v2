@@ -10,8 +10,8 @@
             "color": "#D41E0B"
         },
         {
-            "name": "Short Rest",
-            "description": "Take A 10 Second Nap",
+            "name": "Weak Healing",
+            "description": "Not very efficient",
             "strength": 5,
             "variance": 0,
             "type": "Healing",
@@ -26,8 +26,59 @@
             "hp": 10,
             "str": 5,
             "def": 5,
+            "mag": 5,
             "sup": 5,
-            "lvlRate": "[2,1,1,1]"
+            "variance": 1,
+            "attribute": "Earth",
+            "weakens": "Water",
+            "strengthens": "Physical",
+            "attackattribute": "Physical",
+            "healattribute": "Holy"
+        },
+        {
+            "name": "Trider",
+            "texture": "Trider",
+            "hp": 20,
+            "str": 10,
+            "def": 10,
+            "mag": 5,
+            "sup": 1,
+            "variance": 1,
+            "attribute": "Earth",
+            "weakens": "Fire",
+            "strengthens": "Plant",
+            "attackattribute": "Plant",
+            "healattribute": "Holy"
+        },
+        {
+            "name": "Mush",
+            "texture": "Mush",
+            "hp": 15,
+            "str": 5,
+            "def": 5,
+            "mag": 5,
+            "sup": 5,
+            "variance": 1,
+            "attribute": "Earth",
+            "weakens": "Fire",
+            "strengthens": "Holy",
+            "attackattribute": "Physical",
+            "healattribute": "Holy"
+        },
+        {
+            "name": "Goblin",
+            "texture": "Goblin",
+            "hp": 25,
+            "str": 5,
+            "def": 5,
+            "mag": 5,
+            "sup": 5,
+            "variance": 2,
+            "attribute": "Earth",
+            "weakens": "Magic",
+            "strengthens": "Physical",
+            "attackattribute": "Physical",
+            "healattribute": "Holy"
         }
     ]
 }
