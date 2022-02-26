@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://yfnwqp0goovh"]
+
+[ext_resource type="Script" path="res://Scenes/Card_View.gd" id="1_5qeon"]
+[ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="1_mafqa"]
+
+[node name="card_view" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_scale = Vector2(1.00927, 0.997562)
+script = ExtResource( "1_5qeon" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterList" type="ItemList" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 53.0
+offset_right = -800.0
+offset_bottom = -27.0
+theme = ExtResource( "1_mafqa" )
+fixed_icon_size = Vector2(32, 32)
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SearchBar" type="TabContainer" parent="."]
+offset_left = 32.0
+offset_top = 14.0
+offset_right = 224.0
+offset_bottom = 53.0
+theme = ExtResource( "1_mafqa" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Creature" type="TabBar" parent="SearchBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 30.0
+theme = ExtResource( "1_mafqa" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Card" type="TabBar" parent="SearchBar"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 30.0
+theme = ExtResource( "1_mafqa" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DataShower" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="item_selected" from="CharacterList" to="." method="_on_character_list_item_selected"]
+[connection signal="tab_changed" from="SearchBar" to="." method="selected_tab"]

@@ -4,7 +4,7 @@
             "name": "Punch",
             "description": "Punch Hard",
             "strength": 10,
-            "variance": 5,
+            "variance": 3,
             "type": "Harmful",
             "attribute": "Physical",
             "color": "#D41E0B"
@@ -12,7 +12,7 @@
         {
             "name": "Weak Healing",
             "description": "Not very efficient",
-            "strength": 5,
+            "strength": 2,
             "variance": 0,
             "type": "Healing",
             "attribute": "Holy",
@@ -32,8 +32,8 @@
             "attribute": "Earth",
             "weakens": "Water",
             "strengthens": "Physical",
-            "attackattribute": "Physical",
-            "healattribute": "Holy"
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
         },
         {
             "name": "Trider",
@@ -47,8 +47,8 @@
             "attribute": "Earth",
             "weakens": "Fire",
             "strengthens": "Plant",
-            "attackattribute": "Plant",
-            "healattribute": "Holy"
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
         },
         {
             "name": "Mush",
@@ -62,8 +62,8 @@
             "attribute": "Earth",
             "weakens": "Fire",
             "strengthens": "Holy",
-            "attackattribute": "Physical",
-            "healattribute": "Holy"
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
         },
         {
             "name": "Goblin",
@@ -77,8 +77,8 @@
             "attribute": "Earth",
             "weakens": "Magic",
             "strengthens": "Physical",
-            "attackattribute": "Physical",
-            "healattribute": "Holy"
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
         }
     ]
 }

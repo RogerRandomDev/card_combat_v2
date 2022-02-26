@@ -1,0 +1,414 @@
+[gd_scene load_steps=20 format=3 uid="uid://b61hhanf0pyp7"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_ir1qi"]
+[ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_2ew0p"]
+[ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/game_combat/enemy.tscn" id="3_ije1l"]
+[ext_resource type="PackedScene" uid="uid://dsoibnltwojmr" path="res://Scenes/game_combat/ally.tscn" id="4_ttceb"]
+[ext_resource type="Texture2D" uid="uid://cu3fyp100elcq" path="res://Textures/Card.png" id="5_fso6j"]
+[ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_6do5m"]
+[ext_resource type="Texture2D" uid="uid://cmlqnuu2smw4c" path="res://Textures/icons/combat/store_icon.png" id="7_bplh0"]
+[ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="8_nsef8"]
+[ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="9_abms6"]
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_50ewt"]
+[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="11_0dw7m"]
+
+[sub_resource type="Animation" id="Animation_bw3in"]
+resource_name = "activate_action"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"trigger_action"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_igwnr"]
+resource_name = "enemy_turn"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"trigger_enemy_action"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ppuey"]
+resource_name = "fillhand"
+length = 0.125
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.125),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"add_card_to_hand"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_utqgd"]
+resource_name = "flipcards"
+length = 0.375
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove_card"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ubbt7"]
+resource_name = "shuffle"
+length = 0.125
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shuffle"
+}]
+}
+
+[sub_resource type="Gradient" id="Gradient_m76ym"]
+offsets = PackedFloat32Array(0, 0.397351, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_km78f"]
+gradient = SubResource( "Gradient_m76ym" )
+
+[sub_resource type="ParticlesMaterial" id="ParticlesMaterial_ah3kx"]
+emission_shape = 5
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 164.0
+emission_ring_inner_radius = 164.0
+particle_flag_align_y = true
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = -100.0
+radial_accel_max = -100.0
+scale_min = 8.0
+scale_max = 8.0
+color = Color(0, 1, 0.980392, 1)
+color_ramp = SubResource( "GradientTexture1D_km78f" )
+hue_variation_min = -0.13
+hue_variation_max = 0.13
+
+[node name="game_base" type="Node2D"]
+
+[node name="CombatContainer" type="Control" parent="."]
+offset_right = 1024.0
+offset_bottom = 600.0
+
+[node name="game_combat" type="Control" parent="CombatContainer"]
+texture_filter = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+script = ExtResource( "1_ir1qi" )
+
+[node name="EnemyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
+offset_left = 94.0
+offset_top = 72.0
+offset_right = 94.0
+offset_bottom = 392.0
+size_flags_vertical = 3
+theme = ExtResource( "2_2ew0p" )
+alignment = 1
+
+[node name="enemy" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "3_ije1l" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 52.0
+offset_right = 0.0
+offset_bottom = 52.0
+size_flags_horizontal = 0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="enemy2" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "3_ije1l" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 160.0
+offset_right = 0.0
+offset_bottom = 160.0
+size_flags_horizontal = 0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="enemy3" parent="CombatContainer/game_combat/EnemyList" instance=ExtResource( "3_ije1l" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 268.0
+offset_right = 0.0
+offset_bottom = 268.0
+size_flags_horizontal = 0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="AllyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
+offset_left = 900.0
+offset_top = 72.0
+offset_right = 900.0
+offset_bottom = 392.0
+size_flags_vertical = 3
+theme = ExtResource( "2_2ew0p" )
+alignment = 1
+
+[node name="ally" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "4_ttceb" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 52.0
+offset_bottom = 52.0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="ally2" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "4_ttceb" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 160.0
+offset_bottom = 160.0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="ally3" parent="CombatContainer/game_combat/AllyList" instance=ExtResource( "4_ttceb" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 268.0
+offset_bottom = 268.0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="CardList" type="HBoxContainer" parent="CombatContainer/game_combat"]
+offset_top = 568.0
+offset_right = 1024.0
+offset_bottom = 600.0
+theme = ExtResource( "2_2ew0p" )
+theme_override_constants/separation = 16
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cardstack" type="Control" parent="CombatContainer/game_combat"]
+offset_left = 960.0
+offset_top = 472.0
+offset_right = 960.0
+offset_bottom = 472.0
+theme = ExtResource( "2_2ew0p" )
+
+[node name="c1" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+theme = ExtResource( "2_2ew0p" )
+texture = ExtResource( "5_fso6j" )
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="c2" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+theme = ExtResource( "2_2ew0p" )
+texture = ExtResource( "5_fso6j" )
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="c3" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
+modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = -32.0
+offset_top = -47.0
+offset_right = 32.0
+offset_bottom = 47.0
+theme = ExtResource( "2_2ew0p" )
+texture = ExtResource( "5_fso6j" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="storestack" type="TextureRect" parent="CombatContainer/game_combat"]
+process_priority = 2
+self_modulate = Color(0.501961, 0.423529, 0.345098, 1)
+offset_left = 32.0
+offset_top = 424.0
+offset_right = 96.0
+offset_bottom = 518.0
+theme = ExtResource( "2_2ew0p" )
+texture = ExtResource( "5_fso6j" )
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource( "6_6do5m" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CombatContainer/game_combat/storestack"]
+offset_right = 64.0
+offset_bottom = 26.0
+theme = ExtResource( "2_2ew0p" )
+text = "Store"
+horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="CombatContainer/game_combat/storestack/Label"]
+position = Vector2(4, 16)
+scale = Vector2(8, 8)
+texture = ExtResource( "7_bplh0" )
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CombatContainer/game_combat"]
+anims/activate_action = SubResource( "Animation_bw3in" )
+anims/enemy_turn = SubResource( "Animation_igwnr" )
+anims/fillhand = SubResource( "Animation_ppuey" )
+anims/flipcards = SubResource( "Animation_utqgd" )
+anims/shuffle = SubResource( "Animation_ubbt7" )
+
+[node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
+offset_right = 1024.0
+offset_bottom = 600.0
+rect_min_size = Vector2(1024, 600)
+
+[node name="background" type="TextureRect" parent="CombatContainer/game_combat"]
+show_behind_parent = true
+offset_top = -96.0
+offset_right = 1024.0
+offset_bottom = 416.0
+mouse_filter = 2
+texture = ExtResource( "8_nsef8" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="table" type="TextureRect" parent="CombatContainer/game_combat"]
+show_behind_parent = true
+offset_top = 320.0
+offset_right = 1024.0
+offset_bottom = 832.0
+mouse_filter = 2
+texture = ExtResource( "9_abms6" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera" type="Camera2D" parent="CombatContainer/game_combat"]
+anchor_mode = 0
+current = true
+script = ExtResource( "10_50ewt" )
+
+[node name="Turn" type="Label" parent="CombatContainer/game_combat"]
+offset_left = 320.0
+offset_top = 32.0
+offset_right = 704.0
+offset_bottom = 74.0
+rect_min_size = Vector2(256, 0)
+theme = ExtResource( "2_2ew0p" )
+theme_type_variation = &"HeaderLarge"
+text = "ALLY'S TURN"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Enemy" type="Label" parent="CombatContainer/game_combat/Turn"]
+offset_left = -384.0
+offset_top = -12.0
+offset_bottom = 30.0
+rect_min_size = Vector2(256, 0)
+theme = ExtResource( "2_2ew0p" )
+theme_type_variation = &"HeaderLarge"
+text = "ENEMY"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ally" type="Label" parent="CombatContainer/game_combat/Turn"]
+offset_left = 384.0
+offset_top = -12.0
+offset_right = 768.0
+offset_bottom = 30.0
+rect_min_size = Vector2(256, 0)
+rect_scale = Vector2(0.992197, 0.995221)
+theme = ExtResource( "2_2ew0p" )
+theme_type_variation = &"HeaderLarge"
+text = "ALLY"
+horizontal_alignment = 1
+autowrap_mode = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="card_description" type="Label" parent="CombatContainer/game_combat"]
+offset_left = 256.0
+offset_top = 408.0
+offset_right = 768.0
+offset_bottom = 431.0
+rect_min_size = Vector2(512, 0)
+theme_type_variation = &"HeaderSmall"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="selectable_particles" type="GPUParticles2D" parent="CombatContainer/game_combat"]
+position = Vector2(896, 224)
+scale = Vector2(0.5, 1)
+emitting = false
+amount = 128
+process_material = SubResource( "ParticlesMaterial_ah3kx" )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(1.00262, 1)
+anchor_mode = 0
+
+[node name="shaders" parent="." instance=ExtResource( "11_0dw7m" )]
+
+[connection signal="mouse_entered" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="hover_over"]
+[connection signal="mouse_exited" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="stop_hover"]

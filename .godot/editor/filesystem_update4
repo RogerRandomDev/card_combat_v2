@@ -1,10 +1,12 @@
 res://Nodes/Card.gd
-res://Scenes/ally.tscn
-res://Scenes/enemy.tscn
+res://Scenes/Card_View.gd
+res://Scenes/Card_View.tscn
+res://Scenes/game_combat/main.tscn
 res://Scenes/main.tscn
-res://Scripts/ally.gd
-res://Scripts/enemy.gd
+res://Scenes/shaderlayer.tscn
+res://Scripts/storestack.gd
 res://fonts/basefont.tres
+res://fonts/basetheme.tres
 res://global/classes.gd
 res://global/combat.gd
 res://global/data.gd

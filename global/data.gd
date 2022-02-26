@@ -7,7 +7,7 @@ var entities={}
 
 var current_deck={
 	"Punch":5,
-	"Weak Healing":5
+	"Weak Healing":4
 }
 
 
@@ -56,4 +56,4 @@ func get_card_from_deck():
 
 
 func random_entity():
-	return entities.values()[randi_range(0.0,entities.size()-1)]
+	return entities.values()[randi_range(0,entities.size()-1)]

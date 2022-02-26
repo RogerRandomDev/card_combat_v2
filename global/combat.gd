@@ -4,6 +4,25 @@ extends Node
 var active_hover = null
 var current_target_type="Target"
 
+#type fight modifiers
+var type_matches = {
+	"Earth":{"Water":0.5,"Air":0.75,"Fire":1.25,"Plant":0.75},
+	"Water":{"Earth":1.25,"Air":1.25,"Fire":1.25,"Plant":0.5},
+	"Fire":{"Earth":0.5,"Water":0.5,"Plant":1.5,"Air":1.25},
+	"Air":{"Water":0.5,"Plant":0.75,"Fire":1.25,"Earth":1.5,"Sky":0.5},
+	"Plant":{"Water":1.5,"Air":1.25,"Fire":0.25,"Earth":0.75,"Sky":1.75},
+	"Blood":{"Soul":2.5,"Holy":1.5,"Evil":0.75,"Dark":0.75,"Physical":1.5},
+	"Sky":{"Air":0.75,"Water":1.25,"Earth":1.25,"Fire":1.5,"Plant":0.5},
+	"Physical":{"Soul":0.0,"Air":0.5,"Fire":0.75,"Light":0.5,"Dark":0.5,"Physical":5.0},
+	"Soul":{"Physical":0.0,"Holy":1.5,"Light":1.5,"Evil":1.5,"Dark":1.5,"Blood":0.75},
+	"Holy":{"Evil":2.0,"Dark":1.5,"Light":0.5,"Holy":0.0,"Soul":1.5},
+	"Evil":{"Holy":2.0,"Light":1.5,"Dark":0.5,"Evil":0.0,"Soul":1.5},
+	"Dark":{"Evil":0.5,"Holy":1.5,"Light":1.25},
+	"Light":{"Holy":0.5,"Evil":1.5,"Dark":1.25}
+}
+
+
+
 
 var selected_now = {}
 var action_list=[]
@@ -27,7 +46,7 @@ var cur_enemy_turn = 0
 var root = null
 
 #preload scenes
-var combatParticles = preload("res://Scenes/combat_select_particle.tscn")
+var combatParticles = preload("res://Scenes/game_combat/combat_select_particle.tscn")
 
 
 
@@ -171,12 +190,14 @@ func activate_actions():
 			if card.card_data.attribute.split(",").has("Physical"):does_action_power += does_action.base.stats.Str
 			if card.card_data.attribute.split(",").has("Magic"):does_action_power += does_action.base.stats.Mag
 			if card.card_data.attribute.split(",").has("Support"):does_action_power += does_action.base.stats.Sup
+			if card.card_data.type=="Healing":does_action_power+=pow(does_action.base.stats.Sup,0.375)
+			
 			
 			#determines if it should be modified by the final stat check
 			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
 			
 			#final modifier for the strength of the action
-			out = does_action.base.modify_action_power(out,card.card_data.attribute,does_action_power,recieves_action_defense,stats_modifier_switch)
+			out = does_action.base.modify_action_power(out,card.card_data.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute)
 			#finishes the action
 			if card.harmful():hit_target(recieves_action,out)
 			elif card.heals():heal_target(recieves_action,out)
@@ -201,7 +222,7 @@ func hit_target(target=null,strength_of=1):
 #same as hit_target but green and heals
 func heal_target(target=null,strength_of=1):
 	if(target==null):return false
-	target.base.hurt(-max(strength_of,1))
+	target.base.hurt(max(abs(strength_of),1),false)
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_scale",Vector2(1.25,1.25),0.125)
 	tween.parallel().tween_property(target,"modulate",Color(0.5,1.0,0.5),0.125)
@@ -248,12 +269,10 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 					target_now_a=ally_neighbors[enemyy]
 					lowest_ally_hp=health
 		#chooses if it will do a hurt action or heal action
-		var output_attribute = "Physical"
 		
 		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
 			target_action="hit_target"
 			target_now = target_now_a
-			output_attribute = enemy.base.stats.AttackAttribute
 		var output_strength = 0.0
 		var recieves_action_defense = target_now.base.stats.Def
 			
@@ -262,16 +281,16 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		if enemy.base.stats.AttackAttribute.split(",").has("Physical"):does_action_power += enemy.base.stats.Str
 		if enemy.base.stats.AttackAttribute.split(",").has("Magic"):does_action_power += enemy.base.stats.Mag
 		if enemy.base.stats.AttackAttribute.split(",").has("Support"):does_action_power += enemy.base.stats.Sup
-		
+		var out_card = enemy.base.stats.HurtCard
 		#switches stat to support to enure it heals correctly
 		if target_action=="heal_target":
-			does_action_power = enemy.base.stats.Sup
-			output_attribute = enemy.base.stats.HealAttribute
-		output_strength = does_action_power
+			does_action_power = pow(enemy.base.stats.Sup,0.375)
+			out_card = enemy.base.stats.HealCard
+		out_card = Data.cards[out_card]
 		#determines if it should be modified by the final stat check
 		var stats_modifier_switch = enemy.base.object_type!=target_now.base.object_type
 		
-		output_strength = enemy.base.modify_action_power(output_strength,output_attribute,does_action_power,recieves_action_defense,stats_modifier_switch)
+		output_strength = enemy.base.modify_action_power(out_card.strength,out_card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,enemy.base.stats.Attribute,target_now.base.stats.Attribute)
 		
 		if target_now!=null:
 			call(target_action,target_now,output_strength)

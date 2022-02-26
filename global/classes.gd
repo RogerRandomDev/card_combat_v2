@@ -3,8 +3,16 @@ extends Node
 
 
 
+
 #combat object that holds the stats and functions used by both player and enemies
 class combat_object extends Node:
+	
+	
+	
+	
+	
+	
+	
 	var root=null
 	var object_type="Ally"
 	var selected=false
@@ -16,11 +24,13 @@ class combat_object extends Node:
 		"Def":5,
 		"Mag":5,
 		"Sup":5,
-		"Variance":1,
 		"Weakens":null,
 		"Strengthens":null,
 		"AttackAttribute":"Physical",
 		"HealAttribute":"Holy",
+		"Attribute":"Physical",
+		"HealCard":"Weak Healing",
+		"HurtCard":"Punch"
 		}
 	func _ready():
 		randomize()
@@ -55,16 +65,17 @@ class combat_object extends Node:
 			return "Card"
 	
 	#deals damage and shows the float text
-	func hurt(val):
+	func hurt(val,damaging=true):
 		var floaty=Classes.float_text.new()
 		floaty.rect_global_position=root.rect_global_position-Vector2(sign(root.hit_direction().x)*16,0)
 		root.get_parent().get_parent().add_child(floaty)
 		if stats.Hp-val <0||stats.Hp-val > stats.maxHp:
 			val = stats.maxHp-stats.Hp
+		val *= sign(int(damaging)*2-1)
 		stats.Hp=max(min(stats.Hp-val,stats.maxHp),0)
 		root.get_node("Hp").text = "Hp:"+str(stats.Hp)
 		
-		floaty.load_self(str(abs(val)),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)),Vector2(0,128),val<0)
+		floaty.load_self(str(abs(val)),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)),Vector2(0,128),!damaging)
 		if stats.Hp <= 0:
 			
 			Combat.set(object_type.to_lower()+"_count",Combat.get(object_type.to_lower()+"_count")-1)
@@ -78,8 +89,8 @@ class combat_object extends Node:
 		stats.Sup=data.sup
 		stats.Hp=data.hp
 		stats.maxHp=data.hp
-		stats.Variance = data.variance
 		texture = data.texture
+		stats.Attribute = data.attribute
 		stats.Strengthens = data.strengthens
 		stats.Weakens = data.weakens
 		#sets the action attributes for the character
@@ -87,11 +98,15 @@ class combat_object extends Node:
 		else:stats.HealAttribute=data.healattribute
 		if !data.has("attackattribute"):stats.AttackAttribute=stats.Strengthens.split(",")[0]
 		else:stats.AttackAttribute=data.attackattribute
+		#the default action card for this character
+		if data.has("healcard"):stats.HealCard=data.healcard
+		if data.has("hurtcard"):stats.HurtCard=data.hurtcard
+		
 		root.get_node("Hp").text = "Hp:"+str(stats.Hp)
 	func load_texture():
 		root.get_node("SpriteHolder/TextureRect").texture = load("res://Textures/entities/"+texture+".png")
 	#modifies the action power
-	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true):
+	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical"):
 		var modifier = 1.0
 		attack_attribute=attack_attribute.split(",")
 		var modifier_booster = 1.0
@@ -108,11 +123,33 @@ class combat_object extends Node:
 				modifier-=modifier_booster
 				modifier_booster = lerp(modifier_booster,0.0,0.5)
 		
-		#modifier for the power of the enemy to the current defense of the target
-		var modified_strength_to_defense=pow(strength_of/defense_of,0.75)
-		if !modify_with_stats:modified_strength_to_defense=1.0
 		
-		return max(round(base_power*modifier*modified_strength_to_defense),1.0)
+		
+		#attribute based modifiers
+		var modifier_for_attribute = 1.0
+		var my_attributes = attacker_attribute.split(",")
+		var your_attributes = defend_attribute.split(",")
+		var modified_attributes = []
+		
+		#modifies the power based on your attribute to your enemy attributes
+		for attribute in my_attributes:
+			if !Combat.type_matches.keys().has(attribute):continue
+			for enemy_attribute in your_attributes:
+				if modified_attributes.has(enemy_attribute):continue
+				modified_attributes.append(enemy_attribute)
+				if attribute==enemy_attribute:
+					modifier_for_attribute*=0.75;continue
+				if !Combat.type_matches[attribute].keys().has(enemy_attribute):continue
+				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
+		
+		#modifier for the power of the enemy to the current defense of the target
+		var modified_strength_to_defense=pow(strength_of/defense_of,0.25)
+		if modified_strength_to_defense<=0.125:
+			modified_strength_to_defense=0.125
+		if !modify_with_stats:
+			modifier_for_attribute=1.0
+			modified_strength_to_defense=1.0
+		return max(round(base_power*modifier*modified_strength_to_defense*modifier_for_attribute),1)
 
 #floaty text
 class float_text extends Label:
