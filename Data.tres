@@ -4,7 +4,7 @@
             "name": "Punch",
             "description": "Punch Hard",
             "strength": 10,
-            "variance": 3,
+            "variance": 5,
             "type": "Harmful",
             "attribute": "Physical",
             "color": "#D41E0B"
@@ -12,7 +12,7 @@
         {
             "name": "Weak Healing",
             "description": "Not very efficient",
-            "strength": 2,
+            "strength": 5,
             "variance": 0,
             "type": "Healing",
             "attribute": "Holy",
@@ -28,10 +28,7 @@
             "def": 5,
             "mag": 5,
             "sup": 5,
-            "variance": 1,
             "attribute": "Earth",
-            "weakens": "Water",
-            "strengthens": "Physical",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         },
@@ -43,10 +40,7 @@
             "def": 10,
             "mag": 5,
             "sup": 1,
-            "variance": 1,
-            "attribute": "Earth",
-            "weakens": "Fire",
-            "strengthens": "Plant",
+            "attribute": "Plant,Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         },
@@ -58,10 +52,7 @@
             "def": 5,
             "mag": 5,
             "sup": 5,
-            "variance": 1,
-            "attribute": "Earth",
-            "weakens": "Fire",
-            "strengthens": "Holy",
+            "attribute": "Plant,Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         },
@@ -73,10 +64,7 @@
             "def": 5,
             "mag": 5,
             "sup": 5,
-            "variance": 2,
             "attribute": "Earth",
-            "weakens": "Magic",
-            "strengthens": "Physical",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         }

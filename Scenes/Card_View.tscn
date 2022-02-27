@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://yfnwqp0goovh"]
+[gd_scene load_steps=7 format=3 uid="uid://yfnwqp0goovh"]
 
 [ext_resource type="Script" path="res://Scenes/Card_View.gd" id="1_5qeon"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="1_mafqa"]
+[ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="3_oo4wy"]
+[ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="4_fglkb"]
+[ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="5_at5hi"]
+[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="6_qv1om"]
 
 [node name="card_view" type="Control"]
 anchor_right = 1.0
@@ -55,8 +59,161 @@ __meta__ = {
 }
 
 [node name="DataShower" type="VBoxContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 576.0
+offset_top = 32.0
+offset_right = 960.0
+offset_bottom = 568.0
+theme = ExtResource( "1_mafqa" )
+theme_override_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="DataShower"]
+offset_right = 384.0
+offset_bottom = 29.0
+theme = ExtResource( "1_mafqa" )
+text = "TESTING"
+horizontal_alignment = 1
+
+[node name="Texture" type="TextureRect" parent="DataShower"]
+offset_top = 29.0
+offset_right = 384.0
+offset_bottom = 125.0
+rect_min_size = Vector2(384, 96)
+theme = ExtResource( "1_mafqa" )
+texture = ExtResource( "3_oo4wy" )
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ent" type="VBoxContainer" parent="DataShower"]
+visible = false
+offset_top = 125.0
+offset_right = 384.0
+offset_bottom = 515.0
+
+[node name="Types" type="Label" parent="DataShower/ent"]
+offset_right = 384.0
+offset_bottom = 29.0
+text = "Types"
+horizontal_alignment = 1
+
+[node name="TypeList" type="GridContainer" parent="DataShower/ent"]
+offset_top = 33.0
+offset_right = 384.0
+offset_bottom = 97.0
+rect_min_size = Vector2(0, 64)
+size_flags_horizontal = 7
+size_flags_vertical = 5
+columns = 6
+
+[node name="Stats" type="Label" parent="DataShower/ent"]
+offset_top = 101.0
+offset_right = 384.0
+offset_bottom = 130.0
+text = "Stats"
+horizontal_alignment = 1
+
+[node name="StatList" type="ItemList" parent="DataShower/ent"]
+offset_top = 134.0
+offset_right = 384.0
+offset_bottom = 390.0
+rect_min_size = Vector2(0, 256)
+theme = ExtResource( "1_mafqa" )
+
+[node name="card" type="VBoxContainer" parent="DataShower"]
+offset_top = 125.0
+offset_right = 384.0
+offset_bottom = 536.0
+size_flags_vertical = 3
+
+[node name="attributes" type="Label" parent="DataShower/card"]
+offset_right = 384.0
+offset_bottom = 29.0
+text = "Attributes"
+horizontal_alignment = 1
+
+[node name="Attributelist" type="GridContainer" parent="DataShower/card"]
+offset_top = 33.0
+offset_right = 384.0
+offset_bottom = 97.0
+rect_min_size = Vector2(0, 64)
+size_flags_horizontal = 7
+size_flags_vertical = 5
+columns = 6
+
+[node name="Description" type="Label" parent="DataShower/card"]
+offset_top = 101.0
+offset_right = 384.0
+offset_bottom = 130.0
+text = "Description"
+horizontal_alignment = 1
+
+[node name="Description_out" type="Label" parent="DataShower/card"]
+offset_top = 134.0
+offset_right = 384.0
+offset_bottom = 254.0
+size_flags_vertical = 7
+theme_type_variation = &"HeaderSmall"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Power" type="Label" parent="DataShower/card"]
+offset_top = 258.0
+offset_right = 384.0
+offset_bottom = 287.0
+text = "Power"
+horizontal_alignment = 1
+
+[node name="power_out" type="Label" parent="DataShower/card"]
+offset_top = 291.0
+offset_right = 384.0
+offset_bottom = 411.0
+size_flags_vertical = 3
+horizontal_alignment = 1
+
+[node name="background" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_top = -96.0
+offset_right = 1024.0
+offset_bottom = 416.0
+mouse_filter = 2
+texture = ExtResource( "4_fglkb" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="table" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_top = 320.0
+offset_right = 1024.0
+offset_bottom = 832.0
+mouse_filter = 2
+texture = ExtResource( "5_at5hi" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+show_behind_parent = true
+offset_left = 576.0
+offset_top = 32.0
+offset_right = 960.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( "1_mafqa" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="shaders" parent="." instance=ExtResource( "6_qv1om" )]
 
 [connection signal="item_selected" from="CharacterList" to="." method="_on_character_list_item_selected"]
 [connection signal="tab_changed" from="SearchBar" to="." method="selected_tab"]

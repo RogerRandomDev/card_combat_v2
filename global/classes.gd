@@ -91,12 +91,10 @@ class combat_object extends Node:
 		stats.maxHp=data.hp
 		texture = data.texture
 		stats.Attribute = data.attribute
-		stats.Strengthens = data.strengthens
-		stats.Weakens = data.weakens
 		#sets the action attributes for the character
 		if !data.has("healattribute"):stats.HealAttribute="Holy"
 		else:stats.HealAttribute=data.healattribute
-		if !data.has("attackattribute"):stats.AttackAttribute=stats.Strengthens.split(",")[0]
+		if !data.has("attackattribute"):stats.AttackAttribute=stats.Attribute
 		else:stats.AttackAttribute=data.attackattribute
 		#the default action card for this character
 		if data.has("healcard"):stats.HealCard=data.healcard
@@ -109,21 +107,6 @@ class combat_object extends Node:
 	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical"):
 		var modifier = 1.0
 		attack_attribute=attack_attribute.split(",")
-		var modifier_booster = 1.0
-		var my_strengths = stats.Strengthens.split(",")
-		var my_weaknesses = stats.Weakens.split(",")
-		#modifies the output based on strengths and weaknesses
-		for strength in my_strengths:
-			if attack_attribute.has(strength):
-				modifier+=modifier_booster
-				modifier_booster = lerp(modifier_booster,0.0,0.5)
-		modifier_booster = 0.5
-		for weakness in my_weaknesses:
-			if attack_attribute.has(weakness):
-				modifier-=modifier_booster
-				modifier_booster = lerp(modifier_booster,0.0,0.5)
-		
-		
 		
 		#attribute based modifiers
 		var modifier_for_attribute = 1.0
