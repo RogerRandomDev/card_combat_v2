@@ -1,7 +1,4 @@
-res://Nodes/Card.gd
-res://Scenes/Card_View.gd
 res://Scenes/Card_View.tscn
-res://Scenes/game_combat/main.tscn
+res://Scripts/Card_View.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
-res://global/classes.gd

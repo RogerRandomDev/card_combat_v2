@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="card_combat_2.0"
-run/main_scene="res://Scenes/game_combat/main.tscn"
+run/main_scene="res://Scenes/game_combat/combat_scene.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0")
 
@@ -35,6 +35,7 @@ Classes="*res://global/classes.gd"
 [display]
 
 window/stretch/mode="viewport"
+window/stretch/aspect="keep_width"
 
 [editor]
 

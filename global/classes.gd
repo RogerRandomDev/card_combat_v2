@@ -115,9 +115,9 @@ class combat_object extends Node:
 		var modified_attributes = []
 		
 		#modifies the power based on your attribute to your enemy attributes
-		for attribute in my_attributes:
+		for attribute in your_attributes:
 			if !Combat.type_matches.keys().has(attribute):continue
-			for enemy_attribute in your_attributes:
+			for enemy_attribute in my_attributes:
 				if modified_attributes.has(enemy_attribute):continue
 				modified_attributes.append(enemy_attribute)
 				if attribute==enemy_attribute:
@@ -151,7 +151,6 @@ class float_text extends Label:
 		time +=delta
 		if time >=1:
 			queue_free()
-
 
 
 

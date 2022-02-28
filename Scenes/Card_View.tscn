@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://yfnwqp0goovh"]
+[gd_scene load_steps=7 format=3 uid="uid://j2ep2a4wb345"]
 
-[ext_resource type="Script" path="res://Scenes/Card_View.gd" id="1_5qeon"]
+[ext_resource type="Script" path="res://Scripts/Card_View.gd" id="1_5qeon"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="1_mafqa"]
 [ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="3_oo4wy"]
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="4_fglkb"]
@@ -12,9 +12,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_scale = Vector2(1.00927, 0.997562)
 script = ExtResource( "1_5qeon" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CharacterList" type="ItemList" parent="."]
 anchor_right = 1.0
@@ -29,34 +26,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SearchBar" type="TabContainer" parent="."]
+[node name="SearchBar" type="TabBar" parent="."]
 offset_left = 32.0
 offset_top = 14.0
 offset_right = 224.0
 offset_bottom = 53.0
 theme = ExtResource( "1_mafqa" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Creature" type="TabBar" parent="SearchBar"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 30.0
-theme = ExtResource( "1_mafqa" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Card" type="TabBar" parent="SearchBar"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 30.0
-theme = ExtResource( "1_mafqa" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+tab_count = 2
+tab_0/title = "Creature"
+tab_1/title = "Card"
 
 [node name="DataShower" type="VBoxContainer" parent="."]
 offset_left = 576.0
@@ -77,10 +55,10 @@ text = "TESTING"
 horizontal_alignment = 1
 
 [node name="Texture" type="TextureRect" parent="DataShower"]
+rect_min_size = Vector2(384, 96)
 offset_top = 29.0
 offset_right = 384.0
 offset_bottom = 125.0
-rect_min_size = Vector2(384, 96)
 theme = ExtResource( "1_mafqa" )
 texture = ExtResource( "3_oo4wy" )
 ignore_texture_size = true
@@ -99,10 +77,10 @@ text = "Types"
 horizontal_alignment = 1
 
 [node name="TypeList" type="GridContainer" parent="DataShower/ent"]
+rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
-rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -115,10 +93,10 @@ text = "Stats"
 horizontal_alignment = 1
 
 [node name="StatList" type="ItemList" parent="DataShower/ent"]
+rect_min_size = Vector2(0, 256)
 offset_top = 134.0
 offset_right = 384.0
 offset_bottom = 390.0
-rect_min_size = Vector2(0, 256)
 theme = ExtResource( "1_mafqa" )
 
 [node name="card" type="VBoxContainer" parent="DataShower"]
@@ -134,10 +112,10 @@ text = "Attributes"
 horizontal_alignment = 1
 
 [node name="Attributelist" type="GridContainer" parent="DataShower/card"]
+rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
-rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -215,5 +193,49 @@ __meta__ = {
 
 [node name="shaders" parent="." instance=ExtResource( "6_qv1om" )]
 
+[node name="Type_Matches" type="Panel" parent="."]
+offset_left = 256.0
+offset_top = 320.0
+offset_right = 512.0
+offset_bottom = 576.0
+theme = ExtResource( "1_mafqa" )
+
+[node name="title" type="Label" parent="Type_Matches"]
+offset_right = 140.0
+offset_bottom = 32.0
+text = "Type Matchs"
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="TypeList" type="ItemList" parent="Type_Matches"]
+offset_top = 32.0
+offset_right = 96.0
+offset_bottom = 256.0
+fixed_column_width = 80
+icon_mode = 0
+fixed_icon_size = Vector2(32, 32)
+
+[node name="Strong_against" type="Label" parent="Type_Matches"]
+offset_left = 142.0
+offset_top = 4.0
+offset_right = 254.0
+offset_bottom = 33.0
+text = "Modifiers:"
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="Content" type="Label" parent="Type_Matches/Strong_against"]
+offset_left = -32.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 244.0
+theme_override_font_sizes/font_size = 8
+text = "Content"
+
 [connection signal="item_selected" from="CharacterList" to="." method="_on_character_list_item_selected"]
 [connection signal="tab_changed" from="SearchBar" to="." method="selected_tab"]
+[connection signal="item_selected" from="Type_Matches/TypeList" to="." method="typelist_selected"]

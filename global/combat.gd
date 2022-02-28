@@ -6,19 +6,20 @@ var current_target_type="Target"
 
 #type fight modifiers
 var type_matches = {
-	"Earth":{"Water":0.5,"Air":0.75,"Fire":1.25,"Plant":0.75},
-	"Water":{"Earth":1.25,"Air":1.25,"Fire":1.25,"Plant":0.5},
+	"Earth":{"Water":0.5,"Air":0.75,"Fire":1.25,"Plant":0.75,"Electric":0.75},
+	"Water":{"Earth":1.25,"Air":1.25,"Fire":1.25,"Plant":0.5,"Electric":0.5},
 	"Fire":{"Earth":0.5,"Water":0.5,"Plant":1.5,"Air":1.25},
 	"Air":{"Water":0.5,"Plant":0.75,"Fire":1.25,"Earth":1.5,"Sky":0.5},
 	"Plant":{"Water":1.5,"Air":1.25,"Fire":0.25,"Earth":0.75,"Sky":1.75},
-	"Blood":{"Soul":2.5,"Holy":1.5,"Evil":0.75,"Dark":0.75,"Physical":1.5},
-	"Sky":{"Air":0.75,"Water":1.25,"Earth":1.25,"Fire":1.5,"Plant":0.5},
-	"Physical":{"Soul":0.0,"Air":0.5,"Fire":0.75,"Light":0.5,"Dark":0.5,"Physical":5.0},
-	"Soul":{"Physical":0.0,"Holy":1.5,"Light":1.5,"Evil":1.5,"Dark":1.5,"Blood":0.75},
-	"Holy":{"Evil":2.0,"Dark":1.5,"Light":0.5,"Holy":0.0,"Soul":1.5},
+	"Blood":{"Soul":2.5,"Holy":1.5,"Evil":0.75,"Dark":0.75,"Physical":1.5,"Electric":0.75},
+	"Sky":{"Air":0.75,"Water":1.25,"Earth":1.25,"Fire":1.5,"Plant":0.5,"Electric":1.25},
+	"Physical":{"Soul":0.0,"Air":0.5,"Fire":0.75,"Light":0.5,"Dark":0.5,"Physical":5.0,"Electric":0.75},
+	"Soul":{"Physical":0.0,"Holy":1.5,"Light":1.5,"Evil":1.5,"Dark":1.5,"Blood":0.75,"Electric":0.5},
+	"Holy":{"Evil":2.0,"Dark":1.5,"Light":0.5,"Holy":0.0,"Soul":1.5,"Electric":0.75},
 	"Evil":{"Holy":2.0,"Light":1.5,"Dark":0.5,"Evil":0.0,"Soul":1.5},
 	"Dark":{"Evil":0.5,"Holy":1.5,"Light":1.25},
-	"Light":{"Holy":0.5,"Evil":1.5,"Dark":1.25}
+	"Light":{"Holy":0.5,"Evil":1.5,"Dark":1.25},
+	"Electric":{"Water":2.5}
 }
 
 
@@ -187,10 +188,17 @@ func activate_actions():
 			
 			#gets the attribute to use for the action
 			var does_action_power = 0
-			if card.card_data.attribute.split(",").has("Physical"):does_action_power += does_action.base.stats.Str
-			if card.card_data.attribute.split(",").has("Magic"):does_action_power += does_action.base.stats.Mag
-			if card.card_data.attribute.split(",").has("Support"):does_action_power += does_action.base.stats.Sup
-			if card.card_data.type=="Healing":does_action_power+=pow(does_action.base.stats.Sup,0.375)
+			var modifiers={"Physical":1,"Holy":1,"Magic":1}
+			for type_split in card.card_data.attribute.split(","):
+				if type_split == "Physical":
+					does_action_power += does_action.base.stats.Str*modifiers.Physical
+					modifiers.Physical*=0.5
+				elif type_split =="Holy":
+					does_action_power += does_action.base.stats.Sup*modifiers.Holy
+					modifiers.Holy*=0.5
+				else:
+					does_action_power += does_action.base.stats.Mag*modifiers.Magic
+					modifiers.Magic*=0.5
 			
 			
 			#determines if it should be modified by the final stat check
@@ -278,9 +286,20 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 			
 		#gets the attribute to use for the action
 		var does_action_power = 0
-		if enemy.base.stats.AttackAttribute.split(",").has("Physical"):does_action_power += enemy.base.stats.Str
-		if enemy.base.stats.AttackAttribute.split(",").has("Magic"):does_action_power += enemy.base.stats.Mag
-		if enemy.base.stats.AttackAttribute.split(",").has("Support"):does_action_power += enemy.base.stats.Sup
+		var card = Data.cards[enemy.base.stats.HurtCard]
+		if target_action!="hit_target":
+			card = Data.cards[enemy.base.stats.HealCard]
+		var modifiers={"Physical":1,"Holy":1,"Magic":1}
+		for type_split in card.attribute.split(","):
+				if type_split == "Physical":
+					does_action_power += enemy.base.stats.Str*modifiers.Physical
+					modifiers.Physical*=0.5
+				elif type_split =="Holy":
+					does_action_power += enemy.base.stats.Sup*modifiers.Holy
+					modifiers.Holy*=0.5
+				else:
+					does_action_power += enemy.base.stats.Mag*modifiers.Magic
+					modifiers.Magic*=0.5
 		var out_card = enemy.base.stats.HurtCard
 		#switches stat to support to enure it heals correctly
 		if target_action=="heal_target":

@@ -7,7 +7,7 @@ var entities={}
 
 var current_deck={
 	"Punch":5,
-	"Weak Healing":4
+	"Weak Healing":5
 }
 
 
@@ -33,7 +33,11 @@ func _ready():
 	for entity in file_data["Entities"]:
 		var entity_name = entity.name
 		entities[entity_name]=entity
-
+	#builds the type combat data
+	for type_rate in file_data["TypeMatches"]:
+		var type_name = type_rate.type
+		type_name[0]=type_name[0].to_upper()
+		Combat.type_matches[type_name]=type_rate
 
 func parse_data(data):
 	return str2var(data.replace("\t","").replace("\n",""))

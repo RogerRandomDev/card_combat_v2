@@ -21,7 +21,8 @@ func enemy_turn_trigger():
 func reload_hand():
 	$action_stopper.visible=true
 	$AnimationPlayer.play("flipcards")
-	
+	for ally in $AllyList.get_children():
+		ally.base.selected = false
 
 #removes a card
 func remove_card():

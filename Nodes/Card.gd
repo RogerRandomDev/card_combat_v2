@@ -63,7 +63,7 @@ func get_next_target(_a):
 		return "Ally"
 
 func hover_over():
-	if get_parent().name!="CardList":return
+	if get_parent().name=="cardstack":return
 	var success = Combat.set_hovered(self,"Card")
 	Combat.set_deferred('hovering_card',self)
 	if success:
@@ -75,10 +75,7 @@ func stop_hover():
 	get_parent().get_parent().show_card_description("")
 	if Combat.hovering_card==self:
 		Combat.hovering_card=null
-		Combat.active_hover=null
-	var tween:Tween=card_backing.create_tween()
-	tween.tween_property(card_backing,"rect_position",Vector2(-32,-47),0.125)
-	tween.parallel().tween_property(self,"rect_scale",Vector2.ONE,0.125)
+
 
 func stop_hovering():
 	Combat.hovering_card=null
@@ -110,7 +107,7 @@ func show_content():
 
 #gets the output strength of the action
 func get_output_value():
-	return card_data.strength+randi_range(-card_data.variance,card_data.variance)
+	return round(card_data.strength+randf_range(-card_data.variance,card_data.variance))
 
 
 #changes the card data

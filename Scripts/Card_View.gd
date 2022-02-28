@@ -8,11 +8,19 @@ func _ready():
 	selected_tab(0)
 	$CharacterList.select(0)
 	_on_character_list_item_selected(0)
+	load_typelist()
 
+#loads the types to the typelist
+func load_typelist():
+	for type in Combat.type_matches.keys():
+		$Type_Matches/TypeList.add_item(type,load("res://Textures/attributes/"+type+".png"))
+	for item in $Type_Matches/TypeList.get_item_count():
+		$Type_Matches/TypeList.set_item_tooltip_enabled(item,false)
 
 #puts item into the list
 func load_item_to_list(name_of,texture):
 	$CharacterList.add_item(name_of,load(texture))
+	$CharacterList.set_item_tooltip_enabled($CharacterList.get_item_count()-1,false)
 
 #empties the item list
 func empty_list():
@@ -98,3 +106,7 @@ func remove_datashower_data():
 		$DataShower/ent/StatList.remove_item(0)
 	for item in $DataShower/card/Attributelist.get_child_count():
 		$DataShower/card/Attributelist.get_child(item).queue_free()
+
+
+func typelist_selected(index):
+	var matches = ""
