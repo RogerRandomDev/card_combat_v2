@@ -1,42 +1,4 @@
 {
-    "Cards": [
-        {
-            "name": "Punch",
-            "description": "Punch Hard",
-            "strength": 10,
-            "variance": 5,
-            "type": "Harmful",
-            "attribute": "Physical",
-            "color": "#D41E0B"
-        },
-        {
-            "name": "Weak Healing",
-            "description": "Not very efficient",
-            "strength": 5,
-            "variance": 0,
-            "type": "Healing",
-            "attribute": "Holy",
-            "color": "#39D491"
-        },
-        {
-            "name": "Fireball",
-            "description": "How does it work? Magic.",
-            "strength": 9.5,
-            "variance": 2.5,
-            "type": "Harmful",
-            "attribute": "Fire",
-            "color": "#D4820B"
-        },
-        {
-            "name": "Static Shock",
-            "description": "Shocking.",
-            "strength": 9.5,
-            "variance": 2.5,
-            "type": "Harmful",
-            "attribute": "Electric",
-            "color": "#71D8D9"
-        }
-    ],
     "TypeMatches": [
         {
             "type": "Air",
@@ -277,15 +239,64 @@
             "electric": 0.75
         }
     ],
+    "Cards": [
+        {
+            "name": "Punch",
+            "description": "Punch Hard",
+            "strength": 10,
+            "variance": 5,
+            "type": "Harmful",
+            "attribute": "Physical",
+            "color": "#D41E0B"
+        },
+        {
+            "name": "Weak Healing",
+            "description": "Not very efficient",
+            "strength": 5,
+            "variance": 0,
+            "type": "Healing",
+            "attribute": "Holy",
+            "color": "#39D491"
+        },
+        {
+            "name": "Fireball",
+            "description": "How does it work? Magic.",
+            "strength": 9.5,
+            "variance": 2.5,
+            "type": "Harmful",
+            "attribute": "Fire",
+            "color": "#D4820B"
+        },
+        {
+            "name": "Static Shock",
+            "description": "Shocking.",
+            "strength": 9.5,
+            "variance": 2.5,
+            "type": "Harmful",
+            "attribute": "Electric",
+            "color": "#71D8D9"
+        },
+        {
+            "name": "Charge",
+            "description": "Takes two turns, but deals damage based on how much it was hit",
+            "strength": 10.5,
+            "variance": 4.5,
+            "type": "Harmful",
+            "attribute": "Physical",
+            "delay": 2,
+            "bonusactions": "return_damage_mult:3",
+            "color": "#F2653F"
+        }
+    ],
     "Entities": [
         {
             "name": "Frog",
             "texture": "Frog",
             "hp": 10,
-            "str": 5,
-            "def": 5,
-            "mag": 5,
-            "sup": 5,
+            "str": 3,
+            "def": 3,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
@@ -293,11 +304,11 @@
         {
             "name": "Trider",
             "texture": "Trider",
-            "hp": 20,
-            "str": 10,
-            "def": 10,
-            "mag": 5,
-            "sup": 1,
+            "hp": 30,
+            "str": 20,
+            "def": 20,
+            "mag": 0,
+            "sup": 5,
             "attribute": "Plant,Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
@@ -306,10 +317,10 @@
             "name": "Mush",
             "texture": "Mush",
             "hp": 15,
-            "str": 5,
+            "str": 3,
             "def": 5,
-            "mag": 5,
-            "sup": 5,
+            "mag": 10,
+            "sup": 10,
             "attribute": "Plant,Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
@@ -318,11 +329,11 @@
             "name": "Goblin",
             "texture": "Goblin",
             "hp": 25,
-            "str": 5,
-            "def": 5,
-            "mag": 5,
+            "str": 15,
+            "def": 10,
+            "mag": 15,
             "sup": 5,
-            "attribute": "Earth",
+            "attribute": "Earth,Blood",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         }

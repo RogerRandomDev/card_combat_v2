@@ -37,6 +37,7 @@ Combat="*res://global/combat.gd"
 Data="*res://global/data.gd"
 Global="*res://global/global.gd"
 Classes="*res://global/classes.gd"
+CardFunc="*res://global/CardFunc.gd"
 
 [display]
 

@@ -126,6 +126,6 @@ func get_output_value():
 func set_data(data):
 	card_data=data
 	name_of.text=data.name
-	
+	if !data.has("delay"):card_data.delay = 0
 	card_backing.self_modulate = Color(data.color)
 	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_data.attribute.split(",")[0]))

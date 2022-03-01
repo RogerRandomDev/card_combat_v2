@@ -72,10 +72,10 @@ func show_Creatures(data):
 	$DataShower/card.hide()
 	$DataShower/ent.show()
 
-
+var cardtex = preload("res://Textures/Card.png")
 func show_Cards(data):
 	$DataShower/Name.text = data.name
-	$DataShower/Texture.texture = load("res://Textures/Card.png")
+	$DataShower/Texture.texture = cardtex
 	$DataShower/Texture.modulate = Color(data.color)
 	var all_types = data.attribute.split(",")
 	for type in all_types:

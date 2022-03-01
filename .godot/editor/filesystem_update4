@@ -1,8 +1,10 @@
 res://Nodes/Card.gd
-res://Nodes/deck_card.gd
 res://Scenes/Card_View.tscn
+res://Scenes/game_combat/combat_scene.tscn
 res://Scripts/Card_View.gd
+res://Scripts/main.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
+res://global/CardFunc.gd
+res://global/classes.gd
 res://global/combat.gd
-res://global/data.gd

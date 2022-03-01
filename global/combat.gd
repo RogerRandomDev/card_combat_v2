@@ -12,6 +12,7 @@ var type_matches = {}
 
 var selected_now = {}
 var action_list=[]
+var stored_enemy_actions = []
 
 var current_turn = 0
 var whos_turn="Ally"
@@ -101,6 +102,7 @@ func _input(_event):
 				root.get_node("selectable_particles").emitting=true
 		selected_now[header]=active_hover
 		if header=="Card":
+			selected_now[header]=CardFunc.build_full_card(active_hover.card_data)
 			active_hover.get_parent().get_parent().show_card_description("")
 			var tween:Tween=active_hover.create_tween()
 			var target_of = active_hover.get_parent().get_parent().get_node("cardstack")
@@ -136,7 +138,8 @@ func _input(_event):
 			selected_now.Self.base.reset_scale()
 			current_target_type="Target"
 			action_list.append(selected_now)
-			selected_now["Card"].reset()
+			for card in root.get_node("CardList").get_children():
+				card.reset()
 			selected_now={}
 			if action_list.size()>=ally_count:
 				get_tree().current_scene.get_node("CombatContainer/game_combat/AnimationPlayer").play("activate_action")
@@ -152,29 +155,42 @@ func stop_hovering():
 
 
 #actions for the combat events
-
+var stored_actions = []
 #triggers the actions
-func activate_actions():
+func activate_actions(enemy_turn=false):
 	active_target=""
-	selected_now = action_list[0]
+	selected_now = action_list[0].duplicate(true)
 	var card = selected_now.Card
 	var does_action = selected_now.Self
 	var recieves_action = selected_now.Target
 	
+	#if the delay is not met, then it will repeat itself
+	if(card.delay>0):
+		selected_now.Card.delay-=1
+		stored_actions.append(selected_now.duplicate(true))
+		action_list.remove_at(0)
+		selected_now = {}
+		if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
+			action_list.append_array(stored_actions.duplicate(true))
+			stored_actions=[]
+			#ensures the enemy turn wont repeat forever
+			if !enemy_turn:
+				get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
+		return action_list
+	
 	#stops action if one of the required is invalid
-	if is_instance_valid(card)&&is_instance_valid(does_action)&&is_instance_valid(recieves_action):
-		card.reset()
+	if is_instance_valid(does_action)&&is_instance_valid(recieves_action):
 		does_action.reset()
 		recieves_action.reset()
 		if does_action.base.stats.Hp>0&&recieves_action.base.stats.Hp>0:
-			var out = card.get_output_value()
+			var out = CardFunc.get_output_values(card)
 			
 			var recieves_action_defense = recieves_action.base.stats.Def
 			
 			#gets the attribute to use for the action
 			var does_action_power = 0
 			var modifiers={"Physical":1,"Holy":1,"Magic":1}
-			for type_split in card.card_data.attribute.split(","):
+			for type_split in card.attribute.split(","):
 				if type_split == "Physical":
 					does_action_power += does_action.base.stats.Str*modifiers.Physical
 					modifiers.Physical*=0.5
@@ -188,18 +204,24 @@ func activate_actions():
 			
 			#determines if it should be modified by the final stat check
 			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
+			#bonus action modifiers are done here
+			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
 			
 			#final modifier for the strength of the action
-			out = does_action.base.modify_action_power(out,card.card_data.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute)
+			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute))
 			#finishes the action
-			if card.harmful():hit_target(recieves_action,out)
-			elif card.heals():heal_target(recieves_action,out)
-	action_list.erase(action_list[0])
+			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
+			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)
+	action_list.remove_at(0)
 	selected_now={}
+	
 	#changes current action
 	if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
-		get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
-
+		action_list.append_array(stored_actions.duplicate(true))
+		stored_actions=[]
+		if !enemy_turn:
+			get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
+	return action_list
 
 #makes them red and push back slightly
 func hit_target(target=null,strength_of=1):
@@ -228,16 +250,25 @@ func heal_target(target=null,strength_of=1):
 #enemy actions
 func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	if enemy==null:return
+	#returns if enemy is in the middle of an action
+	for action in stored_enemy_actions:if action.Self == enemy:return
+	
 	var target_now = null;
+	
 	#health ratios of self and ally enemies
 	var ally_health_ratios = []
+	
+	
+	#chooses to heal an ally of itself
 	if enemy_neighbors!=null:
 		for ally in enemy_neighbors:
 			ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
+	
+	var target_action = "hit_target"
+	#will repeat until it has a target, and will target an enemy
 	while target_now==null:
 		var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
 		var least_health=1.0
-		var target_action = "hit_target"
 		
 		for ally in ally_health_ratios.size():
 			var health = ally_health_ratios[ally]
@@ -252,9 +283,12 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		var enemy_health_ratios = []
 		for enemyy in ally_neighbors:
 			enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+		
 		var attack_enemy=randf_range(0.5,1.0)
 		var lowest_ally_hp = 100.0
 		var target_now_a=null
+		
+		
 		for enemyy in enemy_health_ratios.size():
 			var health = enemy_health_ratios[enemyy]
 			if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
@@ -266,38 +300,26 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
 			target_action="hit_target"
 			target_now = target_now_a
-		var output_strength = 0.0
-		var recieves_action_defense = target_now.base.stats.Def
-			
-		#gets the attribute to use for the action
-		var does_action_power = 0
-		var card = Data.cards[enemy.base.stats.HurtCard]
-		if target_action!="hit_target":
-			card = Data.cards[enemy.base.stats.HealCard]
-		var modifiers={"Physical":1,"Holy":1,"Magic":1}
-		for type_split in card.attribute.split(","):
-				if type_split == "Physical":
-					does_action_power += enemy.base.stats.Str*modifiers.Physical
-					modifiers.Physical*=0.5
-				elif type_split =="Holy":
-					does_action_power += enemy.base.stats.Sup*modifiers.Holy
-					modifiers.Holy*=0.5
-				else:
-					does_action_power += enemy.base.stats.Mag*modifiers.Magic
-					modifiers.Magic*=0.5
-		var out_card = enemy.base.stats.HurtCard
-		#switches stat to support to enure it heals correctly
-		if target_action=="heal_target":
-			does_action_power = pow(enemy.base.stats.Sup,0.375)
-			out_card = enemy.base.stats.HealCard
-		out_card = Data.cards[out_card]
-		#determines if it should be modified by the final stat check
-		var stats_modifier_switch = enemy.base.object_type!=target_now.base.object_type
 		
-		output_strength = enemy.base.modify_action_power(out_card.strength,out_card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,enemy.base.stats.Attribute,target_now.base.stats.Attribute)
 		
-		if target_now!=null:
-			call(target_action,target_now,output_strength)
+		
+	#gets the attribute to use for the action
+	
+	var card = Data.cards[enemy.base.stats.HurtCard]
+	if target_action!="hit_target":
+		card = Data.cards[enemy.base.stats.HealCard]
+	
+	card = CardFunc.build_full_card(card)
+	#runs the base action code since CONVENIENCE
+	#storing previous information to re-apply after the action
+	var previous_action_list = action_list.duplicate(true)
+	action_list = [{"Self":enemy,"Card":card,"Target":target_now}]
+	action_list.append_array(stored_enemy_actions)
+	activate_actions(true)
+	#storing the enemy repeat actions, and then resetting action list to what it was before
+	var stored_now = action_list.duplicate(true)
+	action_list = previous_action_list
+	stored_enemy_actions=stored_now.duplicate(true)
 
 
 

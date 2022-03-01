@@ -75,6 +75,14 @@ class combat_object extends Node:
 		stats.Hp=max(min(stats.Hp-val,stats.maxHp),0)
 		root.get_node("Hp").text = "Hp:"+str(stats.Hp)
 		
+		#store how much damage was taken since the action occured
+		if val > 0:
+			for action in Combat.action_list:
+				if action.Self==root:
+					action.Card.stored_damage+=val
+					break
+		
+		
 		floaty.load_self(str(abs(val)),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)),Vector2(0,128),!damaging)
 		if stats.Hp <= 0:
 			
@@ -126,7 +134,7 @@ class combat_object extends Node:
 				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
 		
 		#modifier for the power of the enemy to the current defense of the target
-		var modified_strength_to_defense=pow(strength_of/defense_of,0.25)
+		var modified_strength_to_defense=max(sqrt(strength_of/defense_of),0.5)
 		if modified_strength_to_defense<=0.125:
 			modified_strength_to_defense=0.125
 		if !modify_with_stats:

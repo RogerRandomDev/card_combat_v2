@@ -15,9 +15,6 @@ anchor_bottom = 1.0
 rect_scale = Vector2(1.00927, 0.997562)
 mouse_filter = 1
 script = ExtResource( "1_5qeon" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CharacterList" type="ItemList" parent="."]
 anchor_right = 1.0
@@ -63,10 +60,10 @@ text = "TESTING"
 horizontal_alignment = 1
 
 [node name="Texture" type="TextureRect" parent="DataShower"]
+rect_min_size = Vector2(384, 96)
 offset_top = 29.0
 offset_right = 384.0
 offset_bottom = 125.0
-rect_min_size = Vector2(384, 96)
 theme = ExtResource( "1_mafqa" )
 texture = ExtResource( "3_oo4wy" )
 ignore_texture_size = true
@@ -84,10 +81,10 @@ text = "Types"
 horizontal_alignment = 1
 
 [node name="TypeList" type="GridContainer" parent="DataShower/ent"]
+rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
-rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -100,10 +97,10 @@ text = "Stats"
 horizontal_alignment = 1
 
 [node name="StatList" type="ItemList" parent="DataShower/ent"]
+rect_min_size = Vector2(0, 215)
 offset_top = 134.0
 offset_right = 384.0
 offset_bottom = 349.0
-rect_min_size = Vector2(0, 215)
 theme = ExtResource( "1_mafqa" )
 
 [node name="card" type="VBoxContainer" parent="DataShower"]
@@ -120,10 +117,10 @@ text = "Attributes"
 horizontal_alignment = 1
 
 [node name="Attributelist" type="GridContainer" parent="DataShower/card"]
+rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
-rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -201,9 +198,9 @@ offset_left = 576.0
 offset_top = 32.0
 offset_right = 960.0
 offset_bottom = 536.0
-mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme = ExtResource( "1_mafqa" )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -312,9 +309,9 @@ __meta__ = {
 }
 
 [node name="deck_grid" type="GridContainer" parent="in_use/cur_deck/deck_container"]
+rect_min_size = Vector2(128, 128)
 offset_right = 128.0
 offset_bottom = 128.0
-rect_min_size = Vector2(128, 128)
 theme_override_constants/vseparation = 2
 theme_override_constants/hseparation = 2
 columns = 3

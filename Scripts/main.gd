@@ -21,8 +21,14 @@ func enemy_turn_trigger():
 func reload_hand():
 	$action_stopper.visible=true
 	$AnimationPlayer.play("flipcards")
+	for card in $CardList.get_children():
+		card.flipping_card()
 	for ally in $AllyList.get_children():
-		ally.base.selected = false
+		var do=true
+		for ally_check in Combat.action_list:
+			if ally_check.Self == ally:
+				do=false;break
+		if do:ally.base.selected = false
 
 #removes a card
 func remove_card():
@@ -70,17 +76,19 @@ func add_card_to_hand():
 		cards_removed.append(card_id.card_data.name)
 	
 	Data.set_unavailable_cards(cards_removed)
+	var n_card = card_object.new()
+	$CardList.add_child(n_card)
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
 		$AnimationPlayer.stop()
 		$action_stopper.visible=false
+		if Combat.action_list.size()>=Combat.ally_count:
+			get_node("AnimationPlayer").play("activate_action")
 		return
-	var n_card = card_object.new()
-	$CardList.add_child(n_card)
 
 
 #triggers combat global function for actions
 func trigger_action():
-	Combat.activate_actions()
+	Combat.call_deferred('activate_actions')
 
 
 var enemy_actions = 0
