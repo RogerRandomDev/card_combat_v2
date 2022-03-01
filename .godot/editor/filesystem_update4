@@ -1,4 +1,8 @@
+res://Nodes/Card.gd
+res://Nodes/deck_card.gd
 res://Scenes/Card_View.tscn
 res://Scripts/Card_View.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
+res://global/combat.gd
+res://global/data.gd

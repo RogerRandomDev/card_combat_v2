@@ -20,7 +20,8 @@ var texture = preload("res://Textures/Card.png")
 var card_backing = TextureRect.new()
 #the text for it
 var name_of=Label.new()
-
+#attribute icon
+var attribute_icon = TextureRect.new()
 
 func _ready():
 	randomize()
@@ -33,6 +34,11 @@ func _ready():
 	card_backing.add_child(name_of)
 	rect_min_size=Vector2(64,32)
 	set_text_format(name_of)
+	attribute_icon.rect_min_size = Vector2(16,16)
+	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_data.attribute.split(",")[0]))
+	
+	card_backing.add_child(attribute_icon)
+	attribute_icon.rect_position = Vector2(40,6)
 	connect("mouse_entered",hover_over)
 	connect("mouse_exited",stop_hover)
 	set_data(Data.get_card_from_deck())
@@ -51,7 +57,13 @@ func set_text_format(ob,scale_rate=1.5):
 	mouse_filter=Control.MOUSE_FILTER_PASS
 	
 
-
+func flipping_card():
+	attribute_icon.visible=false
+	modulate = card_backing.self_modulate
+	card_backing.remove_child(attribute_icon)
+	add_child(attribute_icon)
+	card_backing.self_modulate = Color("#ffffff")
+	
 
 #selects the new target after using a card
 func get_next_target(_a):
@@ -115,4 +127,5 @@ func set_data(data):
 	card_data=data
 	name_of.text=data.name
 	
-	modulate = Color(data.color)
+	card_backing.self_modulate = Color(data.color)
+	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_data.attribute.split(",")[0]))

@@ -5,22 +5,7 @@ var active_hover = null
 var current_target_type="Target"
 
 #type fight modifiers
-var type_matches = {
-	"Earth":{"Water":0.5,"Air":0.75,"Fire":1.25,"Plant":0.75,"Electric":0.75},
-	"Water":{"Earth":1.25,"Air":1.25,"Fire":1.25,"Plant":0.5,"Electric":0.5},
-	"Fire":{"Earth":0.5,"Water":0.5,"Plant":1.5,"Air":1.25},
-	"Air":{"Water":0.5,"Plant":0.75,"Fire":1.25,"Earth":1.5,"Sky":0.5},
-	"Plant":{"Water":1.5,"Air":1.25,"Fire":0.25,"Earth":0.75,"Sky":1.75},
-	"Blood":{"Soul":2.5,"Holy":1.5,"Evil":0.75,"Dark":0.75,"Physical":1.5,"Electric":0.75},
-	"Sky":{"Air":0.75,"Water":1.25,"Earth":1.25,"Fire":1.5,"Plant":0.5,"Electric":1.25},
-	"Physical":{"Soul":0.0,"Air":0.5,"Fire":0.75,"Light":0.5,"Dark":0.5,"Physical":5.0,"Electric":0.75},
-	"Soul":{"Physical":0.0,"Holy":1.5,"Light":1.5,"Evil":1.5,"Dark":1.5,"Blood":0.75,"Electric":0.5},
-	"Holy":{"Evil":2.0,"Dark":1.5,"Light":0.5,"Holy":0.0,"Soul":1.5,"Electric":0.75},
-	"Evil":{"Holy":2.0,"Light":1.5,"Dark":0.5,"Evil":0.0,"Soul":1.5},
-	"Dark":{"Evil":0.5,"Holy":1.5,"Light":1.25},
-	"Light":{"Holy":0.5,"Evil":1.5,"Dark":1.25},
-	"Electric":{"Water":2.5}
-}
+var type_matches = {}
 
 
 
@@ -122,7 +107,7 @@ func _input(_event):
 			var start_at = active_hover.rect_global_position
 			active_hover.get_parent().remove_child(active_hover)
 			target_of.add_child(active_hover)
-			
+			active_hover.flipping_card()
 			active_hover.rect_global_position=start_at
 			#tweens the colors and actions for the select of a card
 			#moves it over to the deck and flips it so a lot of tweening

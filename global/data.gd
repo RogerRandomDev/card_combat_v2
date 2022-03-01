@@ -7,9 +7,11 @@ var entities={}
 
 var current_deck={
 	"Punch":5,
-	"Weak Healing":5
+	"Weak Healing":5,
+	"Fireball":5,
+	"Static Shock":5
 }
-
+var current_char_deck=[]
 
 
 var available_cards = []

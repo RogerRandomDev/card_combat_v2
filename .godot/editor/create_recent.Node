@@ -1,14 +1,18 @@
-TabBar
 Label
 ItemList
+Button
+deck_grid_card (deck_card.gd)
+ScrollContainer
+GridContainer
+Control
+TabContainer
+TabBar
+RichTextLabel
 Sprite2D
 Panel
 PopupPanel
-Control
 VBoxContainer
-GridContainer
 TextureRect
-TabContainer
 TextEdit
 Node
 GPUParticles2D

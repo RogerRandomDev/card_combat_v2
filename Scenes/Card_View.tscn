@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://j2ep2a4wb345"]
+[gd_scene load_steps=8 format=3 uid="uid://j2ep2a4wb345"]
 
 [ext_resource type="Script" path="res://Scripts/Card_View.gd" id="1_5qeon"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="1_mafqa"]
@@ -7,11 +7,17 @@
 [ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="5_at5hi"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="6_qv1om"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hrcyf"]
+
 [node name="card_view" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_scale = Vector2(1.00927, 0.997562)
+mouse_filter = 1
 script = ExtResource( "1_5qeon" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CharacterList" type="ItemList" parent="."]
 anchor_right = 1.0
@@ -20,6 +26,7 @@ offset_left = 32.0
 offset_top = 53.0
 offset_right = -800.0
 offset_bottom = -27.0
+mouse_filter = 1
 theme = ExtResource( "1_mafqa" )
 fixed_icon_size = Vector2(32, 32)
 __meta__ = {
@@ -31,6 +38,7 @@ offset_left = 32.0
 offset_top = 14.0
 offset_right = 224.0
 offset_bottom = 53.0
+mouse_filter = 1
 theme = ExtResource( "1_mafqa" )
 tab_count = 2
 tab_0/title = "Creature"
@@ -40,7 +48,7 @@ tab_1/title = "Card"
 offset_left = 576.0
 offset_top = 32.0
 offset_right = 960.0
-offset_bottom = 568.0
+offset_bottom = 536.0
 theme = ExtResource( "1_mafqa" )
 theme_override_constants/separation = 0
 __meta__ = {
@@ -55,20 +63,19 @@ text = "TESTING"
 horizontal_alignment = 1
 
 [node name="Texture" type="TextureRect" parent="DataShower"]
-rect_min_size = Vector2(384, 96)
 offset_top = 29.0
 offset_right = 384.0
 offset_bottom = 125.0
+rect_min_size = Vector2(384, 96)
 theme = ExtResource( "1_mafqa" )
 texture = ExtResource( "3_oo4wy" )
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="ent" type="VBoxContainer" parent="DataShower"]
-visible = false
 offset_top = 125.0
 offset_right = 384.0
-offset_bottom = 515.0
+offset_bottom = 474.0
 
 [node name="Types" type="Label" parent="DataShower/ent"]
 offset_right = 384.0
@@ -77,10 +84,10 @@ text = "Types"
 horizontal_alignment = 1
 
 [node name="TypeList" type="GridContainer" parent="DataShower/ent"]
-rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
+rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -93,16 +100,17 @@ text = "Stats"
 horizontal_alignment = 1
 
 [node name="StatList" type="ItemList" parent="DataShower/ent"]
-rect_min_size = Vector2(0, 256)
 offset_top = 134.0
 offset_right = 384.0
-offset_bottom = 390.0
+offset_bottom = 349.0
+rect_min_size = Vector2(0, 215)
 theme = ExtResource( "1_mafqa" )
 
 [node name="card" type="VBoxContainer" parent="DataShower"]
+visible = false
 offset_top = 125.0
 offset_right = 384.0
-offset_bottom = 536.0
+offset_bottom = 474.0
 size_flags_vertical = 3
 
 [node name="attributes" type="Label" parent="DataShower/card"]
@@ -112,10 +120,10 @@ text = "Attributes"
 horizontal_alignment = 1
 
 [node name="Attributelist" type="GridContainer" parent="DataShower/card"]
-rect_min_size = Vector2(0, 64)
 offset_top = 33.0
 offset_right = 384.0
 offset_bottom = 97.0
+rect_min_size = Vector2(0, 64)
 size_flags_horizontal = 7
 size_flags_vertical = 5
 columns = 6
@@ -130,7 +138,7 @@ horizontal_alignment = 1
 [node name="Description_out" type="Label" parent="DataShower/card"]
 offset_top = 134.0
 offset_right = 384.0
-offset_bottom = 254.0
+offset_bottom = 223.0
 size_flags_vertical = 7
 theme_type_variation = &"HeaderSmall"
 horizontal_alignment = 1
@@ -139,18 +147,27 @@ __meta__ = {
 }
 
 [node name="Power" type="Label" parent="DataShower/card"]
-offset_top = 258.0
+offset_top = 227.0
 offset_right = 384.0
-offset_bottom = 287.0
+offset_bottom = 256.0
 text = "Power"
 horizontal_alignment = 1
 
 [node name="power_out" type="Label" parent="DataShower/card"]
-offset_top = 291.0
+offset_top = 260.0
 offset_right = 384.0
-offset_bottom = 411.0
+offset_bottom = 349.0
 size_flags_vertical = 3
 horizontal_alignment = 1
+
+[node name="add_to_deck" type="Button" parent="DataShower"]
+offset_top = 474.0
+offset_right = 384.0
+offset_bottom = 504.0
+mouse_filter = 1
+theme = ExtResource( "1_mafqa" )
+shortcut_in_tooltip = false
+text = "ADD TO DECK"
 
 [node name="background" type="TextureRect" parent="."]
 show_behind_parent = true
@@ -183,15 +200,14 @@ show_behind_parent = true
 offset_left = 576.0
 offset_top = 32.0
 offset_right = 960.0
-offset_bottom = 568.0
+offset_bottom = 536.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( "1_mafqa" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="shaders" parent="." instance=ExtResource( "6_qv1om" )]
 
 [node name="Type_Matches" type="Panel" parent="."]
 offset_left = 256.0
@@ -203,7 +219,7 @@ theme = ExtResource( "1_mafqa" )
 [node name="title" type="Label" parent="Type_Matches"]
 offset_right = 140.0
 offset_bottom = 32.0
-text = "Type Matchs"
+text = "Type Matches"
 __meta__ = {
 "_edit_layout_mode": 0,
 "_edit_use_custom_anchors": false
@@ -218,24 +234,158 @@ icon_mode = 0
 fixed_icon_size = Vector2(32, 32)
 
 [node name="Strong_against" type="Label" parent="Type_Matches"]
-offset_left = 142.0
+offset_left = 158.0
 offset_top = 4.0
 offset_right = 254.0
 offset_bottom = 33.0
-text = "Modifiers:"
+text = "Modified"
 __meta__ = {
 "_edit_layout_mode": 0,
+"_edit_use_anchors_": false,
 "_edit_use_custom_anchors": false
 }
 
-[node name="Content" type="Label" parent="Type_Matches/Strong_against"]
-offset_left = -32.0
+[node name="Content" type="RichTextLabel" parent="Type_Matches/Strong_against"]
+offset_left = -56.0
 offset_top = 32.0
-offset_right = 112.0
+offset_right = 88.0
 offset_bottom = 244.0
-theme_override_font_sizes/font_size = 8
-text = "Content"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/normal_font_size = 12
+
+[node name="in_use" type="Panel" parent="."]
+offset_left = 256.0
+offset_top = 48.0
+offset_right = 512.0
+offset_bottom = 304.0
+theme = ExtResource( "1_mafqa" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="use_bar" type="TabBar" parent="in_use"]
+offset_top = -40.0
+offset_right = 256.0
+theme = ExtResource( "1_mafqa" )
+clip_tabs = false
+tab_count = 2
+tab_0/title = "Cards"
+tab_1/title = "Allies"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cur_deck" type="Control" parent="in_use"]
+offset_right = 40.0
+offset_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="in_use/cur_deck"]
+offset_right = 160.0
+offset_bottom = 29.0
+text = "CURRENT DECK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="counter" type="Label" parent="in_use/cur_deck"]
+offset_left = 188.0
+offset_top = 2.0
+offset_right = 254.0
+offset_bottom = 31.0
+text = "20/30"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="deck_container" type="ScrollContainer" parent="in_use/cur_deck"]
+offset_left = 32.0
+offset_top = 60.0
+offset_right = 228.0
+offset_bottom = 237.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="deck_grid" type="GridContainer" parent="in_use/cur_deck/deck_container"]
+offset_right = 128.0
+offset_bottom = 128.0
+rect_min_size = Vector2(128, 128)
+theme_override_constants/vseparation = 2
+theme_override_constants/hseparation = 2
+columns = 3
+
+[node name="cant_label" type="Label" parent="in_use/cur_deck"]
+offset_top = 96.0
+offset_right = 256.0
+offset_bottom = 160.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_hrcyf" )
+text = "NEED AT LEAST 10
+CARDS"
+horizontal_alignment = 1
+vertical_alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cur_chars" type="Control" parent="in_use"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="in_use/cur_chars"]
+offset_right = 160.0
+offset_bottom = 29.0
+text = "CURRENT ALLIES"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="charlist" type="ItemList" parent="in_use/cur_chars"]
+offset_left = 6.0
+offset_top = 32.0
+offset_right = 250.0
+offset_bottom = 244.0
+fixed_icon_size = Vector2(48, 48)
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cant_label" type="Label" parent="in_use/cur_chars"]
+offset_top = 96.0
+offset_right = 256.0
+offset_bottom = 160.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_hrcyf" )
+text = "NEED AT LEAST
+1 ALLY"
+horizontal_alignment = 1
+vertical_alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="in_use"]
+offset_left = 32.0
+offset_top = 240.0
+offset_right = 228.0
+offset_bottom = 269.0
+text = "Click To Remove"
+horizontal_alignment = 1
+
+[node name="shaders" parent="." instance=ExtResource( "6_qv1om" )]
 
 [connection signal="item_selected" from="CharacterList" to="." method="_on_character_list_item_selected"]
 [connection signal="tab_changed" from="SearchBar" to="." method="selected_tab"]
+[connection signal="pressed" from="DataShower/add_to_deck" to="." method="add_item_to_dek"]
 [connection signal="item_selected" from="Type_Matches/TypeList" to="." method="typelist_selected"]
+[connection signal="tab_changed" from="in_use/use_bar" to="." method="use_bar_tab_changed"]
+[connection signal="item_selected" from="in_use/cur_chars/charlist" to="." method="_on_charlist_item_selected"]
