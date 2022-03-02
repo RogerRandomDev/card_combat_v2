@@ -33,12 +33,11 @@ func reload_hand():
 	for card in $CardList.get_children():
 		card.flipping_card()
 	for ally in $AllyList.get_children():
-		ally.base.selected = false
+		var do=true
 		for ally_check in Combat.action_list:
 			if ally_check.Self == ally:
-				ally.hover_anim()
-				ally.base.set_deferred('selected',true)
-				
+				do=false;break
+		if do:ally.base.selected = false
 
 #removes a card
 func remove_card():
@@ -105,8 +104,7 @@ var enemy_actions = 0
 #does the enemy actions
 func trigger_enemy_action():
 	if enemy_actions >= $EnemyList.get_child_count():
-		persistent_id=0
-		$AnimationPlayer.play("trigger_persistent")
+		reload_hand()
 		return
 	else:
 		get_node("Turn").text = "Enemy's Turn"
@@ -118,6 +116,7 @@ func trigger_enemy_action():
 #shows the card's description
 func show_card_description(card_data=""):
 	$card_description.text=card_data
+
 
 var persistent_id = 0
 #triggers persistent effects

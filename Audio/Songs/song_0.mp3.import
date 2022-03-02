@@ -1,0 +1,16 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cd70m153eil7x"
+path="res://.godot/imported/song_0.mp3-22b8f4c6d6737b45b7828ce99ff631de.mp3str"
+
+[deps]
+
+source_file="res://Audio/Songs/song_0.mp3"
+dest_files=["res://.godot/imported/song_0.mp3-22b8f4c6d6737b45b7828ce99ff631de.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0

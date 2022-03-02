@@ -6,18 +6,19 @@ var entities={}
 
 
 var current_deck={
-	"Explosion":5,
-	"Charge":5,
-	"Nova Bomb":5
+	"Punch":5,
+	"Weak Healing":5,
+	"Fireball":5,
+	"Static Shock":5
 }
-var current_char_deck=["Trider","Frog","Goblin"]
+var current_char_deck=["Angel","Demon","Flortle"]
 
 
 var available_cards = []
 
 
 
-
+var world_collision_movement_query=PhysicsShapeQueryParameters2D.new()
 
 #initializes data
 func _ready():
@@ -39,6 +40,8 @@ func _ready():
 		var type_name = type_rate.type
 		type_name[0]=type_name[0].to_upper()
 		Combat.type_matches[type_name]=type_rate
+	prepare_world_query()
+	
 
 func parse_data(data):
 	return str2var(data.replace("\t","").replace("\n",""))
@@ -62,3 +65,14 @@ func get_card_from_deck():
 
 func random_entity():
 	return entities.values()[randi_range(0,entities.size()-1)]
+
+
+#makes world collision movement shape
+func prepare_world_query():
+	var world_collision_movement_shape = RectangleShape2D.new()
+	world_collision_movement_shape.extents=Vector2(15,15)
+	world_collision_movement_query.set_shape(world_collision_movement_shape)
+	world_collision_movement_query.set_collision_mask(1)
+
+
+func get_world():return get_tree().current_scene.get_world_2d().direct_space_state

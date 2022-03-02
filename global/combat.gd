@@ -13,8 +13,7 @@ var type_matches = {}
 var selected_now = {}
 var action_list=[]
 var stored_enemy_actions = []
-var persisting_actions = []
-var temporary_persisting_actions = []
+
 
 
 var current_turn = 0
@@ -24,6 +23,13 @@ var ally_count = 3
 var enemy_count = 3
 
 var default_deck = []
+var enemy_deck=[
+	"Punch",
+	"Weak Healing",
+	"Fireball"
+]
+
+
 
 var hovering_card = null
 
@@ -138,10 +144,6 @@ func _input(_event):
 		
 		#if its the next turn action, reloads the actions
 		if current_target_type=="next_turn":
-			if !selected_now.keys().has("Self"):
-				current_target_type="Target"
-				selected_now = {}
-				return
 			selected_now.Self.base.reset_scale()
 			current_target_type="Target"
 			action_list.append(selected_now)
@@ -158,25 +160,8 @@ func stop_hovering():
 	active_hover.stop_hovering()
 	active_hover=null
 
-#does the persisting action effects
-func activate_persisting_action(id):
-	var target = persisting_actions[id].keys()[0]
-	var data = persisting_actions[id][target]
-	var offset_change_by = 1
-	data.persisting_turns-=1
-	if data.persisting_turns <= 0:
-		persisting_actions.remove_at(id)
-		target.base.remove_effect(data.name)
-		offset_change_by=0
-	if is_instance_valid(target):
-		var out = target.base.modify_action_power(data.damage_value,data.attribute,1,1,false,data.attribute,target.base.stats.attribute)
-		hit_target(target,out)
-	else:if offset_change_by==1:
-		persisting_actions.remove_at(id)
-		offset_change_by=0
-		target.base.remove_effect(data.name)
-	
-	return offset_change_by
+
+
 
 #actions for the combat events
 var stored_actions = []
@@ -213,24 +198,13 @@ func activate_actions(enemy_turn=false):
 			var recieves_action_defense = recieves_action.base.stats.Def
 			
 			#gets the attribute to use for the action
-			var does_action_power = 0
-			var modifiers={"Physical":1,"Holy":1,"Magic":1}
-			for type_split in card.attribute.split(","):
-				if type_split == "Physical":
-					does_action_power += does_action.base.stats.Str*modifiers.Physical
-					modifiers.Physical*=0.5
-				elif type_split =="Holy":
-					does_action_power += does_action.base.stats.Sup*modifiers.Holy
-					modifiers.Holy*=0.5
-				if type_split != "Physical":
-					does_action_power += does_action.base.stats.Mag*modifiers.Magic
-					modifiers.Magic*=0.5
+			var does_action_power = action_strength_modifier(does_action.base.stats,card)
 			
 			
 			#determines if it should be modified by the final stat check
 			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
 			#bonus action modifiers are done here
-			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,recieves_action,does_action)
+			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
 			
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute))
@@ -247,31 +221,6 @@ func activate_actions(enemy_turn=false):
 		if !enemy_turn:
 			get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
 	return action_list
-
-#makes them red and push back slightly
-func hit_target(target=null,strength_of=1):
-	if(target==null):return false
-	target.base.hurt(max(strength_of,1))
-	shake_camera(0.05)
-	var tween:Tween=target.create_tween()
-	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
-	tween.parallel().tween_property(target,"modulate",Color(1.0,0.5,0.5),0.125)
-	tween.tween_property(target,"rect_position",target.rect_position,0.125)
-	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
-
-#same as hit_target but green and heals
-func heal_target(target=null,strength_of=1):
-	if(target==null):return false
-	target.base.hurt(max(abs(strength_of),1),false)
-	var tween:Tween=target.create_tween()
-	tween.parallel().tween_property(target,"rect_scale",Vector2(1.25,1.25),0.125)
-	tween.parallel().tween_property(target,"modulate",Color(0.5,1.0,0.5),0.125)
-	tween.tween_property(target,"rect_scale",Vector2.ONE,0.125)
-	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
-	
-
-
-
 #enemy actions
 func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	if enemy==null:return
@@ -325,29 +274,110 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
 			target_action="hit_target"
 			target_now = target_now_a
-		
-		
-		
-	#gets the attribute to use for the action
 	
-	var card = Data.cards[enemy.base.stats.HurtCard]
-	if target_action!="hit_target":
-		card = Data.cards[enemy.base.stats.HealCard]
+	
+	#gets the attribute to use for the action
+	var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target")
+	
 	
 	card = CardFunc.build_full_card(card)
+	
 	#runs the base action code since CONVENIENCE
 	#storing previous information to re-apply after the action
 	var previous_action_list = action_list.duplicate(true)
 	action_list = [{"Self":enemy,"Card":card,"Target":target_now}]
 	action_list.append_array(stored_enemy_actions)
-	activate_actions(true)
+	var n_card = card_object.new()
+	n_card.set_data(card)
+	n_card.rect_position=Vector2(480,-64)
+	root.add_child(n_card)
+	var tween:Tween=n_card.create_tween()
+	tween.tween_property(n_card,"rect_position",Vector2(480,248),0.125)
+	enemy_turn_actions.append_array(action_list)
+	tween.tween_interval(0.125)
+	tween.tween_callback(trigger_enemy_action)
+	tween.tween_interval(0.375)
+	tween.tween_property(n_card,"rect_scale",Vector2(0,0),0.125)
+	tween.tween_callback(n_card.queue_free)
 	#storing the enemy repeat actions, and then resetting action list to what it was before
 	var stored_now = action_list.duplicate(true)
 	action_list = previous_action_list
 	stored_enemy_actions=stored_now.duplicate(true)
 
+var enemy_turn_actions = []
+#enemy action trigger
+func trigger_enemy_action():
+	var stored=action_list.duplicate(true)
+	action_list=enemy_turn_actions
+	activate_actions(true)
+	var new_stored = action_list.duplicate(true)
+	action_list=stored
+	stored_enemy_actions=new_stored.duplicate(true)
+	enemy_turn_actions.remove_at(0)
+
+#chooses card from enemy deck to use by the enemy
+func choose_card_to_use(my_stats,target_stats,do_heal=false):
+	#object to do the calculations for me
+	var basic_helper = Classes.combat_object.new()
+	
+	basic_helper.stats = target_stats
+	var max_output=0.0
+	var max_output_card="Punch"
+	var recieves_action_defense = target_stats.Def
+	#loops through cards and skips if it is the wrong type
+	for card_names in enemy_deck:
+		var card = CardFunc.build_full_card(Data.cards[card_names])
+		if card.type=="Harmful"&&do_heal||card.type=="Healing"&&!do_heal:continue
+		var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
+		var does_action_power = action_strength_modifier(my_stats,card)
+		var output_power = round(bonus_modifiers+basic_helper.modify_action_power(card.strength,card.attribute,does_action_power,recieves_action_defense,!do_heal,my_stats.Attribute,target_stats.Attribute))
+		if output_power>max_output:
+			max_output=output_power
+			max_output_card=card
+	return max_output_card
 
 
+
+#gets the stats to use for the strength of the action
+func action_strength_modifier(does_action,card):
+	var does_action_power = 0
+	var modifiers={"Physical":1,"Holy":1,"Magic":1}
+	for type_split in card.attribute.split(","):
+		if type_split == "Physical":
+			does_action_power += does_action.Str*modifiers.Physical
+			modifiers.Physical*=0.5
+		elif type_split =="Holy":
+			does_action_power += does_action.Sup*modifiers.Holy
+			modifiers.Holy*=0.5
+		else:
+			does_action_power += does_action.Mag*modifiers.Magic
+			modifiers.Magic*=0.5
+	return does_action_power
+
+
+
+
+#makes them red and push back slightly
+func hit_target(target=null,strength_of=1):
+	if(target==null):return false
+	target.base.hurt(max(strength_of,1))
+	shake_camera(0.125)
+	var tween:Tween=target.create_tween()
+	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
+	tween.parallel().tween_property(target,"modulate",Color(1.0,0.5,0.5),0.125)
+	tween.tween_property(target,"rect_position",target.rect_position,0.125)
+	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
+
+#same as hit_target but green and heals
+func heal_target(target=null,strength_of=1):
+	if(target==null):return false
+	target.base.hurt(max(abs(strength_of),1),false)
+	var tween:Tween=target.create_tween()
+	tween.parallel().tween_property(target,"rect_scale",Vector2(1.25,1.25),0.125)
+	tween.parallel().tween_property(target,"modulate",Color(0.5,1.0,0.5),0.125)
+	tween.tween_property(target,"rect_scale",Vector2.ONE,0.125)
+	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
+	
 
 
 

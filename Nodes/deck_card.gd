@@ -23,7 +23,7 @@ func _ready():
 	name_of.text = card_name
 	name_of.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	name_of.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	name_of.autowrap_mode = name_of.AUTOWRAP_WORD
+	name_of.autowrap_mode = name_of.AUTOWRAP_WORD_SMART
 	name_of.rect_size = backing.rect_size
 	attribute_icon.rect_min_size = Vector2(16,16)
 	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_attribute))

@@ -114,12 +114,12 @@ class combat_object extends Node:
 	#modifies the action power
 	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical"):
 		var modifier = 1.0
+		attack_attribute=attack_attribute.split(",")
 		
 		#attribute based modifiers
 		var modifier_for_attribute = 1.0
 		var my_attributes = attacker_attribute.split(",")
 		var your_attributes = defend_attribute.split(",")
-		var card_attributes = attack_attribute.split(",")
 		var modified_attributes = []
 		
 		#modifies the power based on your attribute to your enemy attributes
@@ -132,40 +132,15 @@ class combat_object extends Node:
 					modifier_for_attribute*=0.75;continue
 				if !Combat.type_matches[attribute].keys().has(enemy_attribute):continue
 				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
-			for enemy_attribute in card_attributes:
-				modified_attributes.append(enemy_attribute)
-				if attribute==enemy_attribute:
-					modifier_for_attribute*=0.75;continue
-				if !Combat.type_matches[attribute].keys().has(enemy_attribute):continue
-				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
+		
 		#modifier for the power of the enemy to the current defense of the target
-		var modified_strength_to_defense=max(sqrt(defense_of/max(strength_of,1)),0.5)
+		var modified_strength_to_defense=max(sqrt(strength_of/defense_of),0.5)
 		if modified_strength_to_defense<=0.125:
 			modified_strength_to_defense=0.125
 		if !modify_with_stats:
 			modifier_for_attribute=1.0
 			modified_strength_to_defense=1.0
-		return round(base_power*modifier*modified_strength_to_defense*modifier_for_attribute)
-	
-	
-	
-	var current_effects = []
-	
-	#inflicts status effects on self
-	func inflict_effect(name_of):
-		if current_effects.has(name_of):return false
-		#needs to add to list container when added
-		current_effects.append(name_of)
-	#removes inflicted status effect
-	func remove_effect(name_of):
-		if !current_effects.has(name_of):return
-		#needs to remove from list container when added
-		current_effects.erase(name_of)
-	
-
-
-
-
+		return max(round(base_power*modifier*modified_strength_to_defense*modifier_for_attribute),1)
 
 #floaty text
 class float_text extends Label:
@@ -188,6 +163,23 @@ class float_text extends Label:
 
 
 
-
-
+class world_movement extends Node:
+	var root = null
+	var collision_params=null
+	const world_tile_size=32
+	func _init():
+		collision_params = Data.world_collision_movement_query
+	
+	
+	#moves the owner in the desired direction
+	func move_in_direction(dir=Vector2.ZERO):
+		var transform_offset = Transform2D(0,root.global_position+dir*world_tile_size+Vector2(16,16))
+		collision_params.set_transform(transform_offset)
+		if Data.get_world().intersect_shape(collision_params,1).size()!=0:
+			return false
+		
+		#moves if it wont collide
+		var tween:Tween=root.create_tween()
+		tween.tween_property(root,"position",root.position+dir*world_tile_size,0.25)
+		return true
 

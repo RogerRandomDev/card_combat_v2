@@ -350,7 +350,7 @@
             "str": 3,
             "def": 5,
             "mag": 10,
-            "sup": 10,
+            "sup": 15,
             "attribute": "Plant,Earth",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
@@ -364,6 +364,66 @@
             "mag": 15,
             "sup": 5,
             "attribute": "Earth,Blood",
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
+        },
+        {
+            "name": "Angel",
+            "texture": "Angel",
+            "hp": 30,
+            "str": 5,
+            "def": 5,
+            "mag": 10,
+            "sup": 20,
+            "attribute": "Holy,Light,Sky",
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
+        },
+        {
+            "name": "Demon",
+            "texture": "Demon",
+            "hp": 30,
+            "str": 15,
+            "def": 5,
+            "mag": 10,
+            "sup": 2,
+            "attribute": "Evil,Dark,Blood",
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
+        },
+        {
+            "name": "Ningcloud",
+            "texture": "Ningcloud",
+            "hp": 30,
+            "str": 5,
+            "def": 5,
+            "mag": 20,
+            "sup": 5,
+            "attribute": "Sky,Electric",
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
+        },
+        {
+            "name": "Flortle",
+            "texture": "Flortle",
+            "hp": 30,
+            "str": 10,
+            "def": 25,
+            "mag": 10,
+            "sup": 10,
+            "attribute": "Plant,Earth,Dark",
+            "healcard": "Weak Healing",
+            "hurtcard": "Punch"
+        },
+        {
+            "name": "Reaper Plant",
+            "texture": "ReaperPlant",
+            "hp": 10,
+            "str": 5,
+            "def": 5,
+            "mag": 20,
+            "sup": 2,
+            "attribute": "Plant,Fire,Evil",
             "healcard": "Weak Healing",
             "hurtcard": "Punch"
         }

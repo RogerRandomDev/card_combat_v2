@@ -51,7 +51,7 @@ func set_text_format(ob,scale_rate=1.5):
 	ob.text ="hello there"
 	ob.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	ob.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
-	ob.autowrap_mode=name_of.AUTOWRAP_WORD
+	ob.autowrap_mode=name_of.AUTOWRAP_WORD_SMART
 	
 	
 	mouse_filter=Control.MOUSE_FILTER_PASS
@@ -76,16 +76,19 @@ func get_next_target(_a):
 
 func hover_over():
 	if get_parent().name=="cardstack":return
+	get_parent().get_parent().call_deferred('show_card_description',card_data.description)
 	var success = Combat.set_hovered(self,"Card")
-	get_parent().get_parent().show_card_description(card_data.description)
 	Combat.set_deferred('hovering_card',self)
 	if success:
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-77),0.125)
 
 func stop_hover():
-	get_parent().get_parent().show_card_description("")
+	get_parent().get_parent().call_deferred('show_card_description',"")
 	if Combat.hovering_card==self:
+		stop_hovering()
+		reset()
+		Combat.active_hover=null
 		Combat.hovering_card=null
 
 
