@@ -1,10 +1,15 @@
 res://Nodes/Card.gd
 res://Scenes/Card_View.tscn
 res://Scenes/game_combat/combat_scene.tscn
+res://Scenes/main_game.tscn
 res://Scripts/Card_View.gd
+res://Scripts/ally.gd
 res://Scripts/main.gd
+res://Scripts/main_screen.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
+res://fonts/charlistcolor.gdshader
 res://global/CardFunc.gd
 res://global/classes.gd
 res://global/combat.gd
+res://global/data.gd

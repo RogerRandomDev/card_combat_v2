@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b61hhanf0pyp7"]
+[gd_scene load_steps=23 format=3 uid="uid://b61hhanf0pyp7"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ynivg"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_yjdqk"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="8_mipat"]
 [ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="9_f5xcb"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_8penj"]
+[ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="11_2qu3r"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="11_6qc3w"]
 
 [sub_resource type="Animation" id="Animation_bw3in"]
@@ -107,6 +108,27 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_6jij1"]
+resource_name = "trigger_persistent"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"trigger_persistent_effect"
+}]
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iaos1"]
+
 [sub_resource type="Gradient" id="Gradient_m76ym"]
 offsets = PackedFloat32Array(0, 0.397351, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
@@ -137,6 +159,7 @@ hue_variation_max = 0.13
 [node name="game_base" type="Node2D"]
 
 [node name="CombatContainer" type="Control" parent="."]
+rect_clip_content = true
 offset_right = 1024.0
 offset_bottom = 600.0
 
@@ -302,6 +325,7 @@ anims/enemy_turn = SubResource( "Animation_igwnr" )
 anims/fillhand = SubResource( "Animation_ppuey" )
 anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
+anims/trigger_persistent = SubResource( "Animation_6jij1" )
 
 [node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
 rect_min_size = Vector2(1024, 600)
@@ -393,7 +417,10 @@ offset_left = 256.0
 offset_top = 408.0
 offset_right = 768.0
 offset_bottom = 431.0
+theme = ExtResource( "11_2qu3r" )
 theme_type_variation = &"HeaderSmall"
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_iaos1" )
 horizontal_alignment = 1
 autowrap_mode = 2
 

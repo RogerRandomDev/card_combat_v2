@@ -6,12 +6,11 @@ var entities={}
 
 
 var current_deck={
-	"Punch":5,
-	"Weak Healing":5,
-	"Fireball":5,
-	"Static Shock":5
+	"Explosion":5,
+	"Charge":5,
+	"Nova Bomb":5
 }
-var current_char_deck=[]
+var current_char_deck=["Trider","Frog","Goblin"]
 
 
 var available_cards = []

@@ -286,6 +286,36 @@
             "delay": 2,
             "bonusactions": "return_damage_mult:3",
             "color": "#F2653F"
+        },
+        {
+            "name": "Purify",
+            "description": "Just Don't use it on the Gods",
+            "strength": 10,
+            "variance": 3,
+            "type": "Harmful",
+            "attribute": "Holy,Light",
+            "color": "#6BFFB8"
+        },
+        {
+            "name": "Explosion",
+            "description": "EXPLOOOOSION",
+            "strength": 15,
+            "variance": 3,
+            "type": "Harmful",
+            "attribute": "Fire,Light",
+            "bonusactions": "hurt_user_mult:0.75",
+            "color": "#DE1804"
+        },
+        {
+            "name": "Nova Bomb",
+            "description": "now THIS is an EXPLOOOOSION",
+            "strength": 30,
+            "variance": 3,
+            "type": "Harmful",
+            "attribute": "Fire,Holy,Light,Electric",
+            "delay": 1,
+            "bonusactions": "hurt_user_mult:1.5",
+            "color": "#010CF5"
         }
     ],
     "Entities": [
@@ -307,7 +337,7 @@
             "hp": 30,
             "str": 20,
             "def": 20,
-            "mag": 0,
+            "mag": 1,
             "sup": 5,
             "attribute": "Plant,Earth",
             "healcard": "Weak Healing",

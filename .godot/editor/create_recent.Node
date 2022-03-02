@@ -1,10 +1,10 @@
+Button
+Control
 Label
 ItemList
-Button
 deck_grid_card (deck_card.gd)
 ScrollContainer
 GridContainer
-Control
 TabContainer
 TabBar
 RichTextLabel

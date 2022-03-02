@@ -13,6 +13,9 @@ var type_matches = {}
 var selected_now = {}
 var action_list=[]
 var stored_enemy_actions = []
+var persisting_actions = []
+var temporary_persisting_actions = []
+
 
 var current_turn = 0
 var whos_turn="Ally"
@@ -135,6 +138,10 @@ func _input(_event):
 		
 		#if its the next turn action, reloads the actions
 		if current_target_type=="next_turn":
+			if !selected_now.keys().has("Self"):
+				current_target_type="Target"
+				selected_now = {}
+				return
 			selected_now.Self.base.reset_scale()
 			current_target_type="Target"
 			action_list.append(selected_now)
@@ -151,14 +158,32 @@ func stop_hovering():
 	active_hover.stop_hovering()
 	active_hover=null
 
-
-
+#does the persisting action effects
+func activate_persisting_action(id):
+	var target = persisting_actions[id].keys()[0]
+	var data = persisting_actions[id][target]
+	var offset_change_by = 1
+	data.persisting_turns-=1
+	if data.persisting_turns <= 0:
+		persisting_actions.remove_at(id)
+		target.base.remove_effect(data.name)
+		offset_change_by=0
+	if is_instance_valid(target):
+		var out = target.base.modify_action_power(data.damage_value,data.attribute,1,1,false,data.attribute,target.base.stats.attribute)
+		hit_target(target,out)
+	else:if offset_change_by==1:
+		persisting_actions.remove_at(id)
+		offset_change_by=0
+		target.base.remove_effect(data.name)
+	
+	return offset_change_by
 
 #actions for the combat events
 var stored_actions = []
 #triggers the actions
 func activate_actions(enemy_turn=false):
 	active_target=""
+	if action_list.size()==0:return
 	selected_now = action_list[0].duplicate(true)
 	var card = selected_now.Card
 	var does_action = selected_now.Self
@@ -197,7 +222,7 @@ func activate_actions(enemy_turn=false):
 				elif type_split =="Holy":
 					does_action_power += does_action.base.stats.Sup*modifiers.Holy
 					modifiers.Holy*=0.5
-				else:
+				if type_split != "Physical":
 					does_action_power += does_action.base.stats.Mag*modifiers.Magic
 					modifiers.Magic*=0.5
 			
@@ -205,7 +230,7 @@ func activate_actions(enemy_turn=false):
 			#determines if it should be modified by the final stat check
 			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
 			#bonus action modifiers are done here
-			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
+			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,recieves_action,does_action)
 			
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute))
@@ -227,7 +252,7 @@ func activate_actions(enemy_turn=false):
 func hit_target(target=null,strength_of=1):
 	if(target==null):return false
 	target.base.hurt(max(strength_of,1))
-	shake_camera(0.125)
+	shake_camera(0.05)
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
 	tween.parallel().tween_property(target,"modulate",Color(1.0,0.5,0.5),0.125)

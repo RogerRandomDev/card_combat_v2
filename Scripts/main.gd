@@ -10,7 +10,16 @@ func _ready():
 	$AnimationPlayer.play("flipcards")
 	Combat.camera=$Camera
 	Combat.root = self
+	build_player_loadout()
 
+#sets up the player deck and allies
+func build_player_loadout():
+	for ally in $AllyList.get_child_count():
+		if ally >= Data.current_char_deck.size():
+			$AllyList.get_child(ally).queue_free();continue
+		else:
+			$AllyList.get_child(ally).base.set_data(Data.entities[Data.current_char_deck[ally]])
+			$AllyList.get_child(ally).base.load_texture()
 
 #plays the enemy's turn
 func enemy_turn_trigger():
@@ -24,11 +33,12 @@ func reload_hand():
 	for card in $CardList.get_children():
 		card.flipping_card()
 	for ally in $AllyList.get_children():
-		var do=true
+		ally.base.selected = false
 		for ally_check in Combat.action_list:
 			if ally_check.Self == ally:
-				do=false;break
-		if do:ally.base.selected = false
+				ally.hover_anim()
+				ally.base.set_deferred('selected',true)
+				
 
 #removes a card
 func remove_card():
@@ -95,7 +105,8 @@ var enemy_actions = 0
 #does the enemy actions
 func trigger_enemy_action():
 	if enemy_actions >= $EnemyList.get_child_count():
-		reload_hand()
+		persistent_id=0
+		$AnimationPlayer.play("trigger_persistent")
 		return
 	else:
 		get_node("Turn").text = "Enemy's Turn"
@@ -107,3 +118,12 @@ func trigger_enemy_action():
 #shows the card's description
 func show_card_description(card_data=""):
 	$card_description.text=card_data
+
+var persistent_id = 0
+#triggers persistent effects
+func trigger_persistent_effect():
+	if persistent_id >= Combat.persisting_actions.size():
+		persistent_id = 0
+		reload_hand()
+		return
+	persistent_id += Combat.activate_persistent_action(persistent_id)

@@ -77,9 +77,9 @@ func get_next_target(_a):
 func hover_over():
 	if get_parent().name=="cardstack":return
 	var success = Combat.set_hovered(self,"Card")
+	get_parent().get_parent().show_card_description(card_data.description)
 	Combat.set_deferred('hovering_card',self)
 	if success:
-		get_parent().get_parent().show_card_description(card_data.description)
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-77),0.125)
 

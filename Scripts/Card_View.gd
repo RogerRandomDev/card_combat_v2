@@ -11,7 +11,7 @@ func _ready():
 	load_typelist()
 	load_deck()
 	update_creature_deck()
-
+	
 #loads the types to the typelist
 func load_typelist():
 	for type in Combat.type_matches.keys():
@@ -20,9 +20,11 @@ func load_typelist():
 		$Type_Matches/TypeList.set_item_tooltip_enabled(item,false)
 
 #puts item into the list
-func load_item_to_list(name_of,texture):
+func load_item_to_list(name_of,texture,color=null):
 	$CharacterList.add_item(name_of,load(texture))
 	$CharacterList.set_item_tooltip_enabled($CharacterList.get_item_count()-1,false)
+	if color!=null:
+		$CharacterList.set_item_icon_modulate($CharacterList.get_item_count()-1,color)
 
 #empties the item list
 func empty_list():
@@ -46,11 +48,17 @@ func load_new_items():
 		list_used=Data.entities.values()
 	else:
 		list_used=Data.cards.values()
+	
+	
 	for object in list_used:
 		var tex_to_use="res://Textures/Card.png"
 		if object.keys().has("texture"):
 			tex_to_use="res://Textures/entities/"+object.texture+".png"
-		load_item_to_list(object.name,tex_to_use)
+		var col = null
+		if object.keys().has("color"):
+			col=Color(object.color)
+		load_item_to_list(object.name,tex_to_use,col)
+		
 
 
 #shows the creature data for the datashower
@@ -65,6 +73,7 @@ func show_Creatures(data):
 		Sprite.ignore_texture_size=true
 		Sprite.texture = load("res://Textures/attributes/"+type+".png")
 		$DataShower/ent/TypeList.add_child(Sprite)
+	$DataShower/ent/StatList.add_item("Health: "+str(data.hp))
 	$DataShower/ent/StatList.add_item("Strength: "+str(data.str))
 	$DataShower/ent/StatList.add_item("Defense: "+str(data.def))
 	$DataShower/ent/StatList.add_item("Support: "+str(data.sup))
@@ -85,6 +94,7 @@ func show_Cards(data):
 		Sprite.ignore_texture_size=true
 		Sprite.texture = load("res://Textures/attributes/"+type+".png")
 		$DataShower/card/Attributelist.add_child(Sprite)
+		
 	$DataShower/card/Description_out.text = "(a)".replace("a",data.type)+"\n"+data.description
 	$DataShower/card/power_out.text = str(data.strength-data.variance)+"-"+str(data.strength+data.variance)
 	$DataShower/card.show()
