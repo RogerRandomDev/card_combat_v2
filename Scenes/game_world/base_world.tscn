@@ -1,7 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4y4kyfnceddd"]
+[gd_scene load_steps=4 format=3 uid="uid://c4y4kyfnceddd"]
 
 [ext_resource type="PackedScene" uid="uid://bc6u3wsjcii1j" path="res://Scenes/game_world/player.tscn" id="1_gddar"]
+[ext_resource type="TileSet" uid="uid://dgxnxhac0w05w" path="res://Nodes/game_tiles.tres" id="2_62a3c"]
+[ext_resource type="Script" path="res://Scripts/dungeon_builder.gd" id="2_jygd0"]
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Map" type="TileMap" parent="."]
+tile_set = ExtResource( "2_62a3c" )
+format = 2
+layer_0/name = "ground"
+script = ExtResource( "2_jygd0" )
+map_w = 160
+map_h = 100
+min_cave_size = 157
+
 [node name="Player" parent="." instance=ExtResource( "1_gddar" )]
+position = Vector2(32, 32)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-32, -32)
+current = true
+smoothing_enabled = true
+smoothing_speed = 15.0

@@ -1,3 +1,8 @@
+Camera2D
+GPUParticles2D
+TileMap
+GraphNode
+AnimationPlayer
 Sprite2D
 CollisionShape2D
 StaticBody2D
@@ -17,15 +22,11 @@ VBoxContainer
 TextureRect
 TextEdit
 Node
-GPUParticles2D
 CanvasLayer
-Camera2D
 ColorRect
 SubViewport
 SubViewportContainer
 Node2D
 CPUParticles2D
-AnimationPlayer
 Timer
 card_object (Card.gd)
-HBoxContainer

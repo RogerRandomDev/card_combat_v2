@@ -181,5 +181,8 @@ class world_movement extends Node:
 		#moves if it wont collide
 		var tween:Tween=root.create_tween()
 		tween.tween_property(root,"position",root.position+dir*world_tile_size,0.25)
+		tween.tween_callback(stop_particles)
 		return true
+	func stop_particles():
+		root.get_node("moveparticles").emitting=false
 
