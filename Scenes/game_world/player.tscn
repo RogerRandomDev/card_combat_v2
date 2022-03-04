@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0ejg5h2fjlci" path="res://Textures/entities/Flortle.png" id="2_8m0vr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gms0g"]
-size = Vector2(32, 32)
+size = Vector2(8, 8)
 
 [sub_resource type="Animation" id="Animation_vguc2"]
 resource_name = "move"
@@ -37,19 +37,19 @@ z_index = 4
 script = ExtResource( "1_e00hi" )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(16, 16)
+position = Vector2(4, 4)
 shape = SubResource( "RectangleShape2D_gms0g" )
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(16, 16)
-scale = Vector2(2.286, 2.286)
+position = Vector2(4, 4)
+scale = Vector2(0.572, 0.572)
 texture = ExtResource( "2_8m0vr" )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/move = SubResource( "Animation_vguc2" )
 
 [node name="moveparticles" type="CPUParticles2D" parent="."]
-position = Vector2(16, 24)
+position = Vector2(4, 6)
 z_index = -2
 emitting = false
 amount = 6
@@ -60,7 +60,7 @@ draw_order = 1
 gravity = Vector2(0, 0)
 angle_min = -180.0
 angle_max = 180.0
-scale_amount_min = 8.0
-scale_amount_max = 12.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
 scale_amount_curve = SubResource( "Curve_wwpt3" )
 color_ramp = SubResource( "Gradient_0nwdb" )

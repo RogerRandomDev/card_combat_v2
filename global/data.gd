@@ -70,7 +70,7 @@ func random_entity():
 #makes world collision movement shape
 func prepare_world_query():
 	var world_collision_movement_shape = RectangleShape2D.new()
-	world_collision_movement_shape.extents=Vector2(15,15)
+	world_collision_movement_shape.extents=Vector2(3,3)
 	world_collision_movement_query.set_shape(world_collision_movement_shape)
 	world_collision_movement_query.set_collision_mask(1)
 

@@ -12,7 +12,7 @@ var caves = []
 var unused_cell = Vector2.ZERO
 func _ready():
 	generate()
-	get_parent().get_node("Player").position = unused_cell*Vector2i(32,32)
+	get_parent().get_node("Player").position = unused_cell*Vector2i(8,8)
 #utility
 # the percent chance something happens
 func chance(num):
@@ -42,6 +42,7 @@ func fill_roof():
 	for x in range(0, map_w):
 		for y in range(0, map_h):
 			set_cell(0,Vector2i(x,y),0,Vector2i(0,0),0)
+			set_cell(1,Vector2i(x,y),1,Vector2i(0,0),0)
 
 func random_ground():
 	for x in range(1, map_w-1):
@@ -92,7 +93,7 @@ func get_caves():
 
 func flood_fill(tilex, tiley):
 	var cave = []
-	var to_fill = [Vector2(tilex, tiley)]
+	var to_fill = [Vector2i(tilex, tiley)]
 	while to_fill:
 		var tile = to_fill.pop_back()
 
@@ -101,10 +102,10 @@ func flood_fill(tilex, tiley):
 			set_cell(0,tile, 0,Vector2i(0,0),0)
 
 			#check adjacent cells
-			var north = Vector2(tile.x, tile.y-1)
-			var south = Vector2(tile.x, tile.y+1)
-			var east  = Vector2(tile.x+1, tile.y)
-			var west  = Vector2(tile.x-1, tile.y)
+			var north = Vector2i(tile.x, tile.y-1)
+			var south = Vector2i(tile.x, tile.y+1)
+			var east  = Vector2i(tile.x+1, tile.y)
+			var west  = Vector2i(tile.x-1, tile.y)
 
 			for dir in [north,south,east,west]:
 				if get_cell_source_id(0,dir,false) == -1:
@@ -138,7 +139,7 @@ func create_tunnel(point1, point2, cave):
 	var drunk_x = point2[0]
 	var drunk_y = point2[1]
 
-	while steps < max_steps and !cave.has(Vector2(drunk_x, drunk_y)):
+	while steps < max_steps and !cave.has(Vector2i(drunk_x, drunk_y)):
 		steps += 1
 
 		# set initial dir weights
@@ -189,7 +190,7 @@ func create_tunnel(point1, point2, cave):
 			(2 < drunk_y + dy and drunk_y + dy < map_h-2):
 			drunk_x += dx
 			drunk_y += dy
-			if get_cell_source_id(0,Vector2(drunk_x, drunk_y),false) == 0:
+			if get_cell_source_id(0,Vector2i(drunk_x, drunk_y),false) == 0:
 				set_cell(0,Vector2i(drunk_x, drunk_y), -1)
 
 				# optional: make tunnel wider

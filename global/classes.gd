@@ -176,14 +176,14 @@ class float_text extends Label:
 class world_movement extends Node:
 	var root = null
 	var collision_params=null
-	const world_tile_size=32
+	const world_tile_size=8
 	func _init():
 		collision_params = Data.world_collision_movement_query
 	
 	
 	#moves the owner in the desired direction
 	func move_in_direction(dir=Vector2.ZERO):
-		var transform_offset = Transform2D(0,root.global_position+dir*world_tile_size+Vector2(16,16))
+		var transform_offset = Transform2D(0,root.global_position+dir*world_tile_size+Vector2(world_tile_size/2.0,world_tile_size/2.0))
 		collision_params.set_transform(transform_offset)
 		if Data.get_world().intersect_shape(collision_params,1).size()!=0:
 			return false
