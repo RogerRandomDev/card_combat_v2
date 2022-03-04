@@ -1,0 +1,169 @@
+[gd_scene load_steps=8 format=3 uid="uid://bvhwxl13glr42"]
+
+[ext_resource type="Theme" uid="uid://cevxukloqibx0" path="res://fonts/titletheme.tres" id="1_du530"]
+[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="1_o8fwo"]
+[ext_resource type="Script" path="res://Scenes/title/title.gd" id="1_smx5k"]
+[ext_resource type="Script" path="res://Scenes/title/CharacterScrolling.gd" id="3_6tfye"]
+[ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="5_bq5ws"]
+[ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="6_eqa7n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xw4b8"]
+bg_color = Color(0.529412, 0.956863, 0.803922, 1)
+border_width_top = 4
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( "1_du530" )
+script = ExtResource( "1_smx5k" )
+
+[node name="main_menu" type="Control" parent="."]
+rect_min_size = Vector2(1024, 600)
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource( "1_du530" )
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="listback" type="Panel" parent="main_menu"]
+offset_right = 224.0
+offset_bottom = 600.0
+size_flags_vertical = 3
+theme = ExtResource( "1_du530" )
+theme_override_styles/panel = SubResource( "StyleBoxFlat_xw4b8" )
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="listback2" type="Panel" parent="main_menu"]
+offset_left = 216.0
+offset_right = 736.0
+offset_bottom = 161.0
+size_flags_vertical = 3
+theme = ExtResource( "1_du530" )
+theme_override_styles/panel = SubResource( "StyleBoxFlat_xw4b8" )
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="buttonlist" type="VBoxContainer" parent="main_menu"]
+offset_left = 64.0
+offset_top = 184.0
+offset_right = 192.0
+offset_bottom = 456.0
+theme = ExtResource( "1_du530" )
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="Button" type="Button" parent="main_menu/buttonlist"]
+offset_top = 4.0
+offset_right = 128.0
+offset_bottom = 46.0
+size_flags_vertical = 6
+theme = ExtResource( "1_du530" )
+text = "Play"
+
+[node name="Button2" type="Button" parent="main_menu/buttonlist"]
+offset_top = 59.0
+offset_right = 128.0
+offset_bottom = 101.0
+size_flags_vertical = 6
+theme = ExtResource( "1_du530" )
+text = "Settings"
+
+[node name="Button3" type="Button" parent="main_menu/buttonlist"]
+offset_top = 114.0
+offset_right = 128.0
+offset_bottom = 156.0
+size_flags_vertical = 6
+theme = ExtResource( "1_du530" )
+text = "Credits"
+
+[node name="Button4" type="Button" parent="main_menu/buttonlist"]
+offset_top = 169.0
+offset_right = 128.0
+offset_bottom = 211.0
+size_flags_vertical = 6
+theme = ExtResource( "1_du530" )
+text = "More"
+
+[node name="Button5" type="Button" parent="main_menu/buttonlist"]
+offset_top = 225.0
+offset_right = 128.0
+offset_bottom = 267.0
+size_flags_vertical = 6
+theme = ExtResource( "1_du530" )
+text = "Quit
+"
+
+[node name="Title" type="Label" parent="main_menu"]
+anchor_left = 0.063
+anchor_top = 0.038
+anchor_right = 0.063
+anchor_bottom = 0.038
+offset_left = -0.512001
+offset_top = 0.200001
+offset_right = 645.488
+offset_bottom = 106.2
+theme = ExtResource( "1_du530" )
+theme_override_font_sizes/font_size = 48
+text = "CARD COMBATANTS"
+horizontal_alignment = 1
+vertical_alignment = 1
+__meta__ = {
+"_edit_layout_mode": 1,
+"_edit_use_custom_anchors": true
+}
+
+[node name="CharacterScrolling" type="Control" parent="main_menu"]
+show_behind_parent = true
+offset_left = 8.0
+offset_top = 192.0
+offset_right = 1024.0
+offset_bottom = 192.0
+script = ExtResource( "3_6tfye" )
+
+[node name="Node" parent="." instance=ExtResource( "1_o8fwo" )]
+
+[node name="background" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_top = -95.766
+offset_right = 1024.0
+offset_bottom = 416.234
+mouse_filter = 2
+texture = ExtResource( "5_bq5ws" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="table" type="TextureRect" parent="."]
+show_behind_parent = true
+offset_top = 319.22
+offset_right = 1024.0
+offset_bottom = 831.22
+mouse_filter = 2
+texture = ExtResource( "6_eqa7n" )
+ignore_texture_size = true
+stretch_mode = 5
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[connection signal="pressed" from="main_menu/buttonlist/Button" to="." method="play_pressed"]
+[connection signal="pressed" from="main_menu/buttonlist/Button2" to="." method="settings_pressed"]
+[connection signal="pressed" from="main_menu/buttonlist/Button3" to="." method="credits_pressed"]
+[connection signal="pressed" from="main_menu/buttonlist/Button4" to="." method="more_pressed"]
+[connection signal="pressed" from="main_menu/buttonlist/Button5" to="." method="quit_pressed"]

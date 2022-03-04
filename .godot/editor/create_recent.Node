@@ -1,3 +1,10 @@
+Control
+HBoxContainer
+Panel
+Label
+Button
+VBoxContainer
+ColorRect
 ItemList
 Camera2D
 GPUParticles2D
@@ -7,26 +14,19 @@ AnimationPlayer
 Sprite2D
 CollisionShape2D
 StaticBody2D
-Button
-Control
-Label
 deck_grid_card (deck_card.gd)
 ScrollContainer
 GridContainer
 TabContainer
 TabBar
 RichTextLabel
-Panel
 PopupPanel
-VBoxContainer
 TextureRect
 TextEdit
 Node
 CanvasLayer
-ColorRect
 SubViewport
 SubViewportContainer
 Node2D
 CPUParticles2D
 Timer
-card_object (Card.gd)

@@ -49,7 +49,7 @@ func modify_by_action(action_name,card_data,user,target):
 			if(user!=null&&target!=null):
 				var effect_data = {
 					"effect":changer.split("|")[0],"strength":str2var(changer.split("|")[1]),
-					"duration_left":str2var(changer.split("|")[2]),"target":target
+					"duration_left":randi_range(1,str2var(changer.split("|")[2])),"target":target
 				}
 				var do=true
 				#removes previous effect to ensure it doesnt stack two of the same type

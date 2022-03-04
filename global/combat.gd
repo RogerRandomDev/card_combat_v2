@@ -207,7 +207,7 @@ func activate_actions(enemy_turn=false):
 			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,does_action,recieves_action)
 			
 			#final modifier for the strength of the action
-			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute))
+			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute,does_action.base.buffs,recieves_action.base.buffs))
 			#finishes the action
 			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
 			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)
@@ -391,7 +391,7 @@ func activate_persistent_action(id):
 	):
 		persisting_actions.remove_at(id)
 		#actions if the objects is valid still
-		if(is_instance_valid(action_data.target)):
+		if(is_instance_valid(action_data.target))&&!action_data.target.is_queued_for_deletion()&&is_instance_valid(action_data.target.base):
 			action_data.target.base.remove_effect_icon(action_data.effect)
 		return 0
 	hit_target(action_data.target,action_data.strength)

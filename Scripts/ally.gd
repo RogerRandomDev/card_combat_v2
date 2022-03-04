@@ -59,3 +59,10 @@ func been_seleced():return base.selected
 #resets scaling
 func reset():
 	base.next_reset()
+	call_deferred('check_if_selected')
+func check_if_selected():
+	for action_list in Combat.action_list:
+		if action_list.Self==self:
+			$AnimationPlayer.play("hovered")
+			select()
+			return

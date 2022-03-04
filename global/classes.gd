@@ -16,6 +16,7 @@ class combat_object extends Node:
 	var root=null
 	var object_type="Ally"
 	var selected=false
+	var buffs = []
 	
 	var stats = {
 		"maxHp":50,
@@ -122,7 +123,7 @@ class combat_object extends Node:
 	func load_texture():
 		root.get_node("SpriteHolder/TextureRect").texture = load("res://Textures/entities/"+texture+".png")
 	#modifies the action power
-	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical"):
+	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical",attacker_buffs=[],defender_buffs=[]):
 		var modifier = 1.0
 		attack_attribute=attack_attribute.split(",")
 		
@@ -142,6 +143,12 @@ class combat_object extends Node:
 					modifier_for_attribute*=0.75;continue
 				if !Combat.type_matches[attribute].keys().has(enemy_attribute):continue
 				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
+		#modifiers based on buffs
+		var buff_based_modifiers = 1.0
+		for buff in attacker_buffs:
+			if(buff.name=="Damage"):buff_based_modifiers*=(buff.value)
+		for buff in defender_buffs:
+			if(buff.name=="Defense"):buff_based_modifiers*=(1/buff.value)
 		
 		#modifier for the power of the enemy to the current defense of the target
 		var modified_strength_to_defense=max(sqrt(strength_of/defense_of),0.5)
@@ -150,7 +157,7 @@ class combat_object extends Node:
 		if !modify_with_stats:
 			modifier_for_attribute=1.0
 			modified_strength_to_defense=1.0
-		return max(round(base_power*modifier*modified_strength_to_defense*modifier_for_attribute),1)
+		return max(round(base_power*modifier*modified_strength_to_defense*modifier_for_attribute*buff_based_modifiers),1)
 
 #floaty text
 class float_text extends Label:

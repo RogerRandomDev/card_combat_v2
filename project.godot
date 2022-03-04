@@ -27,22 +27,22 @@ _global_script_class_icons={
 [application]
 
 config/name="card_combat_2.0"
-run/main_scene="res://Scenes/main_game.tscn"
+run/main_scene="res://Scenes/title/title.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0")
 
 [autoload]
 
-Combat="*res://global/combat.gd"
-Data="*res://global/data.gd"
 Global="*res://global/global.gd"
-Classes="*res://global/classes.gd"
+Save="*res://global/Save.gd"
+Data="*res://global/data.gd"
+Combat="*res://global/combat.gd"
 CardFunc="*res://global/CardFunc.gd"
+Classes="*res://global/classes.gd"
 
 [display]
 
 window/stretch/mode="viewport"
-window/stretch/aspect="keep_width"
 
 [editor]
 

@@ -196,6 +196,7 @@ func add_item_to_dek():
 		if Data.current_deck[cur_data.name]>=5:return
 		Data.current_deck[cur_data.name]+=1
 		load_deck()
+		Save.store_save()
 
 #update the creature deck
 func update_creature_deck():

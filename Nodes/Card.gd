@@ -94,7 +94,7 @@ func stop_hover():
 
 func stop_hovering():
 	Combat.hovering_card=null
-	if Combat.current_target_type=="Card":
+	if Combat.current_target_type=="Card"&&get_parent().name=="CardList":
 		get_parent().get_parent().show_card_description(card_data.description)
 		var tween:Tween=card_backing.create_tween()
 		tween.tween_property(card_backing,"rect_position",Vector2(-32,-47),0.125)
