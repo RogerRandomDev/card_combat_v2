@@ -32,16 +32,23 @@ class combat_object extends Node:
 		"HealCard":"Weak Healing",
 		"HurtCard":"Punch"
 		}
+	var active_effects = {}
 	func _ready():
 		randomize()
-	
+		
 	
 	func hover(do_animate=true):return Combat.set_hovered(root,object_type,do_animate)
 	
 	func stop_hover():return Combat.set_hovered(null,object_type)
 	
-	
-	
+	#apply and remove status effect icons
+	func apply_effect(effect_name):
+		root.get_node("statuslist").add_icon_item(load("res://Textures/status_effects/"+effect_name+".png"))
+		root.get_node("statuslist").set_item_tooltip_enabled(root.get_node("statuslist").get_item_count()-1,false)
+		active_effects[effect_name]=root.get_node("statuslist").get_item_count()
+	func remove_effect_icon(effect_name):
+		root.get_node("statslist").remove_item(active_effects[effect_name])
+		active_effects.erase(effect_name)
 	func reset_position():
 		root.get_node("AnimationPlayer").stop()
 		var tween:Tween=root.get_node("SpriteHolder").create_tween()
@@ -66,6 +73,9 @@ class combat_object extends Node:
 	
 	#deals damage and shows the float text
 	func hurt(val,damaging=true):
+		#player can't die
+		if object_type!="Enemy":return
+		
 		var floaty=Classes.float_text.new()
 		floaty.rect_global_position=root.rect_global_position-Vector2(sign(root.hit_direction().x)*16,0)
 		root.get_parent().get_parent().add_child(floaty)

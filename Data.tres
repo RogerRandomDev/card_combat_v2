@@ -4,13 +4,13 @@
             "type": "Air",
             "air": 0.75,
             "earth": 0.75,
-            "water": 0.75,
+            "water": 1,
             "fire": 1.25,
             "sky": 1.5,
             "plant": 0.5,
             "blood": 1,
             "soul": 1.5,
-            "physical": 0.75,
+            "physical": 1,
             "holy": 1,
             "evil": 1,
             "dark": 1,
@@ -61,7 +61,7 @@
             "plant": 0.25,
             "blood": 0.75,
             "soul": 0.75,
-            "physical": 0.5,
+            "physical": 0.75,
             "holy": 1,
             "evil": 1,
             "dark": 1,
@@ -70,7 +70,7 @@
         },
         {
             "type": "Sky",
-            "air": 0.5,
+            "air": 1,
             "earth": 0.75,
             "water": 1,
             "fire": 1,
@@ -87,11 +87,11 @@
         },
         {
             "type": "Plant",
-            "air": 0.5,
+            "air": 1,
             "earth": 0.5,
             "water": 0.5,
             "fire": 2,
-            "sky": 0.5,
+            "sky": 1,
             "plant": 0.75,
             "blood": 0.75,
             "soul": 1,
@@ -104,8 +104,8 @@
         },
         {
             "type": "Blood",
-            "air": 0.75,
-            "earth": 0.75,
+            "air": 1,
+            "earth": 1,
             "water": 1,
             "fire": 1.25,
             "sky": 0.75,
@@ -148,34 +148,34 @@
             "soul": 0,
             "physical": 5,
             "holy": 0.875,
-            "evil": 2,
-            "dark": 3,
-            "light": 0.5,
+            "evil": 1.5,
+            "dark": 1.5,
+            "light": 1,
             "electric": 2
         },
         {
             "type": "Holy",
-            "air": 0.75,
-            "earth": 0.75,
-            "water": 0.75,
-            "fire": 0.75,
+            "air": 1,
+            "earth": 1,
+            "water": 1,
+            "fire": 1,
             "sky": 1,
             "plant": 1.25,
             "blood": 1,
             "soul": 2,
             "physical": 0.5,
             "holy": 0.75,
-            "evil": 2,
+            "evil": 1.5,
             "dark": 1.5,
             "light": 0.5,
-            "electric": 0.75
+            "electric": 1
         },
         {
             "type": "Evil",
-            "air": 0.75,
-            "earth": 0.75,
-            "water": 0.75,
-            "fire": 0.75,
+            "air": 1,
+            "earth": 1,
+            "water": 1,
+            "fire": 1,
             "sky": 0.75,
             "plant": 0.75,
             "blood": 0.25,
@@ -185,7 +185,7 @@
             "evil": 0.75,
             "dark": 0.5,
             "light": 1.5,
-            "electric": 0.75
+            "electric": 1
         },
         {
             "type": "Dark",
@@ -206,9 +206,9 @@
         },
         {
             "type": "Light",
-            "air": 0.875,
+            "air": 1,
             "earth": 1.5,
-            "water": 0.75,
+            "water": 1,
             "fire": 0.5,
             "sky": 0.5,
             "plant": 5,
@@ -219,13 +219,13 @@
             "evil": 2,
             "dark": 1.5,
             "light": 0.75,
-            "electric": 0.75
+            "electric": 1
         },
         {
             "type": "Electric",
             "air": 0.75,
             "earth": 2,
-            "water": 0.5,
+            "water": 1,
             "fire": 1.5,
             "sky": 1.25,
             "plant": 0.5,
@@ -235,8 +235,8 @@
             "holy": 1.25,
             "evil": 1.25,
             "dark": 1.5,
-            "light": 0.5,
-            "electric": 0.75
+            "light": 1,
+            "electric": 1
         }
     ],
     "Cards": [
@@ -316,6 +316,17 @@
             "delay": 1,
             "bonusactions": "hurt_user_mult:1.5",
             "color": "#010CF5"
+        },
+        {
+            "name": "Poison Needle",
+            "description": "Poison your enemies",
+            "strength": 5,
+            "variance": 5,
+            "type": "Harmful",
+            "attribute": "Holy,Evil",
+            "delay": 0,
+            "bonusactions": "inflict_effect_on_target:Poison|5|10",
+            "color": "#09f441"
         }
     ],
     "Entities": [
@@ -327,9 +338,7 @@
             "def": 3,
             "mag": 2,
             "sup": 2,
-            "attribute": "Earth",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Earth,Water"
         },
         {
             "name": "Trider",
@@ -339,9 +348,7 @@
             "def": 20,
             "mag": 1,
             "sup": 5,
-            "attribute": "Plant,Earth",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Plant,Earth"
         },
         {
             "name": "Mush",
@@ -351,9 +358,7 @@
             "def": 5,
             "mag": 10,
             "sup": 15,
-            "attribute": "Plant,Earth",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Plant,Earth"
         },
         {
             "name": "Goblin",
@@ -363,9 +368,7 @@
             "def": 10,
             "mag": 15,
             "sup": 5,
-            "attribute": "Earth,Blood",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Earth,Blood"
         },
         {
             "name": "Angel",
@@ -375,9 +378,7 @@
             "def": 5,
             "mag": 10,
             "sup": 20,
-            "attribute": "Holy,Light,Sky",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Holy,Light,Sky"
         },
         {
             "name": "Demon",
@@ -387,9 +388,7 @@
             "def": 5,
             "mag": 10,
             "sup": 2,
-            "attribute": "Evil,Dark,Blood",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Evil,Dark,Blood"
         },
         {
             "name": "Ningcloud",
@@ -399,9 +398,7 @@
             "def": 5,
             "mag": 20,
             "sup": 5,
-            "attribute": "Sky,Electric",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Sky,Electric"
         },
         {
             "name": "Flortle",
@@ -411,9 +408,17 @@
             "def": 25,
             "mag": 10,
             "sup": 10,
-            "attribute": "Plant,Earth,Dark",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Plant,Earth,Dark"
+        },
+        {
+            "name": "Vortle",
+            "texture": "Vortle",
+            "hp": 30,
+            "str": 10,
+            "def": 25,
+            "mag": 10,
+            "sup": 10,
+            "attribute": "Earth,Fire,Dark"
         },
         {
             "name": "Reaper Plant",
@@ -423,9 +428,57 @@
             "def": 5,
             "mag": 20,
             "sup": 2,
-            "attribute": "Plant,Fire,Evil",
-            "healcard": "Weak Healing",
-            "hurtcard": "Punch"
+            "attribute": "Plant,Fire,Evil"
+        },
+        {
+            "name": "Mush Lord",
+            "texture": "Mushlord",
+            "hp": 25,
+            "str": 3,
+            "def": 10,
+            "mag": 20,
+            "sup": 25,
+            "attribute": "Plant,Evil,Dark,Earth,Sky,Water"
+        },
+        {
+            "name": "Wandering Soul",
+            "texture": "Wanderingspirit",
+            "hp": 10,
+            "str": 5,
+            "def": 5,
+            "mag": 7,
+            "sup": 5,
+            "attribute": "Soul"
+        },
+        {
+            "name": "Stone Golem",
+            "texture": "Stonegolem",
+            "hp": 30,
+            "str": 20,
+            "def": 20,
+            "mag": 1,
+            "sup": 1,
+            "attribute": "Earth,Dark,Blood"
+        },
+        {
+            "name": "Dirt Golem",
+            "texture": "Dirtgolem",
+            "hp": 20,
+            "str": 10,
+            "def": 15,
+            "mag": 5,
+            "sup": 15,
+            "attribute": "Earth,Dark"
+        },
+        {
+            "name": "Linny",
+            "texture": "Linny",
+            "hp": 10,
+            "str": 5,
+            "def": 5,
+            "mag": 20,
+            "sup": 40,
+            "attribute": "Water"
         }
     ]
 }

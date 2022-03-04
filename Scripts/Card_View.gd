@@ -78,6 +78,11 @@ func show_Creatures(data):
 	$DataShower/ent/StatList.add_item("Defense: "+str(data.def))
 	$DataShower/ent/StatList.add_item("Support: "+str(data.sup))
 	$DataShower/ent/StatList.add_item("Magic: "+str(data.mag))
+	$DataShower/ent/StatList.set_item_tooltip_enabled(0,false)
+	$DataShower/ent/StatList.set_item_tooltip_enabled(1,false)
+	$DataShower/ent/StatList.set_item_tooltip_enabled(2,false)
+	$DataShower/ent/StatList.set_item_tooltip_enabled(3,false)
+	$DataShower/ent/StatList.set_item_tooltip_enabled(4,false)
 	$DataShower/card.hide()
 	$DataShower/ent.show()
 

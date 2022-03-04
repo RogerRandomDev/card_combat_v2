@@ -1,3 +1,4 @@
+ItemList
 Camera2D
 GPUParticles2D
 TileMap
@@ -9,7 +10,6 @@ StaticBody2D
 Button
 Control
 Label
-ItemList
 deck_grid_card (deck_card.gd)
 ScrollContainer
 GridContainer

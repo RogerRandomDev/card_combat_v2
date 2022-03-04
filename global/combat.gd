@@ -13,7 +13,7 @@ var type_matches = {}
 var selected_now = {}
 var action_list=[]
 var stored_enemy_actions = []
-
+var persisting_actions = []
 
 
 var current_turn = 0
@@ -204,7 +204,7 @@ func activate_actions(enemy_turn=false):
 			#determines if it should be modified by the final stat check
 			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
 			#bonus action modifiers are done here
-			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
+			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,does_action,recieves_action)
 			
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute))
@@ -277,10 +277,8 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	
 	
 	#gets the attribute to use for the action
-	var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target")
+	var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target").duplicate(true)
 	
-	
-	card = CardFunc.build_full_card(card)
 	
 	#runs the base action code since CONVENIENCE
 	#storing previous information to re-apply after the action
@@ -288,7 +286,9 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	action_list = [{"Self":enemy,"Card":card,"Target":target_now}]
 	action_list.append_array(stored_enemy_actions)
 	var n_card = card_object.new()
+	card = CardFunc.build_full_card(card.duplicate(true))
 	n_card.set_data(card)
+	n_card.call_deferred('set_data',card)
 	n_card.rect_position=Vector2(480,-64)
 	root.add_child(n_card)
 	var tween:Tween=n_card.create_tween()
@@ -313,7 +313,8 @@ func trigger_enemy_action():
 	var new_stored = action_list.duplicate(true)
 	action_list=stored
 	stored_enemy_actions=new_stored.duplicate(true)
-	enemy_turn_actions.remove_at(0)
+	if enemy_turn_actions.size()!=0:
+		enemy_turn_actions.remove_at(0)
 
 #chooses card from enemy deck to use by the enemy
 func choose_card_to_use(my_stats,target_stats,do_heal=false):
@@ -328,7 +329,7 @@ func choose_card_to_use(my_stats,target_stats,do_heal=false):
 	for card_names in enemy_deck:
 		var card = CardFunc.build_full_card(Data.cards[card_names])
 		if card.type=="Harmful"&&do_heal||card.type=="Healing"&&!do_heal:continue
-		var bonus_modifiers = CardFunc.damage_modified_by_bonus(card)
+		var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,null,null)
 		var does_action_power = action_strength_modifier(my_stats,card)
 		var output_power = round(bonus_modifiers+basic_helper.modify_action_power(card.strength,card.attribute,does_action_power,recieves_action_defense,!do_heal,my_stats.Attribute,target_stats.Attribute))
 		if output_power>max_output:
@@ -378,6 +379,26 @@ func heal_target(target=null,strength_of=1):
 	tween.tween_property(target,"rect_scale",Vector2.ONE,0.125)
 	tween.tween_property(target,"modulate",Color(1.0,1.0,1.0),0.125)
 	
+
+
+#persisting effect actions
+func activate_persistent_action(id):
+	var action_data = persisting_actions[id]
+	#removal conditions
+	if (
+		!is_instance_valid(action_data.target)||
+		action_data.duration_left <=0
+	):
+		persisting_actions.remove_at(id)
+		#actions if the objects is valid still
+		if(is_instance_valid(action_data.target)):
+			action_data.target.base.remove_effect_icon(action_data.effect)
+		return 0
+	hit_target(action_data.target,action_data.strength)
+	action_data.duration_left-=1
+	persisting_actions[id]=action_data
+	return 1
+
 
 
 

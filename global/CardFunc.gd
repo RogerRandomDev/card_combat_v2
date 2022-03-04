@@ -23,17 +23,17 @@ func build_full_card(card_data):
 
 
 #damage bonus modifiers are done here
-func damage_modified_by_bonus(card_data,_a=0,_B=0):
+func damage_modified_by_bonus(card_data,user,target):
 	var bonus_actions = card_data.bonusactions.split(",")
 	
 	var bonus_modified_damage = 0
 	for action in bonus_actions:
-		bonus_modified_damage+=modify_by_action(action,card_data)
+		bonus_modified_damage+=modify_by_action(action,card_data,user,target)
 	return bonus_modified_damage
 
 
 #action modifier logic is done here
-func modify_by_action(action_name,card_data):
+func modify_by_action(action_name,card_data,user,target):
 	var base = action_name.split(":")
 	var changer = 1
 	if base.size()!=1:
@@ -41,5 +41,23 @@ func modify_by_action(action_name,card_data):
 	var action = base[0]
 	match action:
 		"return_damage_mult":
-			return round(card_data.stored_damage*str2var(changer))
+			return round(card_data.stored_damage*changer)
+		"hurt_user_mult":
+			if(user!=null):
+				Combat.hit_target(user,card_data.strength*changer)
+		"inflict_effect_on_target":
+			if(user!=null&&target!=null):
+				var effect_data = {
+					"effect":changer.split("|")[0],"strength":str2var(changer.split("|")[1]),
+					"duration_left":str2var(changer.split("|")[2]),"target":target
+				}
+				var do=true
+				#removes previous effect to ensure it doesnt stack two of the same type
+				for effect_already in Combat.persisting_actions:
+					if effect_already.target==target&&effect_already.effect==effect_data.effect:
+						do=false;break
+				if do:
+					target.base.apply_effect(effect_data.effect)
+					Combat.persisting_actions.append(effect_data)
+		
 	return 0

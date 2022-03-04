@@ -104,7 +104,7 @@ var enemy_actions = 0
 #does the enemy actions
 func trigger_enemy_action():
 	if enemy_actions >= $EnemyList.get_child_count():
-		reload_hand()
+		$AnimationPlayer.play("trigger_persistent")
 		return
 	else:
 		get_node("Turn").text = "Enemy's Turn"

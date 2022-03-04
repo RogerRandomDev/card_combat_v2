@@ -278,9 +278,9 @@ shader_param/vignette_opacity = 1.0
 
 [node name="shader_layer" type="ColorRect" parent="glow_shader"]
 material = SubResource( "ShaderMaterial_ltmm6" )
+rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
-rect_min_size = Vector2(1024, 600)
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -290,7 +290,7 @@ __meta__ = {
 
 [node name="shader_layer2" type="ColorRect" parent="screen_shader"]
 material = SubResource( "ShaderMaterial_6axsy" )
+rect_min_size = Vector2(1024, 600)
 offset_right = 1024.0
 offset_bottom = 600.0
-rect_min_size = Vector2(1024, 600)
 mouse_filter = 2

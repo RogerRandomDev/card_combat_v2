@@ -119,7 +119,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -299,9 +299,6 @@ texture = ExtResource( "5_u8e0m" )
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource( "6_cdkqj" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="CombatContainer/game_combat/storestack"]
 offset_right = 64.0
