@@ -1,12 +1,12 @@
+Camera2D
+ColorRect
 Control
 HBoxContainer
 Panel
 Label
 Button
 VBoxContainer
-ColorRect
 ItemList
-Camera2D
 GPUParticles2D
 TileMap
 GraphNode

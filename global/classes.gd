@@ -48,7 +48,7 @@ class combat_object extends Node:
 		root.get_node("statuslist").set_item_tooltip_enabled(root.get_node("statuslist").get_item_count()-1,false)
 		active_effects[effect_name]=root.get_node("statuslist").get_item_count()
 	func remove_effect_icon(effect_name):
-		root.get_node("statslist").remove_item(active_effects[effect_name])
+		root.get_node("statuslist").remove_item(active_effects[effect_name])
 		active_effects.erase(effect_name)
 	func reset_position():
 		root.get_node("AnimationPlayer").stop()
@@ -75,7 +75,7 @@ class combat_object extends Node:
 	#deals damage and shows the float text
 	func hurt(val,damaging=true):
 		#player can't die
-		if object_type!="Enemy":return
+		#if object_type!="Enemy":return
 		
 		var floaty=Classes.float_text.new()
 		floaty.rect_global_position=root.rect_global_position-Vector2(sign(root.hit_direction().x)*16,0)
@@ -151,7 +151,7 @@ class combat_object extends Node:
 			if(buff.name=="Defense"):buff_based_modifiers*=(1/buff.value)
 		
 		#modifier for the power of the enemy to the current defense of the target
-		var modified_strength_to_defense=max(sqrt(strength_of/defense_of),0.5)
+		var modified_strength_to_defense=min(max(sqrt(strength_of/defense_of),0.5),1.5)
 		if modified_strength_to_defense<=0.125:
 			modified_strength_to_defense=0.125
 		if !modify_with_stats:

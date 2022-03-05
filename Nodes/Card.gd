@@ -42,6 +42,9 @@ func _ready():
 	connect("mouse_entered",hover_over)
 	connect("mouse_exited",stop_hover)
 	set_data(Data.get_card_from_deck())
+func remove_listeners():
+	disconnect("mouse_entered",hover_over)
+	disconnect("mouse_exited",stop_hover)
 
 func set_text_format(ob,scale_rate=1.5):
 	ob.rect_size = Vector2(56,84)*scale_rate

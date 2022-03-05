@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bvhwxl13glr42"]
 
-[ext_resource type="Theme" uid="uid://p5sgpbo66cbj" path="res://fonts/titletheme.tres" id="1_ati3w"]
+[ext_resource type="Theme" uid="uid://cpy7ttnvoxkeh" path="res://fonts/titletheme.tres" id="1_ati3w"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="1_o8fwo"]
 [ext_resource type="Script" path="res://Scenes/title/title.gd" id="1_smx5k"]
 [ext_resource type="Script" path="res://Scenes/title/CharacterScrolling.gd" id="3_6tfye"]
@@ -65,41 +65,41 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="main_menu/buttonlist"]
-offset_top = 4.0
+offset_top = 7.0
 offset_right = 128.0
-offset_bottom = 46.0
+offset_bottom = 43.0
 size_flags_vertical = 6
 theme = ExtResource( "1_ati3w" )
 text = "Play"
 
 [node name="Button2" type="Button" parent="main_menu/buttonlist"]
-offset_top = 59.0
+offset_top = 62.0
 offset_right = 128.0
-offset_bottom = 101.0
+offset_bottom = 98.0
 size_flags_vertical = 6
 theme = ExtResource( "1_ati3w" )
 text = "Settings"
 
 [node name="Button3" type="Button" parent="main_menu/buttonlist"]
-offset_top = 114.0
+offset_top = 117.0
 offset_right = 128.0
-offset_bottom = 156.0
+offset_bottom = 153.0
 size_flags_vertical = 6
 theme = ExtResource( "1_ati3w" )
 text = "Credits"
 
 [node name="Button4" type="Button" parent="main_menu/buttonlist"]
-offset_top = 169.0
+offset_top = 172.0
 offset_right = 128.0
-offset_bottom = 211.0
+offset_bottom = 208.0
 size_flags_vertical = 6
 theme = ExtResource( "1_ati3w" )
 text = "More"
 
 [node name="Button5" type="Button" parent="main_menu/buttonlist"]
-offset_top = 225.0
+offset_top = 228.0
 offset_right = 128.0
-offset_bottom = 267.0
+offset_bottom = 264.0
 size_flags_vertical = 6
 theme = ExtResource( "1_ati3w" )
 text = "Quit

@@ -43,6 +43,8 @@ func _input(_event):
 		if Data.current_deck.keys().has(card_name):
 			Data.current_deck[card_name]-=1
 			if Data.current_deck[card_name]==0:Data.current_deck.erase(card_name)
+		self.disconnect('mouse_entered',enter_self)
+		self.disconnect('mouse_exited',exit_self)
 		self.queue_free()
 		get_parent().get_parent().get_parent().get_parent().get_parent().call_deferred('update_counter',-1)
 

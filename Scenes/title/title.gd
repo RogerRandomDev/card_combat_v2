@@ -19,4 +19,4 @@ func settings_pressed():
 
 
 func play_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://Scenes/base/main_game.tscn")

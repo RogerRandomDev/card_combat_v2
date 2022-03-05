@@ -3,5 +3,6 @@
 [ext_resource type="FontData" uid="uid://cuiklovah37q8" path="res://fonts/gamefont.TTF" id="1_0bxdx"]
 
 [resource]
-spacing_top = 12
+spacing_top = 8
+spacing_bottom = -2
 data/0 = ExtResource( "1_0bxdx" )

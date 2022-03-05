@@ -1,9 +1,15 @@
+res://Nodes/Card.gd
+res://Nodes/deck_card.gd
 res://Scenes/base/main_game.tscn
 res://Scenes/game_combat/ally.tscn
 res://Scenes/game_combat/combat_scene.tscn
+res://Scenes/title/CharacterScrolling.gd
+res://Scenes/title/title.gd
 res://Scenes/title/title.tscn
+res://Scripts/main.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
 res://fonts/gametheme.tres
 res://fonts/minicard_theme.tres
 res://fonts/titletheme.tres
+res://global/classes.gd

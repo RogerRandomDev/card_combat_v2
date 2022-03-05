@@ -46,6 +46,7 @@ func remove_card():
 		$AnimationPlayer.play("shuffle")
 		for child in $cardstack.get_children():
 			if child.get_class()!="TextureRect":
+				child.remove_listeners()
 				child.queue_free()
 		return
 	var tween:Tween=$CardList.get_child(0).create_tween()

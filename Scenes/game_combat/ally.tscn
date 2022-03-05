@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="1_2vm76"]
 [ext_resource type="Script" path="res://Scripts/ally.gd" id="1_w8a60"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="3_snanb"]
-[ext_resource type="Theme" uid="uid://cpy7ttnvoxkeh" path="res://fonts/minicard_theme.tres" id="4_lso15"]
+[ext_resource type="Theme" uid="uid://cpy7ttnvoxkeh" path="res://fonts/titletheme.tres" id="4_lso15"]
 
 [sub_resource type="Animation" id="Animation_rt4j1"]
 resource_name = "hovered"
