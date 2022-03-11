@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b61hhanf0pyp7"]
+[gd_scene load_steps=24 format=3 uid="uid://b61hhanf0pyp7"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ynivg"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_yjdqk"]
@@ -12,10 +12,11 @@
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_8penj"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="11_2qu3r"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="11_6qc3w"]
+[ext_resource type="Script" path="res://Scenes/game_combat/AttackPlayer.gd" id="12_sqm1e"]
 
 [sub_resource type="Animation" id="Animation_bw3in"]
 resource_name = "activate_action"
-length = 0.5
+length = 0.125
 loop_mode = 1
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -421,6 +422,9 @@ scale = Vector2(0.5, 1)
 emitting = false
 amount = 128
 process_material = SubResource( "ParticlesMaterial_ah3kx" )
+
+[node name="AttackPlayer" type="Node" parent="CombatContainer/game_combat"]
+script = ExtResource( "12_sqm1e" )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(1.00262, 1)

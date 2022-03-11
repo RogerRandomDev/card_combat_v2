@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://wpebu7h3kx54"]
+
+[ext_resource type="Material" uid="uid://qsb51a0heh85" path="res://shaders/holy0.tres" id="1_g13tp"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pdeym"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="GDScript" id="GDScript_0tf5y"]
+script/source = "extends GPUParticles2D;
+func _ready():emitting=true;
+func _process(_delta):if !emitting:queue_free()
+"
+
+[node name="gpu" type="GPUParticles2D"]
+top_level = true
+light_mask = 3
+texture_filter = 1
+material = SubResource( "CanvasItemMaterial_pdeym" )
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-30.8983, -32.6286, 60.8512, 66.9788)
+process_material = ExtResource( "1_g13tp" )
+script = SubResource( "GDScript_0tf5y" )

@@ -37,7 +37,10 @@ func reload_hand():
 		for ally_check in Combat.action_list:
 			if ally_check.Self == ally:
 				do=false;break
-		if do:ally.base.selected = false
+		if do:
+			ally.base.selected = false
+			ally.deselect()
+			ally.reset()
 
 #removes a card
 func remove_card():
@@ -98,12 +101,14 @@ func add_card_to_hand():
 
 #triggers combat global function for actions
 func trigger_action():
-	Combat.call_deferred('activate_actions')
+	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
+	Combat.call_deferred('trigger_action')
 
 
 var enemy_actions = 0
 #does the enemy actions
 func trigger_enemy_action():
+	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	if enemy_actions >= $EnemyList.get_child_count():
 		$AnimationPlayer.play("trigger_persistent")
 		return

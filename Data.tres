@@ -243,11 +243,12 @@
         {
             "name": "Punch",
             "description": "Punch Hard",
-            "strength": 4,
+            "strength": 3,
             "variance": 1,
             "type": "Harmful",
             "attribute": "Physical",
-            "color": "#D41E0B"
+            "color": "#D41E0B",
+            "appearance": "Punch"
         },
         {
             "name": "Weak Healing",
@@ -256,7 +257,8 @@
             "variance": 0,
             "type": "Healing",
             "attribute": "Holy",
-            "color": "#39D491"
+            "color": "#39D491",
+            "appearance": "Heal"
         },
         {
             "name": "Fireball",
@@ -265,7 +267,8 @@
             "variance": 2,
             "type": "Harmful",
             "attribute": "Fire",
-            "color": "#D4820B"
+            "color": "#D4820B",
+            "appearance": "Punch"
         },
         {
             "name": "Static Shock",
@@ -274,7 +277,8 @@
             "variance": 2,
             "type": "Harmful",
             "attribute": "Electric",
-            "color": "#71D8D9"
+            "color": "#71D8D9",
+            "appearance": "Heal"
         },
         {
             "name": "Charge",
@@ -285,7 +289,8 @@
             "attribute": "Physical",
             "delay": 2,
             "bonusactions": "return_damage_mult:3",
-            "color": "#F2653F"
+            "color": "#F2653F",
+            "appearance": "Punch"
         },
         {
             "name": "Purify",
@@ -294,7 +299,8 @@
             "variance": 3,
             "type": "Harmful",
             "attribute": "Holy,Light",
-            "color": "#6BFFB8"
+            "color": "#6BFFB8",
+            "appearance": "Heal"
         },
         {
             "name": "Explosion",
@@ -304,7 +310,8 @@
             "type": "Harmful",
             "attribute": "Fire,Light",
             "bonusactions": "hurt_user_mult:0.75",
-            "color": "#DE1804"
+            "color": "#DE1804",
+            "appearance": "Punch"
         },
         {
             "name": "Nova Bomb",
@@ -315,7 +322,8 @@
             "attribute": "Fire,Holy,Light,Electric",
             "delay": 1,
             "bonusactions": "hurt_user_mult:1.5",
-            "color": "#010CF5"
+            "color": "#010CF5",
+            "appearance": "Punch"
         },
         {
             "name": "Poison Needle",
@@ -326,16 +334,17 @@
             "attribute": "Holy,Evil",
             "delay": 0,
             "bonusactions": "inflict_effect_on_target:Poison|3|7",
-            "color": "#09f441"
+            "color": "#09f441",
+            "appearance": "Punch"
         }
     ],
     "Entities": [
         {
             "name": "Frog",
             "texture": "Frog",
-            "hp": 10,
-            "str": 1,
-            "def": 1,
+            "hp": 30,
+            "str": 3,
+            "def": 3,
             "mag": 1,
             "sup": 1,
             "attribute": "Earth,Water"
@@ -343,7 +352,7 @@
         {
             "name": "Trider",
             "texture": "Trider",
-            "hp": 30,
+            "hp": 35,
             "str": 7,
             "def": 7,
             "mag": 1,
@@ -353,7 +362,7 @@
         {
             "name": "Mush",
             "texture": "Mush",
-            "hp": 15,
+            "hp": 45,
             "str": 1,
             "def": 3,
             "mag": 3,
@@ -363,7 +372,7 @@
         {
             "name": "Goblin",
             "texture": "Goblin",
-            "hp": 25,
+            "hp": 45,
             "str": 5,
             "def": 4,
             "mag": 1,
@@ -373,7 +382,7 @@
         {
             "name": "Angel",
             "texture": "Angel",
-            "hp": 30,
+            "hp": 50,
             "str": 3,
             "def": 3,
             "mag": 7,
@@ -383,7 +392,7 @@
         {
             "name": "Demon",
             "texture": "Demon",
-            "hp": 30,
+            "hp": 65,
             "str": 7,
             "def": 7,
             "mag": 7,
@@ -393,7 +402,7 @@
         {
             "name": "Ningcloud",
             "texture": "Ningcloud",
-            "hp": 30,
+            "hp": 60,
             "str": 2,
             "def": 5,
             "mag": 7,
@@ -403,7 +412,7 @@
         {
             "name": "Flortle",
             "texture": "Flortle",
-            "hp": 30,
+            "hp": 80,
             "str": 3,
             "def": 5,
             "mag": 10,
@@ -413,7 +422,7 @@
         {
             "name": "Vortle",
             "texture": "Vortle",
-            "hp": 30,
+            "hp": 80,
             "str": 8,
             "def": 5,
             "mag": 5,
@@ -423,7 +432,7 @@
         {
             "name": "Reaper Plant",
             "texture": "ReaperPlant",
-            "hp": 10,
+            "hp": 50,
             "str": 3,
             "def": 2,
             "mag": 10,
@@ -433,7 +442,7 @@
         {
             "name": "Mush Lord",
             "texture": "Mushlord",
-            "hp": 25,
+            "hp": 60,
             "str": 4,
             "def": 3,
             "mag": 10,
@@ -443,7 +452,7 @@
         {
             "name": "Wandering Soul",
             "texture": "Wanderingspirit",
-            "hp": 10,
+            "hp": 50,
             "str": 4,
             "def": 2,
             "mag": 10,
@@ -453,7 +462,7 @@
         {
             "name": "Stone Golem",
             "texture": "Stonegolem",
-            "hp": 30,
+            "hp": 90,
             "str": 8,
             "def": 10,
             "mag": 2,
@@ -463,7 +472,7 @@
         {
             "name": "Dirt Golem",
             "texture": "Dirtgolem",
-            "hp": 20,
+            "hp": 80,
             "str": 7,
             "def": 10,
             "mag": 10,
@@ -473,7 +482,7 @@
         {
             "name": "Linny",
             "texture": "Linny",
-            "hp": 10,
+            "hp": 30,
             "str": 3,
             "def": 3,
             "mag": 10,

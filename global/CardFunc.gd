@@ -41,10 +41,10 @@ func modify_by_action(action_name,card_data,user,target):
 	var action = base[0]
 	match action:
 		"return_damage_mult":
-			return round(card_data.stored_damage*changer)
+			return round(card_data.stored_damage*str2var(changer))
 		"hurt_user_mult":
 			if(user!=null):
-				Combat.hit_target(user,card_data.strength*changer)
+				Combat.hit_target(user,card_data.strength*str2var(changer))
 		"inflict_effect_on_target":
 			if(user!=null&&target!=null):
 				var effect_data = {

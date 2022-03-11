@@ -2,16 +2,16 @@
 
 importer="texture"
 type="StreamTexture2D"
-uid="uid://chuv7rhsnwb6s"
-path="res://.godot/imported/CaveRock.png-dc1941dca404fd8bfeaa9354123e99f3.stex"
+uid="uid://bctj6vxbk2jn1"
+path="res://.godot/imported/explosion0.png-861f62468b630189627f972301392c12.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/World/Tiles/CaveRock.png"
-dest_files=["res://.godot/imported/CaveRock.png-dc1941dca404fd8bfeaa9354123e99f3.stex"]
+source_file="res://Textures/effects/explosion0.png"
+dest_files=["res://.godot/imported/explosion0.png-861f62468b630189627f972301392c12.stex"]
 
 [params]
 

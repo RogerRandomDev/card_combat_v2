@@ -309,12 +309,15 @@ var enemy_turn_actions = []
 func trigger_enemy_action():
 	var stored=action_list.duplicate(true)
 	action_list=enemy_turn_actions
-	activate_actions(true)
-	var new_stored = action_list.duplicate(true)
-	action_list=stored
-	stored_enemy_actions=new_stored.duplicate(true)
+	if enemy_turn_actions[0].Card.delay>0:
+		enemy_turn_actions[0].Card.delay-=1
+		stored_enemy_actions.append(enemy_turn_actions[0])
+	else:
+		enemy_action_list.append(enemy_turn_actions)
+		trigger_action_enemy()
 	if enemy_turn_actions.size()!=0:
 		enemy_turn_actions.remove_at(0)
+	action_list = stored
 
 #chooses card from enemy deck to use by the enemy
 func choose_card_to_use(my_stats,target_stats,do_heal=false):
@@ -412,3 +415,16 @@ func shake_camera(val):
 func update_target():
 	if current_target_type=="Ally"&&selected_now.size()==0:
 		current_target_type="Target"
+
+var enemy_action_list = []
+#does action visuals for enemies
+func trigger_action_enemy():
+	if enemy_action_list.size()==0:return
+	var action = enemy_action_list[0][0]
+	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self)
+
+#does action visuals
+func trigger_action():
+	if action_list.size()==0:return
+	var action = action_list[0]
+	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self)
