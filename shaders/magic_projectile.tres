@@ -1,0 +1,21 @@
+[gd_resource type="ParticlesMaterial" load_steps=3 format=3 uid="uid://bseh21ekg47cv"]
+
+[sub_resource type="Gradient" id="Gradient_vaum7"]
+offsets = PackedFloat32Array(0.384106, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vqwal"]
+gradient = SubResource( "Gradient_vaum7" )
+
+[resource]
+emission_shape = 1
+emission_sphere_radius = 12.0
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 6.0
+scale_max = 6.0
+color_ramp = SubResource( "GradientTexture1D_vqwal" )
+hue_variation_min = -0.05
+hue_variation_max = 0.05

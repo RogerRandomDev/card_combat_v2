@@ -186,6 +186,7 @@ func activate_actions(enemy_turn=false):
 			#ensures the enemy turn wont repeat forever
 			if !enemy_turn:
 				get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
+				
 		return action_list
 	
 	#stops action if one of the required is invalid
@@ -222,69 +223,77 @@ func activate_actions(enemy_turn=false):
 			get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
 	return action_list
 #enemy actions
-func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
-	if enemy==null:return
-	#returns if enemy is in the middle of an action
-	for action in stored_enemy_actions:if action.Self == enemy:return
-	
-	var target_now = null;
-	
-	#health ratios of self and ally enemies
-	var ally_health_ratios = []
-	
-	
-	#chooses to heal an ally of itself
-	if enemy_neighbors!=null:
-		for ally in enemy_neighbors:
-			ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
-	
-	var target_action = "hit_target"
-	#will repeat until it has a target, and will target an enemy
-	while target_now==null:
-		var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
-		var least_health=1.0
+func do_enemy_turns(enemy_neighbor,ally_neighbors):
+	for enemy in enemy_neighbor:
+		var enemy_neighbors=enemy_neighbor.duplicate(true)
+		enemy_neighbors.erase(enemy)
 		
-		for ally in ally_health_ratios.size():
-			var health = ally_health_ratios[ally]
-			if randf_range(0.0,1.0)<=health:continue
-			if health <= heal_requirement_this_turn&&health<=least_health||target_now==null:
-				if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
-					target_now=enemy_neighbors[ally]
-					target_action="heal_target"
-					least_health=health
+		#returns if enemy is in the middle of an action
+		for action in stored_enemy_actions:if action.Self == enemy:return
 		
-		#health ratios for the allies of the player
-		var enemy_health_ratios = []
-		for enemyy in ally_neighbors:
-			enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+		var target_now = null;
 		
-		var attack_enemy=randf_range(0.5,1.0)
-		var lowest_ally_hp = 100.0
-		var target_now_a=null
+		#health ratios of self and ally enemies
+		var ally_health_ratios = []
 		
 		
-		for enemyy in enemy_health_ratios.size():
-			var health = enemy_health_ratios[enemyy]
-			if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
-				if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
-					target_now_a=ally_neighbors[enemyy]
-					lowest_ally_hp=health
-		#chooses if it will do a hurt action or heal action
+		#chooses to heal an ally of itself
+		if enemy_neighbors!=null:
+			for ally in enemy_neighbors:
+				ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
 		
-		if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
-			target_action="hit_target"
-			target_now = target_now_a
-	
-	
-	#gets the attribute to use for the action
-	var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target").duplicate(true)
-	
-	
-	#runs the base action code since CONVENIENCE
-	#storing previous information to re-apply after the action
-	var previous_action_list = action_list.duplicate(true)
-	action_list = [{"Self":enemy,"Card":card,"Target":target_now}]
-	action_list.append_array(stored_enemy_actions)
+		var target_action = "hit_target"
+		#will repeat until it has a target, and will target an enemy
+		while target_now==null:
+			var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
+			var least_health=1.0
+			
+			for ally in ally_health_ratios.size():
+				var health = ally_health_ratios[ally]
+				if randf_range(0.0,1.0)<=health:continue
+				if health <= heal_requirement_this_turn&&health<=least_health||target_now==null:
+					if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
+						target_now=enemy_neighbors[ally]
+						target_action="heal_target"
+						least_health=health
+			
+			#health ratios for the allies of the player
+			var enemy_health_ratios = []
+			for enemyy in ally_neighbors:
+				enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+			
+			var attack_enemy=randf_range(0.5,1.0)
+			var lowest_ally_hp = 100.0
+			var target_now_a=null
+			
+			
+			for enemyy in enemy_health_ratios.size():
+				var health = enemy_health_ratios[enemyy]
+				if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
+					if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
+						target_now_a=ally_neighbors[enemyy]
+						lowest_ally_hp=health
+			#chooses if it will do a hurt action or heal action
+			
+			if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
+				target_action="hit_target"
+				target_now = target_now_a
+		
+		
+		#gets the attribute to use for the action
+		var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target").duplicate(true)
+		
+		
+		#runs the base action code since CONVENIENCE
+		#storing previous information to re-apply after the action
+		var store_action = [{"Self":enemy,"Card":card,"Target":target_now}]
+		
+		
+		
+		stored_enemy_actions.append_array(store_action)
+
+func do_enemy_action_in_full(data):
+	var card = data.Card
 	var n_card = card_object.new()
 	card = CardFunc.build_full_card(card.duplicate(true))
 	n_card.set_data(card)
@@ -293,28 +302,28 @@ func do_enemy_turns(enemy,enemy_neighbors,ally_neighbors):
 	root.add_child(n_card)
 	var tween:Tween=n_card.create_tween()
 	tween.tween_property(n_card,"rect_position",Vector2(480,248),0.125)
-	enemy_turn_actions.append_array(action_list)
 	tween.tween_interval(0.125)
 	tween.tween_callback(trigger_enemy_action)
 	tween.tween_interval(0.375)
 	tween.tween_property(n_card,"rect_scale",Vector2(0,0),0.125)
 	tween.tween_callback(n_card.queue_free)
-	#storing the enemy repeat actions, and then resetting action list to what it was before
-	var stored_now = action_list.duplicate(true)
-	action_list = previous_action_list
-	stored_enemy_actions=stored_now.duplicate(true)
+	if card.delay>0:return 0
+	return 1
+
 
 var enemy_turn_actions = []
 #enemy action trigger
 func trigger_enemy_action():
+	
 	var stored=action_list.duplicate(true)
-	action_list=enemy_turn_actions
-	if enemy_turn_actions[0].Card.delay>0:
-		enemy_turn_actions[0].Card.delay-=1
-		stored_enemy_actions.append(enemy_turn_actions[0])
+	enemy_action_list = stored_enemy_actions.duplicate(true)
+	action_list=enemy_action_list
+	if action_list.size()==0:action_list.append(null)
+	var done = trigger_action()
+	if done!=null:
+		stored_enemy_actions[0]=done
 	else:
-		enemy_action_list.append(enemy_turn_actions)
-		trigger_action_enemy()
+		stored_enemy_actions.erase(stored_enemy_actions[0])
 	if enemy_turn_actions.size()!=0:
 		enemy_turn_actions.remove_at(0)
 	action_list = stored
@@ -419,12 +428,20 @@ func update_target():
 var enemy_action_list = []
 #does action visuals for enemies
 func trigger_action_enemy():
-	if enemy_action_list.size()==0:return
-	var action = enemy_action_list[0][0]
-	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self)
+	if action_list.size()==0:return
+	var action = action_list[0]
+	if action.Card.delay>0:
+		action.Card.delay-=1
+		action_list[0]=action
+		return action
+	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self,action.Card,action)
+	return null
 
 #does action visuals
 func trigger_action():
 	if action_list.size()==0:return
-	var action = action_list[0]
-	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self)
+	var action = action_list[0].duplicate(true)
+	if action.Card.delay>0:
+		activate_actions()
+		return
+	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self,action.Card,action)

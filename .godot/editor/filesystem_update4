@@ -1,5 +1,5 @@
-res://Scenes/base/main_game.tscn
 res://Scenes/game_combat/AttackPlayer.gd
+res://Scenes/game_combat/ally.tscn
 res://Scenes/game_combat/attackanimator.gd
 res://Scenes/game_combat/attackanimator.tscn
 res://Scenes/game_combat/combat_scene.tscn
@@ -9,9 +9,8 @@ res://fonts/basefont.tres
 res://fonts/basetheme.tres
 res://fonts/gametheme.tres
 res://fonts/titletheme.tres
-res://global/CardFunc.gd
 res://global/combat.gd
+res://shaders/COLcirlcexplosion.tres
 res://shaders/explosion0.tres
 res://shaders/explosions.tscn
-res://shaders/holy0.tres
-res://shaders/testing.tscn
+res://shaders/magic_projectile.tres

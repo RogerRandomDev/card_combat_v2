@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://wpebu7h3kx54"]
 
-[ext_resource type="Material" uid="uid://qsb51a0heh85" path="res://shaders/holy0.tres" id="1_g13tp"]
+[ext_resource type="Material" uid="uid://bseh21ekg47cv" path="res://shaders/magic_projectile.tres" id="1_govue"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pdeym"]
 particles_animation = true
@@ -15,7 +15,6 @@ func _process(_delta):if !emitting:queue_free()
 "
 
 [node name="gpu" type="GPUParticles2D"]
-top_level = true
 light_mask = 3
 texture_filter = 1
 material = SubResource( "CanvasItemMaterial_pdeym" )
@@ -24,5 +23,6 @@ amount = 32
 one_shot = true
 explosiveness = 1.0
 visibility_rect = Rect2(-30.8983, -32.6286, 60.8512, 66.9788)
-process_material = ExtResource( "1_g13tp" )
+draw_order = 0
+process_material = ExtResource( "1_govue" )
 script = SubResource( "GDScript_0tf5y" )

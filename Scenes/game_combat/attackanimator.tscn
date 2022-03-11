@@ -22,32 +22,6 @@ tracks/0/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_smckn"]
-resource_name = "Projectile"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationPlayer")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8, 0.81),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"values": [{
-"args": ["Card"],
-"method": &"load_object"
-}, {
-"args": [0.0, 0.25],
-"method": &"fire_at_target"
-}, {
-"args": ["explosion0", 12, 1.0, 4],
-"method": &"particles_around_target"
-}, {
-"args": [0.0],
-"method": &"shake_screen"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_wqwab"]
 resource_name = "Punch"
 tracks/0/type = "method"
@@ -77,10 +51,40 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_r4teu"]
+resource_name = "magicprojectile"
+length = 1.75
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.48, 1.49, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": ["magic_projectile", 128, 1.0, Color(1, 1, 0.992157, 0)],
+"method": &"load_moving_particles"
+}, {
+"args": [0.0, 1.0],
+"method": &"fire_at_target"
+}, {
+"args": ["COLcirlcexplosion", 32, 0.5, 4],
+"method": &"particles_around_target"
+}, {
+"args": [],
+"method": &"remove_object"
+}, {
+"args": [],
+"method": &"complete_action"
+}]
+}
+
 [node name="AnimationPlayer" type="AnimationPlayer" groups=["action_trigger"]]
 anims/Heal = SubResource( "Animation_y053c" )
-anims/Projectile = SubResource( "Animation_smckn" )
 anims/Punch = SubResource( "Animation_wqwab" )
+anims/magicprojectile = SubResource( "Animation_r4teu" )
 script = ExtResource( "1_ew7hc" )
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_player_animation_finished"]

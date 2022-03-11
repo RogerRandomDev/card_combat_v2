@@ -24,6 +24,8 @@ func build_player_loadout():
 #plays the enemy's turn
 func enemy_turn_trigger():
 	enemy_actions = 0
+	
+	Combat.do_enemy_turns($EnemyList.get_children(),$AllyList.get_children())
 	$action_stopper.visible=true
 	$AnimationPlayer.play("enemy_turn")
 #empty and refill the player's hand
@@ -34,11 +36,11 @@ func reload_hand():
 		card.flipping_card()
 	for ally in $AllyList.get_children():
 		var do=true
-		for ally_check in Combat.action_list:
+		for ally_check in Combat.stored_actions:
 			if ally_check.Self == ally:
+				ally.base.selected=true
 				do=false;break
 		if do:
-			ally.base.selected = false
 			ally.deselect()
 			ally.reset()
 
@@ -94,6 +96,16 @@ func add_card_to_hand():
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
 		$AnimationPlayer.stop()
 		$action_stopper.visible=false
+		for ally in $AllyList.get_children():
+			var do=true
+			for ally_check in Combat.action_list:
+				if ally_check.Self == ally:
+					ally.base.selected=true
+					print('a')
+					do=false;break
+			if do:
+				ally.deselect()
+				ally.reset()
 		if Combat.action_list.size()>=Combat.ally_count:
 			get_node("AnimationPlayer").play("activate_action")
 		return
@@ -106,17 +118,20 @@ func trigger_action():
 
 
 var enemy_actions = 0
+var offset=0
 #does the enemy actions
 func trigger_enemy_action():
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	if enemy_actions >= $EnemyList.get_child_count():
+		offset=0
 		$AnimationPlayer.play("trigger_persistent")
 		return
 	else:
 		get_node("Turn").text = "Enemy's Turn"
-	var me = $EnemyList.get_child(enemy_actions)
-	Combat.do_enemy_turns(me,$EnemyList.get_children(),$AllyList.get_children())
+	
+	offset+=Combat.do_enemy_action_in_full(Combat.stored_enemy_actions[enemy_actions-offset])
 	enemy_actions+=1
+	
 
 
 #shows the card's description

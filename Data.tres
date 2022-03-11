@@ -268,7 +268,7 @@
             "type": "Harmful",
             "attribute": "Fire",
             "color": "#D4820B",
-            "appearance": "Punch"
+            "appearance": "magicprojectile"
         },
         {
             "name": "Static Shock",
@@ -278,7 +278,7 @@
             "type": "Harmful",
             "attribute": "Electric",
             "color": "#71D8D9",
-            "appearance": "Heal"
+            "appearance": "magicprojectile"
         },
         {
             "name": "Charge",
@@ -335,7 +335,7 @@
             "delay": 0,
             "bonusactions": "inflict_effect_on_target:Poison|3|7",
             "color": "#09f441",
-            "appearance": "Punch"
+            "appearance": "magicprojectile"
         }
     ],
     "Entities": [
