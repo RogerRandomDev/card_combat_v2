@@ -20,7 +20,7 @@ func _input(_event):
 func movement_pressed():
 	return (Input.is_action_pressed("w")||Input.is_action_pressed("a")||Input.is_action_pressed("s")||Input.is_action_pressed("d"))
 
-
+var move_enemies=0
 #moves the player based on inputs
 func check_move():
 	if position!=target_pos:return
@@ -38,3 +38,6 @@ func check_move():
 	if did_move:
 		$moveparticles.emitting=true
 		target_pos+=move_dir*movement.world_tile_size
+		move_enemies=(move_enemies+1)%4
+		if move_enemies!=3:
+			get_parent().get_node("enemypathfinding")._do()

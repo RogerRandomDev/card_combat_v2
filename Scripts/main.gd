@@ -7,6 +7,7 @@ var shuffle_count = 0
 #needs to set the combat ally_count
 func _ready():
 	randomize()
+	ProjectSettings.set("debug/settings/fps/force_fps", 30)
 	$AnimationPlayer.play("flipcards")
 	Combat.camera=$Camera
 	Combat.root = self

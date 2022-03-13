@@ -1,9 +1,10 @@
+GPUParticles2D
 Timer
+Node2D
+Sprite2D
 Line2D
 StaticBody2D
 CollisionPolygon2D
-Sprite2D
-GPUParticles2D
 CPUParticles2D
 AnimationPlayer
 Node
@@ -29,5 +30,3 @@ PopupPanel
 TextureRect
 TextEdit
 CanvasLayer
-SubViewport
-SubViewportContainer

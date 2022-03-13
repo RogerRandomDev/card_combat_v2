@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgkeghqallvle"]
+
+[sub_resource type="Gradient" id="Gradient_xy0mv"]
+colors = PackedColorArray(0.984314, 0.0588235, 0.184314, 1, 0.639216, 0.0784314, 0.0117647, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6kaud"]
+gradient = SubResource( "Gradient_xy0mv" )
+
+[sub_resource type="ParticlesMaterial" id="ParticlesMaterial_icrvf"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 16.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource( "GradientTexture1D_6kaud" )
+
+[sub_resource type="GDScript" id="GDScript_agboi"]
+resource_name = "explode"
+script/source = "extends GPUParticles2D
+
+func _ready():emitting=true
+func _process(delta):
+	if !emitting:queue_free()
+"
+
+[node name="explode" type="GPUParticles2D"]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( "ParticlesMaterial_icrvf" )
+script = SubResource( "GDScript_agboi" )

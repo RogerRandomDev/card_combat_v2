@@ -77,7 +77,7 @@ func _input(_event):
 	#lets you store a card for the next turn
 	if Input.is_action_just_pressed("right_mouse")&&hovering_card!=null:
 		var start_pos = hovering_card.rect_global_position
-		var move_to = get_tree().current_scene.get_node("CombatContainer/game_combat/storestack")
+		var move_to = root.get_node("storestack")
 		if move_to.get_child_count()>=4:return
 		hovering_card.get_parent().remove_child(hovering_card)
 		move_to.add_child(hovering_card)
@@ -151,7 +151,7 @@ func _input(_event):
 				card.reset()
 			selected_now={}
 			if action_list.size()>=ally_count:
-				get_tree().current_scene.get_node("CombatContainer/game_combat/AnimationPlayer").play("activate_action")
+				root.get_node("AnimationPlayer").play("activate_action")
 				
 
 
@@ -180,12 +180,12 @@ func activate_actions(enemy_turn=false):
 		stored_actions.append(selected_now.duplicate(true))
 		action_list.remove_at(0)
 		selected_now = {}
-		if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
+		if root.has_method("enemy_turn_trigger")&&action_list.size()==0:
 			action_list.append_array(stored_actions.duplicate(true))
 			stored_actions=[]
 			#ensures the enemy turn wont repeat forever
 			if !enemy_turn:
-				get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
+				root.enemy_turn_trigger()
 				
 		return action_list
 	
@@ -216,11 +216,11 @@ func activate_actions(enemy_turn=false):
 	selected_now={}
 	
 	#changes current action
-	if get_tree().current_scene.get_node("CombatContainer/game_combat").has_method("enemy_turn_trigger")&&action_list.size()==0:
+	if root.has_method("enemy_turn_trigger")&&action_list.size()==0:
 		action_list.append_array(stored_actions.duplicate(true))
 		stored_actions=[]
 		if !enemy_turn:
-			get_tree().current_scene.get_node("CombatContainer/game_combat").enemy_turn_trigger()
+			root.enemy_turn_trigger()
 	return action_list
 #enemy actions
 func do_enemy_turns(enemy_neighbor,ally_neighbors):

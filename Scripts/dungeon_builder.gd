@@ -13,12 +13,14 @@ var unused_cell = Vector2.ZERO
 
 var collision_shape = CollisionShape2D.new()
 func _ready():
+	randomize()
 	collision_shape.shape=RectangleShape2D.new()
 	collision_shape.shape.size=Vector2(8,8)
 	generate()
-	
+	for ent in get_parent().get_node("Entities").get_children():
+		var p = randi_range(0,caves.size()-1)
+		ent.position = caves[p][randi_range(0,caves[p].size()-1)]*8
 	get_parent().get_node("Player").position = unused_cell*Vector2i(8,8)
-	get_parent().get_node("Line2D").start=Vector2i(unused_cell*8)+Vector2i(4,4)
 	#sets the region size for backing to the size of the map
 	get_parent().get_node("ConvertedMap/Background").region_rect=Rect2(0,0,map_w*8,map_h*8)
 	get_parent().get_node("ConvertedMap").mapsize=Vector2i(map_w,map_h)
@@ -246,11 +248,14 @@ func create_collision():
 		get_parent().get_node("ConvertedMap").locked_motion.append(cell)
 	for x in map_w:
 		for y in map_h:
+			if used.has(Vector2i(x,y)):continue
 			astar.add_point(x+y*(map_w),Vector2(x,y))
 	
 	for x in map_w:for y in map_h:
+		if used.has(Vector2i(x,y)):continue
 		for w in range(0,3):for z in range(0,3):
-			if (w+x-1>=map_w||w+x-1<0||y+z-1>=map_h||y+z-1<0||(w==1&&z==1)
+			if (w+x-1>=map_w||w+x-1<0||y+z-1>=map_h||y+z-1<0||(w==1&&z==1)||
+			w!=1&&z!=1
 			):continue
 			if used.has(Vector2i(x+w-1,y+z-1)):continue
 			astar.connect_points(x+y*(map_w),(x+(w-1))+(y+(z-1))*(map_w),false)
