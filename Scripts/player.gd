@@ -38,6 +38,6 @@ func check_move():
 	if did_move:
 		$moveparticles.emitting=true
 		target_pos+=move_dir*movement.world_tile_size
-		move_enemies=(move_enemies+1)%4
-		if move_enemies!=3:
+		move_enemies=(move_enemies+1)%5
+		if move_enemies<4:
 			get_parent().get_node("enemypathfinding")._do()

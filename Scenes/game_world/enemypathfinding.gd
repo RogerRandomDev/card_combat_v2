@@ -20,6 +20,7 @@ func _do():
 		var out = map.astar.get_id_path(mpos,target)
 		if out.size()<2:continue
 		var move_to=map.astar.get_point_position(out[1])*8
+		if enemy_positions.has(move_to):continue
 		var tween:Tween=enemy.create_tween()
 		tween.tween_property(enemy,"position",move_to,0.25)
 		
