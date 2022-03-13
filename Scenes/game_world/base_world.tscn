@@ -1,11 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4y4kyfnceddd"]
+[gd_scene load_steps=8 format=3 uid="uid://c4y4kyfnceddd"]
 
 [ext_resource type="PackedScene" uid="uid://bc6u3wsjcii1j" path="res://Scenes/game_world/player.tscn" id="1_gddar"]
+[ext_resource type="Texture2D" uid="uid://chuv7rhsnwb6s" path="res://Textures/World/Tiles/CaveRock.png" id="1_id3oo"]
+[ext_resource type="Script" path="res://Scenes/game_world/ConvertedMap.gd" id="1_w3qld"]
 [ext_resource type="TileSet" uid="uid://dgxnxhac0w05w" path="res://Nodes/game_tiles.tres" id="2_62a3c"]
 [ext_resource type="Script" path="res://Scripts/dungeon_builder.gd" id="2_jygd0"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="4_lj74q"]
+[ext_resource type="Script" path="res://Scenes/game_world/Line2D.gd" id="7_n6w8b"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="ConvertedMap" type="Sprite2D" parent="."]
+texture_filter = 1
+centered = false
+script = ExtResource( "1_w3qld" )
+
+[node name="Background" type="Sprite2D" parent="ConvertedMap"]
+self_modulate = Color(0.372549, 0.372549, 0.372549, 1)
+texture_repeat = 2
+z_index = -1
+texture = ExtResource( "1_id3oo" )
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 800, 128)
+
+[node name="colliders" type="StaticBody2D" parent="ConvertedMap"]
 
 [node name="Map" type="TileMap" parent="."]
 tile_set = ExtResource( "2_62a3c" )
@@ -37,3 +56,13 @@ smoothing_enabled = true
 smoothing_speed = 15.0
 
 [node name="Node" parent="." instance=ExtResource( "4_lj74q" )]
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(4, 4)
+width = 4.0
+script = ExtResource( "7_n6w8b" )
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="Line2D" method="_do"]

@@ -10,9 +10,19 @@ extends TileMap
 
 var caves = []
 var unused_cell = Vector2.ZERO
+
+var collision_shape = CollisionShape2D.new()
 func _ready():
+	collision_shape.shape=RectangleShape2D.new()
+	collision_shape.shape.size=Vector2(8,8)
 	generate()
+	
 	get_parent().get_node("Player").position = unused_cell*Vector2i(8,8)
+	get_parent().get_node("Line2D").start=Vector2i(unused_cell*8)+Vector2i(4,4)
+	#sets the region size for backing to the size of the map
+	get_parent().get_node("ConvertedMap/Background").region_rect=Rect2(0,0,map_w*8,map_h*8)
+	get_parent().get_node("ConvertedMap").mapsize=Vector2i(map_w,map_h)
+	queue_free()
 #utility
 # the percent chance something happens
 func chance(num):
@@ -37,6 +47,8 @@ func generate():
 	dig_caves()
 	get_caves()
 	connect_caves()
+	create_collision()
+	convert_to_texture()
 
 func fill_roof():
 	for x in range(0, map_w):
@@ -48,7 +60,7 @@ func random_ground():
 	for x in range(1, map_w-1):
 		for y in range(1, map_h-1):
 			if chance(ground_chance):
-				set_cell(0,Vector2i(x,y), -1)
+				set_cell(0,Vector2i(x,y), -1,Vector2i(-1,-1),-1)
 				
 
 
@@ -65,7 +77,7 @@ func dig_caves():
 
 		# or make it the ground tile
 		elif check_nearby(x,y) < neighbors:
-			set_cell(0,Vector2(x,y), -1)
+			set_cell(0,Vector2(x,y), -1,Vector2i(-1,-1),-1)
 
 func check_nearby(x, y):
 	var count = 0
@@ -88,7 +100,7 @@ func get_caves():
 
 	for cave in caves:
 		for tile in cave:
-			set_cell(0,tile, -1)
+			set_cell(0,tile, -1,Vector2i(-1,-1),-1)
 
 
 func flood_fill(tilex, tiley):
@@ -191,10 +203,55 @@ func create_tunnel(point1, point2, cave):
 			drunk_x += dx
 			drunk_y += dy
 			if get_cell_source_id(0,Vector2i(drunk_x, drunk_y),false) == 0:
-				set_cell(0,Vector2i(drunk_x, drunk_y), -1)
+				set_cell(0,Vector2i(drunk_x, drunk_y), -1,Vector2i(-1,-1),-1)
 
 				# optional: make tunnel wider
-				set_cell(0,Vector2i(drunk_x+1, drunk_y), -1)
-				set_cell(0,Vector2i(drunk_x+1, drunk_y+1), -1)
+				set_cell(0,Vector2i(drunk_x+1, drunk_y), -1,Vector2i(-1,-1),-1)
+				set_cell(0,Vector2i(drunk_x+1, drunk_y+1), -1,Vector2i(-1,-1),-1)
 				if Vector2i(unused_cell)==Vector2i(0,0)||randf_range(0.0,1.0)>0.975:
 					unused_cell=Vector2i(drunk_x,drunk_y)
+
+
+
+#converts to a texture to save on memory
+func convert_to_texture():
+	var tile = load("res://Textures/World/Tiles/CaveRock.png").get_image()
+	var dat = tile.get_data()
+	var n_dat=[]
+	for x in dat.size():
+		n_dat.append(dat[x])
+		if x%3==0:n_dat.append(255)
+	
+	tile.create_from_data(8,8,false,Image.FORMAT_RGBA8,n_dat)
+	var tex = ImageTexture.new()
+	var img = Image.new()
+	var size = Rect2(0,0,8,8)
+	img.create(map_w*8,map_h*8,false,Image.FORMAT_RGBA8)
+	
+	img.premultiply_alpha()
+	for x in map_w:for y in map_h:
+		if get_cell_source_id(0,Vector2i(x,y),false)!=-1:
+			
+			img.blit_rect(tile,size,Vector2(x*8,y*8))
+	tex.create_from_image(img)
+	get_parent().get_node("ConvertedMap").texture = tex
+
+
+var target_modifiers=[1,-1,map_w,-map_w]
+#remakes collision for the sprite
+func create_collision():
+	var used = get_used_cells(0)
+	var astar = AStar2D.new()
+	for cell in used:
+		get_parent().get_node("ConvertedMap").locked_motion.append(cell)
+	for x in map_w:
+		for y in map_h:
+			astar.add_point(x+y*(map_w),Vector2(x,y))
+	
+	for x in map_w:for y in map_h:
+		for w in range(0,3):for z in range(0,3):
+			if (w+x-1>=map_w||w+x-1<0||y+z-1>=map_h||y+z-1<0||(w==1&&z==1)
+			):continue
+			if used.has(Vector2i(x+w-1,y+z-1)):continue
+			astar.connect_points(x+y*(map_w),(x+(w-1))+(y+(z-1))*(map_w),false)
+	get_parent().get_node("ConvertedMap").astar = astar

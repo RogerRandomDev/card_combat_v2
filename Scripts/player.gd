@@ -9,6 +9,8 @@ var target_pos =Vector2.ZERO
 func _ready():
 	movement.root = self
 	target_pos=position
+	movement.map = get_parent().get_node("ConvertedMap")
+	
 
 func _input(_event):
 	if movement_pressed():$AnimationPlayer.play("move")

@@ -1,3 +1,8 @@
+Timer
+Line2D
+StaticBody2D
+CollisionPolygon2D
+Sprite2D
 GPUParticles2D
 CPUParticles2D
 AnimationPlayer
@@ -13,9 +18,7 @@ VBoxContainer
 ItemList
 TileMap
 GraphNode
-Sprite2D
 CollisionShape2D
-StaticBody2D
 deck_grid_card (deck_card.gd)
 ScrollContainer
 GridContainer
@@ -28,5 +31,3 @@ TextEdit
 CanvasLayer
 SubViewport
 SubViewportContainer
-Node2D
-Timer

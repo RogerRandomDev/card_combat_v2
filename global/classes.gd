@@ -182,19 +182,13 @@ class float_text extends Label:
 
 class world_movement extends Node:
 	var root = null
-	var collision_params=null
+	var map = null
 	const world_tile_size=8
-	func _init():
-		collision_params = Data.world_collision_movement_query
 	
 	
 	#moves the owner in the desired direction
 	func move_in_direction(dir=Vector2.ZERO):
-		var transform_offset = Transform2D(0,root.global_position+dir*world_tile_size+Vector2(world_tile_size/2.0,world_tile_size/2.0))
-		collision_params.set_transform(transform_offset)
-		if Data.get_world().intersect_shape(collision_params,1).size()!=0:
-			return false
-		
+		if map.locked_motion.has(Vector2i(dir+root.global_position/world_tile_size)):return false
 		#moves if it wont collide
 		var tween:Tween=root.create_tween()
 		tween.tween_property(root,"position",root.position+dir*world_tile_size,0.25)
