@@ -163,3 +163,12 @@ func move_card(n_card,origin):
 	n_card.rect_global_position=origin
 	var tween:Tween=n_card.create_tween()
 	tween.tween_property(n_card,"rect_global_position",target_pos,0.225)
+	tween.tween_callback(fix_hand)
+
+
+#makes sure hand is working
+func fix_hand():
+	var max = $CardList.get_child_count()
+	for card in $CardList.get_child_count():
+		var child = $CardList.get_child(card)
+		child.rect_position=Vector2(512-80*(max-card-1)+40*max-80,0)

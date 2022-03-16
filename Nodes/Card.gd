@@ -88,7 +88,7 @@ func hover_over():
 
 func stop_hover():
 	get_parent().get_parent().call_deferred('show_card_description',"")
-	if Combat.hovering_card==self:
+	if Combat.hovering_card==self||Combat.active_hover==self:
 		stop_hovering()
 		reset()
 		Combat.active_hover=null

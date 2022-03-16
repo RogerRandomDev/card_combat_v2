@@ -84,6 +84,7 @@ func _input(_event):
 		hovering_card.rect_global_position=start_pos
 		var tween:Tween=hovering_card.create_tween()
 		tween.tween_property(hovering_card,"rect_position",Vector2(32,47),0.25)
+		tween.tween_callback(hovering_card.reset)
 	
 	
 	#if hovering, then it selects this for the current target
