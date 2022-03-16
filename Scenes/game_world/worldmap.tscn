@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b20kamvlp848"]
+[gd_scene load_steps=8 format=3 uid="uid://b20kamvlp848"]
 
 [ext_resource type="Script" path="res://Scripts/worldmap.gd" id="1_8pq0k"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="2_thbnu"]
+[ext_resource type="Font" uid="uid://b7w13153ckv3i" path="res://fonts/basefont.tres" id="3_5ksbn"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="3_jnck7"]
 
 [sub_resource type="Shader" id="Shader_smxo6"]
@@ -17,8 +18,20 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t5etw"]
 shader = SubResource( "Shader_smxo6" )
-shader_param/cutoff = -0.145
+shader_param/cutoff = 1.5
 shader_param/size_of = Vector2(1, 32)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4xrm"]
+bg_color = Color(0.678431, 0.47451, 0.345098, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.290196, 0.2, 0.160784, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( "1_8pq0k" )
@@ -30,6 +43,7 @@ top_level = true
 material = SubResource( "ShaderMaterial_t5etw" )
 offset_right = 1024.0
 offset_bottom = 600.0
+mouse_filter = 2
 stretch = true
 
 [node name="levelscreen" type="SubViewport" parent="levelcontainer"]
@@ -40,15 +54,72 @@ size = Vector2i(512, 300)
 size_2d_override = Vector2i(512, 300)
 render_target_update_mode = 4
 
-[node name="current_level" type="Label" parent="levelcontainer/levelscreen"]
-rect_min_size = Vector2(512, 32)
-offset_right = 100.0
-offset_bottom = 33.0
+[node name="back" type="Panel" parent="levelcontainer/levelscreen"]
+rect_min_size = Vector2(512, 300)
+offset_right = 512.0
+offset_bottom = 300.0
+mouse_filter = 2
+theme = ExtResource( "3_jnck7" )
+
+[node name="container" type="VBoxContainer" parent="levelcontainer/levelscreen"]
+rect_min_size = Vector2(256, 300)
+offset_left = 128.0
+offset_right = 384.0
+offset_bottom = 300.0
+mouse_filter = 2
+
+[node name="current_level" type="Label" parent="levelcontainer/levelscreen/container"]
+rect_min_size = Vector2(160, 32)
+offset_left = 48.0
+offset_right = 208.0
+offset_bottom = 38.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme = ExtResource( "3_jnck7" )
 theme_type_variation = &"HeaderLarge"
-text = "ROUND: 0/10"
+theme_override_fonts/font = ExtResource( "3_5ksbn" )
+theme_override_font_sizes/font_size = 16
+text = "ROUND: 1/10"
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 3
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="enemylabel" type="Label" parent="levelcontainer/levelscreen/container"]
+offset_left = 96.0
+offset_top = 42.0
+offset_right = 159.0
+offset_bottom = 71.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_type_variation = &"HeaderLarge"
+theme_override_fonts/font = ExtResource( "3_5ksbn" )
+theme_override_font_sizes/font_size = 12
+text = "Enemies"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="enemylist" type="ItemList" parent="levelcontainer/levelscreen/container"]
+offset_top = 75.0
+offset_right = 256.0
+offset_bottom = 87.0
+size_flags_vertical = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource( "3_5ksbn" )
+theme_override_font_sizes/font_size = 8
+theme_override_styles/bg = SubResource( "StyleBoxFlat_k4xrm" )
+max_text_lines = 3
+auto_height = true
+max_columns = 0
+same_column_width = true
+fixed_column_width = 76
+icon_mode = 0
+fixed_icon_size = Vector2(64, 64)
 
 [node name="Camera" type="Camera2D" parent="levelcontainer/levelscreen"]
 anchor_mode = 0

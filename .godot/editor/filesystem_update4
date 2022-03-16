@@ -1,10 +1,15 @@
+res://Nodes/Card.gd
 res://Scenes/game_combat/attackanimator.tscn
 res://Scenes/game_combat/combat_scene.tscn
 res://Scenes/game_world/worldmap.tscn
+res://Scripts/main.gd
+res://Scripts/storestack.gd
+res://Scripts/worldmap.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
 res://fonts/gametheme.tres
 res://fonts/titletheme.tres
+res://global/combat.gd
 res://shaders/COLcirlcexplosion.tres
 res://shaders/explosion0.tres
 res://shaders/holy0.tres

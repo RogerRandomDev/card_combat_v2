@@ -92,7 +92,11 @@ func add_card_to_hand():
 	
 	Data.set_unavailable_cards(cards_removed)
 	var n_card = card_object.new()
+	
 	$CardList.add_child(n_card)
+	call_deferred('move_card',n_card,$cardstack.rect_global_position)
+	
+	
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
 		$AnimationPlayer.stop()
 		$action_stopper.visible=false
@@ -101,7 +105,6 @@ func add_card_to_hand():
 			for ally_check in Combat.action_list:
 				if ally_check.Self == ally:
 					ally.base.selected=true
-					print('a')
 					do=false;break
 			if do:
 				ally.deselect()
@@ -147,3 +150,16 @@ func trigger_persistent_effect():
 		reload_hand()
 		return
 	persistent_id += Combat.activate_persistent_action(persistent_id)
+
+#plays a sound file
+func play_sound(sound_name:String="attackhit",sound_end:String="wav"):
+	if sound_end=="":sound_end="wav"
+	Sound.play_sound(sound_name,sound_end)
+
+
+#moves card
+func move_card(n_card,origin):
+	var target_pos = n_card.rect_global_position
+	n_card.rect_global_position=origin
+	var tween:Tween=n_card.create_tween()
+	tween.tween_property(n_card,"rect_global_position",target_pos,0.225)

@@ -78,7 +78,7 @@ func get_next_target(_a):
 		return "Ally"
 
 func hover_over():
-	if get_parent().name=="cardstack":return
+	if "storestack"==get_parent().name||"cardstack"==get_parent().name:return
 	get_parent().get_parent().call_deferred('show_card_description',card_data.description)
 	var success = Combat.set_hovered(self,"Card")
 	Combat.set_deferred('hovering_card',self)

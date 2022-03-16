@@ -7,7 +7,7 @@ var current_target_type="Target"
 #type fight modifiers
 var type_matches = {}
 
-
+var cur_enemies=["Angel","Frog","Flortle"]
 
 
 var selected_now = {}
@@ -203,12 +203,15 @@ func activate_actions(enemy_turn=false):
 			
 			
 			#determines if it should be modified by the final stat check
-			var stats_modifier_switch = does_action.base.object_type!=recieves_action.base.object_type
+			var stats_modifier_switch = (does_action.base.object_type!=recieves_action.base.object_type)
 			#bonus action modifiers are done here
 			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,does_action,recieves_action)
-			
+
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute,does_action.base.buffs,recieves_action.base.buffs))
+			#applies healing based modifiers
+			if card.type=="Healing":
+				out=round(out*sqrt(does_action.base.stats.Sup))
 			#finishes the action
 			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
 			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)

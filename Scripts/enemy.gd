@@ -8,8 +8,12 @@ var base = Classes.combat_object.new()
 func _ready():
 	base.root=self
 	base.object_type="Enemy"
-	base.set_data(Data.random_entity())
-	base.load_texture()
+	if Combat.cur_enemies.size()<get_index():
+		self.queue_free()
+	else:
+		var my_data = Data.entities[Combat.cur_enemies[self.get_index()]]
+		base.set_data(my_data)
+		base.load_texture()
 
 
 func hover_over():

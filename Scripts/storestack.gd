@@ -24,3 +24,4 @@ func _input(_event):
 		var moving = get_child(get_child_count()-1)
 		remove_child(moving)
 		get_parent().get_node("CardList").add_child(moving)
+		get_parent().call_deferred('move_card',moving,rect_global_position)
