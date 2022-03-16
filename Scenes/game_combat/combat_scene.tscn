@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b61hhanf0pyp7"]
+[gd_scene load_steps=26 format=3 uid="uid://b61hhanf0pyp7"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ynivg"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_yjdqk"]
@@ -10,8 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="7_itcfw"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_8penj"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="11_2qu3r"]
-[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="11_6qc3w"]
+[ext_resource type="Material" uid="uid://cvgn0o0rhbqhm" path="res://shaders/COLcirlcexplosion.tres" id="12_o24g3"]
 [ext_resource type="Script" path="res://Scenes/game_combat/AttackPlayer.gd" id="12_sqm1e"]
+[ext_resource type="Material" uid="uid://bsjwapxhh4p6n" path="res://shaders/explosion0.tres" id="13_00kqd"]
+[ext_resource type="Material" uid="uid://qsb51a0heh85" path="res://shaders/holy0.tres" id="14_p8mhc"]
+[ext_resource type="Material" uid="uid://bseh21ekg47cv" path="res://shaders/magic_projectile.tres" id="15_1w8jv"]
 
 [sub_resource type="Animation" id="Animation_bw3in"]
 resource_name = "activate_action"
@@ -162,6 +165,7 @@ hue_variation_max = 0.13
 rect_clip_content = true
 offset_right = 1024.0
 offset_bottom = 600.0
+mouse_filter = 1
 
 [node name="game_combat" type="Control" parent="CombatContainer"]
 texture_filter = 1
@@ -418,7 +422,8 @@ script = ExtResource( "12_sqm1e" )
 scale = Vector2(1.00262, 1)
 anchor_mode = 0
 
-[node name="shaders" parent="." instance=ExtResource( "11_6qc3w" )]
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("COLcirlcexplosion", "explosion0", "holy0", "magic_projectile"), [ExtResource( "12_o24g3" ), ExtResource( "13_00kqd" ), ExtResource( "14_p8mhc" ), ExtResource( "15_1w8jv" )]]
 
 [connection signal="mouse_entered" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="hover_over"]
 [connection signal="mouse_exited" from="CombatContainer/game_combat/storestack" to="CombatContainer/game_combat/storestack" method="stop_hover"]

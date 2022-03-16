@@ -130,3 +130,8 @@ func valid_action():
 		queue_free()
 		return false
 	return true
+
+#play sound effect
+func play_sound(sound_name:String="attackmove",sound_ending:String="wav"):
+	if sound_ending=="":sound_ending="wav"
+	Sound.play_sound(sound_name,sound_ending)

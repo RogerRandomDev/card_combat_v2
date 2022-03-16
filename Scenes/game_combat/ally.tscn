@@ -38,6 +38,7 @@ tracks/1/keys = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 6
+mouse_filter = 1
 script = ExtResource( "1_w8a60" )
 
 [node name="SpriteHolder" type="Control" parent="."]

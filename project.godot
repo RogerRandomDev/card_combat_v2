@@ -39,6 +39,7 @@ Data="*res://global/data.gd"
 Combat="*res://global/combat.gd"
 CardFunc="*res://global/CardFunc.gd"
 Classes="*res://global/classes.gd"
+Sound="*res://global/Sound.gd"
 
 [display]
 
@@ -74,7 +75,7 @@ texture={
 
 left_mouse={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"store_command":true,"alt_pressed":false,"shift_pressed":false,"meta_pressed":false,"command_pressed":false,"button_mask":1,"position":Vector2(191, 93),"global_position":Vector2(191, 93),"factor":1.0,"button_index":1,"pressed":true,"double_click":false,"script":null)
 ]
 }
 right_mouse={

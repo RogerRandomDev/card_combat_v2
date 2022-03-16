@@ -73,7 +73,7 @@ func set_hovered(target,type,animate=true):
 
 #inputs for the game
 func _input(_event):
-	if get_tree().current_scene.get_node_or_null("CombatContainer")==null:return
+	if root==null||!is_instance_valid(root):return
 	#lets you store a card for the next turn
 	if Input.is_action_just_pressed("right_mouse")&&hovering_card!=null:
 		var start_pos = hovering_card.rect_global_position

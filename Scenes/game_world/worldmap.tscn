@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://b20kamvlp848"]
+
+[ext_resource type="Script" path="res://Scripts/worldmap.gd" id="1_8pq0k"]
+[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="2_thbnu"]
+[ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="3_jnck7"]
+
+[sub_resource type="Shader" id="Shader_smxo6"]
+code = "shader_type canvas_item;
+
+uniform float cutoff=0.5;
+uniform vec2 size_of=vec2(1,1);
+void fragment(){
+	float interval = cos(UV.y*size_of.y);
+	if(interval>0.&&(UV.x>cutoff||(cutoff-UV.x-1.5)>UV.x*0.0375)){COLOR.a=0.0;};
+	if(interval<0.&&((1.-UV.x)>cutoff||cutoff-(1.0-UV.x)-1.5>0.)){COLOR.a=0.0;};
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5etw"]
+shader = SubResource( "Shader_smxo6" )
+shader_param/cutoff = -0.145
+shader_param/size_of = Vector2(1, 32)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( "1_8pq0k" )
+
+[node name="Node" parent="." instance=ExtResource( "2_thbnu" )]
+
+[node name="levelcontainer" type="SubViewportContainer" parent="."]
+top_level = true
+material = SubResource( "ShaderMaterial_t5etw" )
+offset_right = 1024.0
+offset_bottom = 600.0
+stretch = true
+
+[node name="levelscreen" type="SubViewport" parent="levelcontainer"]
+disable_3d = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(512, 300)
+size_2d_override = Vector2i(512, 300)
+render_target_update_mode = 4
+
+[node name="current_level" type="Label" parent="levelcontainer/levelscreen"]
+rect_min_size = Vector2(512, 32)
+offset_right = 100.0
+offset_bottom = 33.0
+theme = ExtResource( "3_jnck7" )
+theme_type_variation = &"HeaderLarge"
+text = "ROUND: 0/10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera" type="Camera2D" parent="levelcontainer/levelscreen"]
+anchor_mode = 0
+current = true
