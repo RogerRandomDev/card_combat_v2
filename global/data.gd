@@ -18,8 +18,10 @@ var available_cards = []
 
 
 var owned_cards={}
+var owned_chars={}
 
 
+var dungeon_enemies=["Angel","Demon","Flortle"]
 
 
 #initializes data
@@ -68,5 +70,12 @@ func random_entity():
 	return entities.values()[randi_range(0,entities.size()-1)]
 
 
-
-
+#game difficulties
+var difficulty_values={
+	"Easy":{"Ally":2.5,"Enemy":0.5},
+	"Normal":{"Ally":1.0,"Enemy":1.0},
+	"Hard":{"Ally":0.75,"Enemy":1.5},
+	"Hell":{"Ally": 0.5,"Enemy":2.5}
+}
+var current_difficulty="Easy"
+func change_difficulty(difficulty_name):current_difficulty=difficulty_name

@@ -80,6 +80,12 @@ class combat_object extends Node:
 		#player can't die
 		#if object_type!="Enemy":return
 		
+		#modifies damage using difficulty mode
+		val=round(val*Data.difficulty_values[Data.current_difficulty][object_type])
+		#stores damage dealt if it was an ally attacking
+		if object_type=="Enemy"&&damaging:
+			Combat.total_damage+=val
+		
 		var floaty=Classes.float_text.new()
 		floaty.rect_global_position=root.rect_global_position-Vector2(sign(root.hit_direction().x)*16,0)
 		root.get_parent().get_parent().add_child(floaty)
@@ -99,7 +105,9 @@ class combat_object extends Node:
 		
 		floaty.load_self(str(abs(val)),Vector2(0,-64).rotated(randf_range(-PI/4,PI/4)),Vector2(0,128),!damaging)
 		if stats.Hp <= 0:
-			
+			#adds 1 to dead allies if it is an ally
+			if object_type=="Ally":
+				Combat.allies_dead+=1
 			Combat.set(object_type.to_lower()+"_count",Combat.get(object_type.to_lower()+"_count")-1)
 			Combat.check_teams()
 			root.queue_free()

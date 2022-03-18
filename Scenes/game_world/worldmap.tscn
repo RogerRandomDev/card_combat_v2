@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b20kamvlp848"]
+[gd_scene load_steps=9 format=3 uid="uid://b20kamvlp848"]
 
 [ext_resource type="Script" path="res://Scripts/worldmap.gd" id="1_8pq0k"]
 [ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="2_thbnu"]
@@ -32,6 +32,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w1klr"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( "1_8pq0k" )
@@ -154,7 +156,33 @@ max_columns = 0
 same_column_width = true
 fixed_column_width = 76
 icon_mode = 0
-fixed_icon_size = Vector2(64, 64)
+fixed_icon_size = Vector2(32, 32)
+
+[node name="end_panel" type="Panel" parent="levelcontainer/levelscreen"]
+rect_min_size = Vector2(256, 128)
+offset_left = 128.0
+offset_top = -128.0
+offset_right = 384.0
+theme = ExtResource( "3_jnck7" )
+
+[node name="body" type="VBoxContainer" parent="levelcontainer/levelscreen/end_panel"]
+offset_right = 256.0
+offset_bottom = 26.0
+alignment = 2
+
+[node name="raid" type="Label" parent="levelcontainer/levelscreen/end_panel/body"]
+offset_right = 256.0
+offset_bottom = 33.0
+text = "RAID COMPLETE"
+horizontal_alignment = 1
+
+[node name="score" type="Label" parent="levelcontainer/levelscreen/end_panel/body"]
+offset_top = 37.0
+offset_right = 256.0
+offset_bottom = 66.0
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_w1klr" )
+text = "SCORE:"
+horizontal_alignment = 1
 
 [node name="Camera" type="Camera2D" parent="levelcontainer/levelscreen"]
 anchor_mode = 0

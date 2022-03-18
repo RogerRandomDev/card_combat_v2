@@ -6,13 +6,13 @@ extends StaticBody2D
 @onready var movement = Classes.world_movement.new()
 
 var target_pos =Vector2.ZERO
-func _ready():
+func _ready() -> void:
 	movement.root = self
 	target_pos=position
 	movement.map = get_parent().get_node("ConvertedMap")
 	
 
-func _input(_event):
+func _input(_event) -> void:
 	if movement_pressed():$AnimationPlayer.play("move")
 	else:$AnimationPlayer.stop()
 

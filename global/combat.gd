@@ -34,6 +34,9 @@ var enemy_deck=[
 	"Fireball"
 ]
 
+var total_damage=0;
+var allies_dead=0;
+var cards_used=0;
 
 
 var hovering_card = null
@@ -222,7 +225,8 @@ func activate_actions(enemy_turn=false):
 			#finishes the action
 			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
 			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)
-	action_list.remove_at(0)
+	if action_list.size()!=0:
+		action_list.remove_at(0)
 	selected_now={}
 	
 	#changes current action

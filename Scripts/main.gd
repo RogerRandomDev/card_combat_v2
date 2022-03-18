@@ -6,7 +6,7 @@ var shuffle_count = 0
 var root = null
 
 #needs to set the combat ally_count
-func _ready():
+func _ready() -> void:
 	randomize()
 	$AnimationPlayer.play("flipcards")
 	Combat.camera=$Camera
@@ -14,7 +14,7 @@ func _ready():
 	build_player_loadout()
 
 #sets up the player deck and allies
-func build_player_loadout():
+func build_player_loadout() -> void:
 	for ally in $AllyList.get_child_count():
 		if ally >= Data.current_char_deck.size():
 			$AllyList.get_child(ally).queue_free();continue
@@ -23,14 +23,14 @@ func build_player_loadout():
 			$AllyList.get_child(ally).base.load_texture()
 
 #plays the enemy's turn
-func enemy_turn_trigger():
+func enemy_turn_trigger() -> void:
 	enemy_actions = 0
 	
 	Combat.do_enemy_turns($EnemyList.get_children(),$AllyList.get_children())
 	$action_stopper.visible=true
 	$AnimationPlayer.play("enemy_turn")
 #empty and refill the player's hand
-func reload_hand():
+func reload_hand() -> void:
 	$action_stopper.visible=true
 	$AnimationPlayer.play("flipcards")
 	for card in $CardList.get_children():
@@ -46,7 +46,7 @@ func reload_hand():
 			ally.reset()
 
 #removes a card
-func remove_card():
+func remove_card() -> void:
 	$action_stopper.visible=true
 	if $CardList.get_child_count()==0:
 		shuffle_count=randi_range(10,20)
@@ -70,7 +70,7 @@ func remove_card():
 	tween.parallel().tween_property(object,"rect_position",Vector2(0,0),0.125)
 	get_node("Turn").text = "Ally's Turn"
 #shuffle the deck of cards
-func shuffle():
+func shuffle() -> void:
 	$action_stopper.visible=true
 	if shuffle_count==0:
 		$AnimationPlayer.play("fillhand")
@@ -86,7 +86,7 @@ func shuffle():
 
 
 #adds the cards to your hand
-func add_card_to_hand():
+func add_card_to_hand() -> void:
 	$action_stopper.visible=true
 	Data.shuffle_deck()
 	var cards_removed=[]
@@ -120,7 +120,7 @@ func add_card_to_hand():
 
 
 #triggers combat global function for actions
-func trigger_action():
+func trigger_action() -> void:
 	Combat.can_select=false
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	Combat.call_deferred('trigger_action')
@@ -129,7 +129,7 @@ func trigger_action():
 var enemy_actions = 0
 var offset=0
 #does the enemy actions
-func trigger_enemy_action():
+func trigger_enemy_action() -> void:
 	$action_stopper.visible=true
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	if enemy_actions >= $EnemyList.get_child_count():
@@ -147,13 +147,13 @@ func trigger_enemy_action():
 
 
 #shows the card's description
-func show_card_description(card_data=""):
+func show_card_description(card_data="") -> void:
 	$card_description.text=card_data
 
 
 var persistent_id = 0
 #triggers persistent effects
-func trigger_persistent_effect():
+func trigger_persistent_effect() -> void:
 	$action_stopper.visible=true
 	if persistent_id >= Combat.persisting_actions.size():
 		persistent_id = 0
@@ -163,13 +163,13 @@ func trigger_persistent_effect():
 	persistent_id += Combat.activate_persistent_action(persistent_id)
 
 #plays a sound file
-func play_sound(sound_name:String="attackhit",sound_end:String="wav"):
+func play_sound(sound_name:String="attackhit",sound_end:String="wav") -> void:
 	if sound_end=="":sound_end="wav"
 	Sound.play_sound(sound_name,sound_end)
 
 
 #moves card
-func move_card(n_card,origin):
+func move_card(n_card,origin) -> void:
 	var target_pos = n_card.rect_global_position
 	n_card.rect_global_position=origin
 	var tween:Tween=n_card.create_tween()
@@ -178,7 +178,7 @@ func move_card(n_card,origin):
 
 
 #makes sure hand is working
-func fix_hand():
+func fix_hand() -> void:
 	var maxx = $CardList.get_child_count()
 	for card in $CardList.get_child_count():
 		var child = $CardList.get_child(card)
