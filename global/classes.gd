@@ -44,11 +44,14 @@ class combat_object extends Node:
 	
 	#apply and remove status effect icons
 	func apply_effect(effect_name):
-		root.get_node("statuslist").add_icon_item(load("res://Textures/status_effects/"+effect_name+".png"))
+		root.get_node("statuslist").add_item(effect_name,load("res://Textures/status_effects/"+effect_name+".png"))
 		root.get_node("statuslist").set_item_tooltip_enabled(root.get_node("statuslist").get_item_count()-1,false)
 		active_effects[effect_name]=root.get_node("statuslist").get_item_count()
 	func remove_effect_icon(effect_name):
-		root.get_node("statuslist").remove_item(active_effects[effect_name])
+		for effect in root.get_node("statuslist").get_item_count():
+			if root.get_node("statuslist").get_item_text(effect)==effect_name:
+				root.get_node("statuslist").remove_item(effect)
+				break
 		active_effects.erase(effect_name)
 	func reset_position():
 		root.get_node("AnimationPlayer").stop()
@@ -98,7 +101,7 @@ class combat_object extends Node:
 		if stats.Hp <= 0:
 			
 			Combat.set(object_type.to_lower()+"_count",Combat.get(object_type.to_lower()+"_count")-1)
-			
+			Combat.check_teams()
 			root.queue_free()
 	var texture = ""
 	func set_data(data):

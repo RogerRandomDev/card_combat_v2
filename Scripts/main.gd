@@ -3,6 +3,7 @@ extends Control
 
 var shuffle_count = 0
 @export var hand_size=7
+var root = null
 
 #needs to set the combat ally_count
 func _ready():
@@ -46,6 +47,7 @@ func reload_hand():
 
 #removes a card
 func remove_card():
+	$action_stopper.visible=true
 	if $CardList.get_child_count()==0:
 		shuffle_count=randi_range(10,20)
 		$AnimationPlayer.play("shuffle")
@@ -69,6 +71,7 @@ func remove_card():
 	get_node("Turn").text = "Ally's Turn"
 #shuffle the deck of cards
 func shuffle():
+	$action_stopper.visible=true
 	if shuffle_count==0:
 		$AnimationPlayer.play("fillhand")
 		return
@@ -84,6 +87,7 @@ func shuffle():
 
 #adds the cards to your hand
 func add_card_to_hand():
+	$action_stopper.visible=true
 	Data.shuffle_deck()
 	var cards_removed=[]
 	for card_id in $storestack.get_children():
@@ -100,6 +104,7 @@ func add_card_to_hand():
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
 		$AnimationPlayer.stop()
 		$action_stopper.visible=false
+		Combat.can_select=true
 		for ally in $AllyList.get_children():
 			var do=true
 			for ally_check in Combat.action_list:
@@ -116,6 +121,7 @@ func add_card_to_hand():
 
 #triggers combat global function for actions
 func trigger_action():
+	Combat.can_select=false
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	Combat.call_deferred('trigger_action')
 
@@ -124,6 +130,7 @@ var enemy_actions = 0
 var offset=0
 #does the enemy actions
 func trigger_enemy_action():
+	$action_stopper.visible=true
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	if enemy_actions >= $EnemyList.get_child_count():
 		offset=0
@@ -131,7 +138,9 @@ func trigger_enemy_action():
 		return
 	else:
 		get_node("Turn").text = "Enemy's Turn"
-	
+	if enemy_actions==0:offset=0
+	if Combat.stored_enemy_actions.size()==0:
+		enemy_actions+=1;return
 	offset+=Combat.do_enemy_action_in_full(Combat.stored_enemy_actions[enemy_actions-offset])
 	enemy_actions+=1
 	
@@ -145,8 +154,10 @@ func show_card_description(card_data=""):
 var persistent_id = 0
 #triggers persistent effects
 func trigger_persistent_effect():
+	$action_stopper.visible=true
 	if persistent_id >= Combat.persisting_actions.size():
 		persistent_id = 0
+		Combat.check_teams()
 		reload_hand()
 		return
 	persistent_id += Combat.activate_persistent_action(persistent_id)
@@ -168,7 +179,7 @@ func move_card(n_card,origin):
 
 #makes sure hand is working
 func fix_hand():
-	var max = $CardList.get_child_count()
+	var maxx = $CardList.get_child_count()
 	for card in $CardList.get_child_count():
 		var child = $CardList.get_child(card)
-		child.rect_position=Vector2(512-80*(max-card-1)+40*max-80,0)
+		child.rect_position=Vector2(512-80*(maxx-card-1)+40*maxx-80,0)

@@ -12,6 +12,7 @@ func _ready():
 	$SpriteHolder/TextureRect.flip_h=true
 
 func hover_over():
+	if !Combat.can_select:return
 	Combat.update_target()
 	if been_seleced()&&(Combat.current_target_type=="Card"||Combat.current_target_type=="Target"):return false
 	var succeeded = base.hover(Combat.current_target_type!="Card")

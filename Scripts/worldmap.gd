@@ -6,6 +6,7 @@ func _ready():
 	show_current_enemies()
 	next_round()
 	load_transition()
+	
 
 #transition screen
 func load_transition():
@@ -35,7 +36,9 @@ func next_round():
 func load_combat_scene():
 	if combat_scene!=null:
 		combat_scene.queue_free()
+	Combat.can_select=true
 	combat_scene = base_combat_scene.instantiate()
+	combat_scene.get_node("CombatContainer/game_combat").root=self
 	add_child(combat_scene)
 
 func update_rect(val):
@@ -50,3 +53,20 @@ func show_current_enemies():
 		var enemydat=Data.entities[enemy]
 		var tex = load("res://Textures/entities/%s.png"%enemydat.texture)
 		$levelcontainer/levelscreen/container/enemylist.add_item(enemy,tex)
+
+#gains spoils for the round
+func get_spoils():
+	if cur_round!=max_rounds:
+		Combat.current_spoils.append(choose_random_card_from_enemy())
+	else:
+		Combat.current_spoils.append(choose_random_enemy_from_dungeon())
+	print(Combat.current_spoils)
+#chooses card from enemy deck
+func choose_random_card_from_enemy():
+	var deck = Combat.enemy_deck.size()-1
+	return Combat.enemy_deck[randi_range(0,deck)]
+
+#chooses enemy from the dungeon you are in
+func choose_random_enemy_from_dungeon():
+	var cur_enemies = Data.dungeon_enemies
+	return cur_enemies[randi_range(0,cur_enemies.size()-1)]

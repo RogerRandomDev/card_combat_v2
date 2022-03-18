@@ -243,7 +243,7 @@
         {
             "name": "Punch",
             "description": "Punch Hard",
-            "strength": 3,
+            "strength": 5,
             "variance": 1,
             "type": "Harmful",
             "attribute": "Physical",
@@ -253,7 +253,7 @@
         {
             "name": "Weak Healing",
             "description": "Not very efficient",
-            "strength": 3,
+            "strength": 5,
             "variance": 0,
             "type": "Healing",
             "attribute": "Holy",
@@ -263,7 +263,7 @@
         {
             "name": "Fireball",
             "description": "How does it work? Magic.",
-            "strength": 3,
+            "strength": 5,
             "variance": 2,
             "type": "Harmful",
             "attribute": "Fire",
@@ -273,7 +273,7 @@
         {
             "name": "Static Shock",
             "description": "Shocking.",
-            "strength": 3,
+            "strength": 5,
             "variance": 2,
             "type": "Harmful",
             "attribute": "Electric",
@@ -283,7 +283,7 @@
         {
             "name": "Charge",
             "description": "Takes two turns, but deals damage based on how much it was hit",
-            "strength": 7,
+            "strength": 9,
             "variance": 3,
             "type": "Harmful",
             "attribute": "Physical",
@@ -295,7 +295,7 @@
         {
             "name": "Purify",
             "description": "Just Don't use it on the Gods",
-            "strength": 5,
+            "strength": 9,
             "variance": 3,
             "type": "Harmful",
             "attribute": "Holy,Light",
@@ -305,7 +305,7 @@
         {
             "name": "Explosion",
             "description": "EXPLOOOOSION",
-            "strength": 15,
+            "strength": 20,
             "variance": 3,
             "type": "Harmful",
             "attribute": "Fire,Light",
@@ -316,7 +316,7 @@
         {
             "name": "Nova Bomb",
             "description": "now THIS is an EXPLOOOOSION",
-            "strength": 20,
+            "strength": 30,
             "variance": 3,
             "type": "Harmful",
             "attribute": "Fire,Holy,Light,Electric",
@@ -328,13 +328,25 @@
         {
             "name": "Poison Needle",
             "description": "Poison your enemies",
-            "strength": 5,
+            "strength": 7,
             "variance": 4,
             "type": "Harmful",
             "attribute": "Holy,Evil",
             "delay": 0,
             "bonusactions": "inflict_effect_on_target:Poison|3|7",
             "color": "#09f441",
+            "appearance": "magicprojectile"
+        },
+        {
+            "name": "Curse",
+            "description": "Curse your target using some of your own health",
+            "strength": 1,
+            "variance": 0,
+            "type": "Harmful",
+            "attribute": "Evil,Dark",
+            "delay": 0,
+            "bonusactions": "hurt_user_mult:10,inflict_effect_on_target:Poison|9|5",
+            "color": "#B366FF",
             "appearance": "magicprojectile"
         }
     ],

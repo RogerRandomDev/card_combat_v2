@@ -14,6 +14,7 @@ func _ready():
 		var my_data = Data.entities[Combat.cur_enemies[self.get_index()]]
 		base.set_data(my_data)
 		base.load_texture()
+	base.stats.Hp=1
 
 
 func hover_over():

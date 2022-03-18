@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://dpptq3phqnlc0"]
+
+[ext_resource type="Font" uid="uid://b7w13153ckv3i" path="res://fonts/basefont.tres" id="1_c8epi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ijxlp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b2mgx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3kw46"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f2vh3"]
+
+[resource]
+default_font = ExtResource( "1_c8epi" )
+ItemList/styles/bg = SubResource( "StyleBoxEmpty_ijxlp" )
+ItemList/styles/bg_focus = SubResource( "StyleBoxEmpty_ijxlp" )
+ItemList/styles/cursor = SubResource( "StyleBoxEmpty_ijxlp" )
+ItemList/styles/cursor_unfocused = SubResource( "StyleBoxEmpty_ijxlp" )
+ItemList/styles/selected = SubResource( "StyleBoxEmpty_ijxlp" )
+ItemList/styles/selected_focus = SubResource( "StyleBoxEmpty_ijxlp" )
+Label/styles/normal = SubResource( "StyleBoxEmpty_b2mgx" )
+Panel/styles/panel = SubResource( "StyleBoxEmpty_3kw46" )
+Panel/styles/panel_fg = SubResource( "StyleBoxEmpty_f2vh3" )

@@ -7,7 +7,12 @@ var current_target_type="Target"
 #type fight modifiers
 var type_matches = {}
 
+var can_select=true
+
 var cur_enemies=["Angel","Frog","Flortle"]
+
+#spoils of the current level
+var current_spoils=[]
 
 
 var selected_now = {}
@@ -154,6 +159,7 @@ func _input(_event):
 			if action_list.size()>=ally_count:
 				root.get_node("AnimationPlayer").play("activate_action")
 				
+		Sound.play_sound("plink")
 
 
 
@@ -207,12 +213,12 @@ func activate_actions(enemy_turn=false):
 			var stats_modifier_switch = (does_action.base.object_type!=recieves_action.base.object_type)
 			#bonus action modifiers are done here
 			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,does_action,recieves_action)
-
+			
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute,does_action.base.buffs,recieves_action.base.buffs))
 			#applies healing based modifiers
 			if card.type=="Healing":
-				out=round(out*sqrt(does_action.base.stats.Sup))
+				out=round((out*sqrt(does_action.base.stats.Sup/5)))
 			#finishes the action
 			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
 			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)
@@ -345,15 +351,39 @@ func choose_card_to_use(my_stats,target_stats,do_heal=false):
 	for card_names in enemy_deck:
 		var card = CardFunc.build_full_card(Data.cards[card_names])
 		if card.type=="Harmful"&&do_heal||card.type=="Healing"&&!do_heal:continue
-		var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,null,null)
-		var does_action_power = action_strength_modifier(my_stats,card)
-		var output_power = round(bonus_modifiers+basic_helper.modify_action_power(card.strength,card.attribute,does_action_power,recieves_action_defense,!do_heal,my_stats.Attribute,target_stats.Attribute))
+		
+		var output_power = full_enemy_action_calculation(card,recieves_action_defense,do_heal,my_stats,target_stats,basic_helper)
 		if output_power>max_output:
 			max_output=output_power
 			max_output_card=card
 	return max_output_card
 
+#enemy damage calculation
+func full_enemy_action_calculation(card,recieves_action_defense,do_heal,my_stats,target_stats,basic_helper):
+	var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,null,null)
+	var does_action_power = action_strength_modifier(my_stats,card)
+	var output_power = round(bonus_modifiers+basic_helper.modify_action_power(card.strength,card.attribute,does_action_power,recieves_action_defense,!do_heal,my_stats.Attribute,target_stats.Attribute))
+	output_power += get_modified_action_power(card)
+	return output_power
 
+#applies the persiting effects that it can do
+func get_modified_action_power(card):
+	var effects = card.bonusactions.split(",")
+	var output_strength = 0
+	if effects[0]=="":return 0
+	for effect in effects:
+		var data = effect.split(":")
+		var name_of=data[0]
+		var attributes=data[1].split("|")
+		match name_of:
+			"inflict_effect_on_target":
+				var duration = round(attributes[2]/2)+1
+				var power = attributes[1]
+				output_strength+=power*duration
+			"hurt_user_mult":
+				var power = attributes[0]
+				output_strength-=round(power*card.strength*1.5)
+	return output_strength
 
 #gets the stats to use for the strength of the action
 func action_strength_modifier(does_action,card):
@@ -405,10 +435,10 @@ func activate_persistent_action(id):
 		!is_instance_valid(action_data.target)||
 		action_data.duration_left <=0
 	):
-		persisting_actions.remove_at(id)
 		#actions if the objects is valid still
-		if(is_instance_valid(action_data.target))&&!action_data.target.is_queued_for_deletion()&&is_instance_valid(action_data.target.base):
+		if(is_instance_valid(action_data.target))&&!action_data.target.is_queued_for_deletion():
 			action_data.target.base.remove_effect_icon(action_data.effect)
+		persisting_actions.remove_at(id)
 		return 0
 	hit_target(action_data.target,action_data.strength)
 	action_data.duration_left-=1
@@ -445,7 +475,29 @@ func trigger_action_enemy():
 func trigger_action():
 	if action_list.size()==0:return
 	var action = action_list[0].duplicate(true)
-	if action.Card.delay>0:
+	if !(is_instance_valid(action.Target)&&is_instance_valid(action.Self)):
+		action_list.remove_at(0)
+		if root.has_method("enemy_turn_trigger")&&action_list.size()==0:
+			action_list.append_array(stored_actions.duplicate(true))
+			stored_actions=[]
+			root.enemy_turn_trigger()
+		return
+	if action.Card.delay!=0:
 		activate_actions()
 		return
 	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self,action.Card,action)
+
+
+
+#checks if the round should end or not
+func check_teams():
+	if enemy_count<=0:
+		enemy_count=3
+		root.root.get_spoils()
+		root.root.load_transition()
+		persisting_actions=[]
+		stored_enemy_actions=[]
+		action_list=[]
+		enemy_turn_actions=[]
+		enemy_action_list=[]
+		

@@ -28,6 +28,7 @@ func remove_last_song():if last_music!=null:
 
 #plays sound and then removes it
 func play_sound(sound_name,extension="wav"):
+	if extension=="":extension="wav"
 	var n_sound = AudioStreamPlayer.new()
 	n_sound.connect("finished",remove_sound,[n_sound])
 	n_sound.stream=load("res://Audio/sfx/%s.%s"%[sound_name,extension])

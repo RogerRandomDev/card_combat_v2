@@ -79,7 +79,7 @@ theme = ExtResource( "3_jnck7" )
 theme_type_variation = &"HeaderLarge"
 theme_override_fonts/font = ExtResource( "3_5ksbn" )
 theme_override_font_sizes/font_size = 16
-text = "ROUND: 1/10"
+text = "ROUND:   /10"
 horizontal_alignment = 1
 vertical_alignment = 3
 __meta__ = {
@@ -113,8 +113,43 @@ mouse_filter = 2
 theme_override_fonts/font = ExtResource( "3_5ksbn" )
 theme_override_font_sizes/font_size = 8
 theme_override_styles/bg = SubResource( "StyleBoxFlat_k4xrm" )
-max_text_lines = 3
 auto_height = true
+text_overrun_behavior = 1
+max_columns = 0
+same_column_width = true
+fixed_column_width = 76
+icon_mode = 0
+fixed_icon_size = Vector2(64, 64)
+
+[node name="foundlabel" type="Label" parent="levelcontainer/levelscreen/container"]
+offset_left = 104.0
+offset_top = 173.0
+offset_right = 151.0
+offset_bottom = 202.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_type_variation = &"HeaderLarge"
+theme_override_fonts/font = ExtResource( "3_5ksbn" )
+theme_override_font_sizes/font_size = 12
+text = "Spoils"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="obtainlist" type="ItemList" parent="levelcontainer/levelscreen/container"]
+rect_min_size = Vector2(0, 64)
+offset_top = 206.0
+offset_right = 256.0
+offset_bottom = 270.0
+size_flags_vertical = 2
+mouse_filter = 2
+theme_override_fonts/font = ExtResource( "3_5ksbn" )
+theme_override_font_sizes/font_size = 8
+theme_override_styles/bg = SubResource( "StyleBoxFlat_k4xrm" )
+auto_height = true
+text_overrun_behavior = 1
 max_columns = 0
 same_column_width = true
 fixed_column_width = 76

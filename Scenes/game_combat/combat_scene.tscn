@@ -180,6 +180,12 @@ anchor_bottom = 1.0
 mouse_filter = 1
 script = ExtResource( "1_ynivg" )
 
+[node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
+top_level = true
+rect_min_size = Vector2(1024, 600)
+offset_right = 1024.0
+offset_bottom = 600.0
+
 [node name="EnemyList" type="VBoxContainer" parent="CombatContainer/game_combat"]
 offset_left = 94.0
 offset_top = 72.0
@@ -321,11 +327,6 @@ anims/fillhand = SubResource( "Animation_ppuey" )
 anims/flipcards = SubResource( "Animation_utqgd" )
 anims/shuffle = SubResource( "Animation_ubbt7" )
 anims/trigger_persistent = SubResource( "Animation_6jij1" )
-
-[node name="action_stopper" type="Control" parent="CombatContainer/game_combat"]
-rect_min_size = Vector2(1024, 600)
-offset_right = 1024.0
-offset_bottom = 600.0
 
 [node name="background" type="TextureRect" parent="CombatContainer/game_combat"]
 show_behind_parent = true

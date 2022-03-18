@@ -35,7 +35,7 @@ func _ready():
 	rect_min_size=Vector2(64,32)
 	set_text_format(name_of)
 	attribute_icon.rect_min_size = Vector2(16,16)
-	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_data.attribute.split(",")[0]))
+	attribute_icon.texture = load("res://Textures/attributes/%s.png"%card_data.attribute.split(",")[0])
 	
 	card_backing.add_child(attribute_icon)
 	attribute_icon.rect_position = Vector2(40,6)
@@ -134,4 +134,4 @@ func set_data(data):
 	name_of.text=data.name
 	if !data.has("delay"):card_data.delay = 0
 	card_backing.self_modulate = Color(data.color)
-	attribute_icon.texture = load("res://Textures/attributes/aaa.png".replace("aaa",card_data.attribute.split(",")[0]))
+	attribute_icon.texture = load("res://Textures/attributes/%s.png"%card_data.attribute.split(",")[0])

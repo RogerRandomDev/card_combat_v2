@@ -9,12 +9,15 @@ var current_deck={
 	"Punch":5,
 	"Weak Healing":5,
 	"Fireball":5,
-	"Static Shock":5
+	"Static Shock":5,
+	"Curse":10
 }
 var current_char_deck=["Angel","Demon","Flortle"]
 
-
 var available_cards = []
+
+
+var owned_cards={}
 
 
 

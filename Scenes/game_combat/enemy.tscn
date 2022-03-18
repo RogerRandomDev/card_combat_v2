@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_pjxf4"]
 [ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="2_esvpp"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="3_kauwm"]
-[ext_resource type="Theme" uid="uid://cpy7ttnvoxkeh" path="res://fonts/titletheme.tres" id="4_rxpgp"]
+[ext_resource type="Theme" uid="uid://dpptq3phqnlc0" path="res://fonts/combatenttheme.tres" id="4_yt140"]
 
 [sub_resource type="Animation" id="Animation_ai1gb"]
 resource_name = "hovered"
@@ -86,10 +86,19 @@ offset_left = -20.0
 offset_top = -40.0
 offset_right = 20.0
 mouse_filter = 1
-theme = ExtResource( "4_rxpgp" )
+theme = ExtResource( "4_yt140" )
+theme_override_colors/guide_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 0)
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+text_overrun_behavior = 1
 max_columns = 0
-icon_mode = 0
+fixed_column_width = 24
 fixed_icon_size = Vector2(24, 24)
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
 
 [connection signal="mouse_entered" from="." to="." method="hover_over"]
 [connection signal="mouse_exited" from="." to="." method="stop_hover"]

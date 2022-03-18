@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq86upwss223h"]
+
+[sub_resource type="Shader" id="Shader_jyfac"]
+code = "shader_type canvas_item;
+
+uniform int char_count=10;
+uniform float show_char=0;
+
+void fragment() {
+	COLOR.a=1.-max(0.,abs(UV.y*float(char_count)-show_char+0.5));
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0as5j"]
+shader = SubResource( "Shader_jyfac" )
+shader_param/char_count = 10
+shader_param/show_char = 5.006
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Control" type="SubViewportContainer" parent="."]
+material = SubResource( "ShaderMaterial_0as5j" )
+offset_right = 40.0
+offset_bottom = 260.0
+
+[node name="SubViewport" type="SubViewport" parent="Control"]
+disable_3d = true
+size = Vector2i(40, 260)
+
+[node name="Label" type="Label" parent="Control/SubViewport"]
+offset_right = 40.0
+offset_bottom = 260.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "0
+1
+2
+3
+4
+5
+6
+7
+8
+9"
