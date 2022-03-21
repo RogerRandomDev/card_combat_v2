@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://ckbfaqaj17oy1"
-path="res://.godot/imported/Evil.png-e1ba1be99386589370bd4841aa2a2671.ctex"
+path="res://.godot/imported/Evil.png-e1ba1be99386589370bd4841aa2a2671.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Evil.png"
-dest_files=["res://.godot/imported/Evil.png-e1ba1be99386589370bd4841aa2a2671.ctex"]
+dest_files=["res://.godot/imported/Evil.png-e1ba1be99386589370bd4841aa2a2671.stex"]
 
 [params]
 

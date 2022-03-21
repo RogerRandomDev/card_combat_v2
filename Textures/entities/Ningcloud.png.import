@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://bdtri0qijqctj"
-path="res://.godot/imported/Ningcloud.png-b4653f8f401a8d930c6dfc369955662c.ctex"
+path="res://.godot/imported/Ningcloud.png-b4653f8f401a8d930c6dfc369955662c.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Ningcloud.png"
-dest_files=["res://.godot/imported/Ningcloud.png-b4653f8f401a8d930c6dfc369955662c.ctex"]
+dest_files=["res://.godot/imported/Ningcloud.png-b4653f8f401a8d930c6dfc369955662c.stex"]
 
 [params]
 

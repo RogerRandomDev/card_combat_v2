@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://dflmsrf6c5ex2"
-path="res://.godot/imported/Holy.png-3822123eb311fff1e13c9516e21bcb31.ctex"
+path="res://.godot/imported/Holy.png-3822123eb311fff1e13c9516e21bcb31.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Holy.png"
-dest_files=["res://.godot/imported/Holy.png-3822123eb311fff1e13c9516e21bcb31.ctex"]
+dest_files=["res://.godot/imported/Holy.png-3822123eb311fff1e13c9516e21bcb31.stex"]
 
 [params]
 

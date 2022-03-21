@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://cu3fyp100elcq"
-path="res://.godot/imported/Card.png-5731c0c187141787a2d36ca778990871.ctex"
+path="res://.godot/imported/Card.png-5731c0c187141787a2d36ca778990871.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/Card.png"
-dest_files=["res://.godot/imported/Card.png-5731c0c187141787a2d36ca778990871.ctex"]
+dest_files=["res://.godot/imported/Card.png-5731c0c187141787a2d36ca778990871.stex"]
 
 [params]
 

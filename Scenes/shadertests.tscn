@@ -1,42 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://dq86upwss223h"]
+[gd_scene load_steps=4 format=3 uid="uid://sxyrvbtivm2x"]
 
-[sub_resource type="Shader" id="Shader_jyfac"]
-code = "shader_type canvas_item;
+[ext_resource type="Texture2D" uid="uid://bser6pjhwdfcb" path="res://Textures/entities/Angel.png" id="1_elrha"]
+[ext_resource type="Material" uid="uid://bw4olir3rgmue" path="res://shaders/explodesprite.tres" id="1_r00ml"]
 
-uniform int char_count=10;
-uniform float show_char=0;
+[sub_resource type="GDScript" id="GDScript_o8k2r"]
+script/source = "extends GPUParticles2D
 
-void fragment() {
-	COLOR.a=1.-max(0.,abs(UV.y*float(char_count)-show_char+0.5));
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0as5j"]
-shader = SubResource( "Shader_jyfac" )
-shader_param/char_count = 10
-shader_param/show_char = 5.006
+var delay = 0.0
+var done = false
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	delay += delta
+	if delay < 2.0||done:return
+	$Sprite2D.hide()
+	emitting=true
+	done=true
+	
+"
 
 [node name="Node2D" type="Node2D"]
+texture_filter = 1
 
-[node name="Control" type="SubViewportContainer" parent="."]
-material = SubResource( "ShaderMaterial_0as5j" )
-offset_right = 40.0
-offset_bottom = 260.0
+[node name="Sprite2D" type="GPUParticles2D" parent="."]
+texture_filter = 1
+position = Vector2(552, 392)
+scale = Vector2(16, 16)
+emitting = false
+amount = 128
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource( "1_r00ml" )
+script = SubResource( "GDScript_o8k2r" )
 
-[node name="SubViewport" type="SubViewport" parent="Control"]
-disable_3d = true
-size = Vector2i(40, 260)
-
-[node name="Label" type="Label" parent="Control/SubViewport"]
-offset_right = 40.0
-offset_bottom = 260.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "0
-1
-2
-3
-4
-5
-6
-7
-8
-9"
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+texture_filter = 3
+texture = ExtResource( "1_elrha" )

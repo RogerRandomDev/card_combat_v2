@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://cmlqnuu2smw4c"
-path="res://.godot/imported/store_icon.png-a03df8b274923b7fd294d87319244cff.ctex"
+path="res://.godot/imported/store_icon.png-a03df8b274923b7fd294d87319244cff.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/icons/combat/store_icon.png"
-dest_files=["res://.godot/imported/store_icon.png-a03df8b274923b7fd294d87319244cff.ctex"]
+dest_files=["res://.godot/imported/store_icon.png-a03df8b274923b7fd294d87319244cff.stex"]
 
 [params]
 

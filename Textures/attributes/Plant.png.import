@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://cj0do77xfju55"
-path="res://.godot/imported/Plant.png-509496eb78f2d7440021af4aa9b63462.ctex"
+path="res://.godot/imported/Plant.png-509496eb78f2d7440021af4aa9b63462.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Plant.png"
-dest_files=["res://.godot/imported/Plant.png-509496eb78f2d7440021af4aa9b63462.ctex"]
+dest_files=["res://.godot/imported/Plant.png-509496eb78f2d7440021af4aa9b63462.stex"]
 
 [params]
 

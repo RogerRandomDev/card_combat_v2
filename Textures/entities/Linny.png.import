@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://bcpxvjnluyy76"
-path="res://.godot/imported/Linny.png-515a8ae4ab44f91bc96ecbad4b7a9979.ctex"
+path="res://.godot/imported/Linny.png-515a8ae4ab44f91bc96ecbad4b7a9979.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Linny.png"
-dest_files=["res://.godot/imported/Linny.png-515a8ae4ab44f91bc96ecbad4b7a9979.ctex"]
+dest_files=["res://.godot/imported/Linny.png-515a8ae4ab44f91bc96ecbad4b7a9979.stex"]
 
 [params]
 
