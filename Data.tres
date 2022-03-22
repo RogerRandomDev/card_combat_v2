@@ -248,12 +248,13 @@
             "type": "Harmful",
             "attribute": "Physical",
             "color": "#D41E0B",
-            "appearance": "Punch"
+            "appearance": "Physicalprojectile",
+            "icon": "Punch"
         },
         {
             "name": "Weak Healing",
             "description": "Not very efficient",
-            "strength": 5,
+            "strength": 4,
             "variance": 0,
             "type": "Healing",
             "attribute": "Holy",
@@ -290,7 +291,8 @@
             "delay": 2,
             "bonusactions": "return_damage_mult:3",
             "color": "#F2653F",
-            "appearance": "Punch"
+            "appearance": "Physicalprojectile",
+            "icon": "Punch"
         },
         {
             "name": "Purify",
@@ -311,7 +313,7 @@
             "attribute": "Fire,Light",
             "bonusactions": "hurt_user_mult:0.75",
             "color": "#DE1804",
-            "appearance": "Punch"
+            "appearance": "magicprojectile"
         },
         {
             "name": "Nova Bomb",
@@ -323,7 +325,7 @@
             "delay": 1,
             "bonusactions": "hurt_user_mult:1.5",
             "color": "#010CF5",
-            "appearance": "Punch"
+            "appearance": "magicprojectile"
         },
         {
             "name": "Poison Needle",
@@ -339,14 +341,49 @@
         },
         {
             "name": "Curse",
-            "description": "Curse your target using some of your own health",
+            "description": "Curse your target using 1/4 of your own health",
             "strength": 1,
             "variance": 0,
             "type": "Harmful",
             "attribute": "Evil,Dark",
             "delay": 0,
-            "bonusactions": "hurt_user_mult:10,inflict_effect_on_target:Poison|9|5",
+            "bonusactions": "hurt_user_mult:25%,inflict_effect_on_target:Poison|10%|5",
             "color": "#B366FF",
+            "appearance": "magicprojectile"
+        },
+        {
+            "name": "Ice Spikes",
+            "description": "great for when your stuck in a desert",
+            "strength": 5,
+            "type": "Harmful",
+            "attribute": "Water,Light",
+            "delay": 0,
+            "color": "#35ABF0",
+            "appearance": "Physicalprojectile",
+            "icon": "icespike"
+        },
+        {
+            "name": "Thunder Storm",
+            "description": "Shockingly, more shocking",
+            "strength": 10,
+            "variance": 3,
+            "type": "Harmful",
+            "attribute": "Electric,Sky",
+            "delay": 0,
+            "bonusactions": "hurt_user_mult:0.5",
+            "color": "#BDFFC6",
+            "appearance": "magicprojectile"
+        },
+        {
+            "name": "Self-Destruct",
+            "description": "How do you even explode?",
+            "strength": 25,
+            "variance": 20,
+            "type": "Harmful",
+            "attribute": "Fire,Physical",
+            "delay": 0,
+            "bonusactions": "hurt_user_mult:100%",
+            "color": "#F7B6A3",
             "appearance": "magicprojectile"
         }
     ],
@@ -500,6 +537,36 @@
             "mag": 10,
             "sup": 10,
             "attribute": "Water"
+        },
+        {
+            "name": "Dream Eater",
+            "texture": "DreamEater",
+            "hp": 30,
+            "str": 3,
+            "def": 3,
+            "mag": 8,
+            "sup": 8,
+            "attribute": "Soul,Dark,Evil,Blood"
+        },
+        {
+            "name": "Stone Wing",
+            "texture": "StoneWing",
+            "hp": 30,
+            "str": 8,
+            "def": 8,
+            "mag": 4,
+            "sup": 1,
+            "attribute": "Evil,Earth,Sky"
+        },
+        {
+            "name": "MistSoul",
+            "texture": "VaporSoul",
+            "hp": 30,
+            "str": 2,
+            "def": 3,
+            "mag": 6,
+            "sup": 4,
+            "attribute": "Soul,Sky,Water"
         }
     ]
 }

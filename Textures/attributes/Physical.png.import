@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://dgr4kkqghvoa2"
-path="res://.godot/imported/Physical.png-d732711ceb3390fa317c0ac4359d7bac.stex"
+path="res://.godot/imported/Physical.png-d732711ceb3390fa317c0ac4359d7bac.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Physical.png"
-dest_files=["res://.godot/imported/Physical.png-d732711ceb3390fa317c0ac4359d7bac.stex"]
+dest_files=["res://.godot/imported/Physical.png-d732711ceb3390fa317c0ac4359d7bac.ctex"]
 
 [params]
 

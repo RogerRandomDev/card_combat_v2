@@ -16,6 +16,8 @@ const particle_object=preload("res://shaders/explosions.tscn")
 
 func load_object(path:String="",trigger_next:String="",extra_rot:float=0.0):
 	if !valid_action():return
+	if path=="":
+		path="attackicons/"+data.Card.icon
 	var object_visual = Sprite2D.new()
 	object_visual.texture = load("res://Textures/%s.png"%path)
 	get_parent().get_parent().add_child(object_visual)

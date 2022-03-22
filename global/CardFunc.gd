@@ -32,6 +32,18 @@ func damage_modified_by_bonus(card_data,user,target):
 	return bonus_modified_damage
 
 
+
+#action power by percent modifiers
+func change_target_percent(value,target,card_data=null):
+	var stre = 1
+	if card_data!=null:
+		stre = card_data.strength
+	if value.contains("%"):
+		value=target.base.stats.maxHp*(str2var(value.replace("%",""))/100.)
+	else:value=str2var(value)*stre
+	return round(value)
+
+
 #action modifier logic is done here
 func modify_by_action(action_name,card_data,user,target):
 	var base = action_name.split(":")
@@ -44,11 +56,12 @@ func modify_by_action(action_name,card_data,user,target):
 			return round(card_data.stored_damage*str2var(changer))
 		"hurt_user_mult":
 			if(user!=null):
-				Combat.hit_target(user,card_data.strength*str2var(changer))
+				changer=change_target_percent(changer,target,card_data)
+				Combat.hit_target(user,changer)
 		"inflict_effect_on_target":
 			if(user!=null&&target!=null):
 				var effect_data = {
-					"effect":changer.split("|")[0],"strength":str2var(changer.split("|")[1]),
+					"effect":changer.split("|")[0],"strength":change_target_percent(changer.split("|")[1],target),
 					"duration_left":randi_range(1,str2var(changer.split("|")[2])),"target":target
 				}
 				var do=true

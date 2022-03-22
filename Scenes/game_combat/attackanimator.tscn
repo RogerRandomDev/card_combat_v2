@@ -26,7 +26,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_wqwab"]
-resource_name = "Punch"
+resource_name = "Physicalprojectile"
 step = 0.05
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -38,7 +38,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 0.63, 0.75, 0.76, 0.77, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "values": [{
-"args": ["attributes/Physical", "", 1.571],
+"args": ["", "", 1.571],
 "method": &"load_object"
 }, {
 "args": [0.0, 0.25],
@@ -120,7 +120,7 @@ tracks/0/keys = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" groups=["action_trigger"]]
 anims/Heal = SubResource( "Animation_y053c" )
-anims/Punch = SubResource( "Animation_wqwab" )
+anims/Physicalprojectile = SubResource( "Animation_wqwab" )
 anims/magicprojectile = SubResource( "Animation_r4teu" )
 script = ExtResource( "1_ew7hc" )
 
