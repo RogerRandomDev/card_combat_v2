@@ -19,6 +19,7 @@ func build_full_card(card_data):
 	if(!output_data.has("type")):output_data["type"]="Harmful"
 	if(!output_data.has("delay")):output_data["delay"]=0
 	if(!output_data.has("stored_damage")):output_data["stored_damage"]=0
+	if(!output_data.has("variance")):output_data["variance"]=0
 	return output_data
 
 

@@ -7,7 +7,7 @@ var current_target_type="Target"
 #type fight modifiers
 var type_matches = {}
 
-var can_select=true
+var can_select=false
 
 var cur_enemies=["Angel","Frog","Flortle"]
 
@@ -143,6 +143,12 @@ func _input(_event):
 		
 		#changes the target to the new target
 		current_target_type = active_hover.get_next_target(current_target_type)
+		root.get_node("cur_action").text="SELECT AN ALLY"
+		match current_target_type:
+			"Card":
+				root.get_node("cur_action").text="SELECT CARD"
+			"Enemy":
+				root.get_node("cur_action").text="SELECT AN ENEMY"
 		#selects and stops hovering the current target
 		active_hover.select()
 		if header!="Card":
@@ -160,6 +166,7 @@ func _input(_event):
 				card.reset()
 			selected_now={}
 			if action_list.size()>=ally_count:
+				root.get_node("cur_action").visible=false
 				root.get_node("AnimationPlayer").play("activate_action")
 				
 		Sound.play_sound("plink")
@@ -205,23 +212,21 @@ func activate_actions(enemy_turn=false):
 		recieves_action.reset()
 		if does_action.base.stats.Hp>0&&recieves_action.base.stats.Hp>0:
 			var out = CardFunc.get_output_values(card)
-			
 			var recieves_action_defense = recieves_action.base.stats.Def
 			
 			#gets the attribute to use for the action
 			var does_action_power = action_strength_modifier(does_action.base.stats,card)
 			
-			
 			#determines if it should be modified by the final stat check
-			var stats_modifier_switch = (does_action.base.object_type!=recieves_action.base.object_type)
+			var stats_modifier_switch = card.type!="Healing"
 			#bonus action modifiers are done here
 			var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,does_action,recieves_action)
-			
 			#final modifier for the strength of the action
 			out = round(bonus_modifiers+does_action.base.modify_action_power(out,card.attribute,does_action_power,recieves_action_defense,stats_modifier_switch,does_action.base.stats.Attribute,recieves_action.base.stats.Attribute,does_action.base.buffs,recieves_action.base.buffs))
 			#applies healing based modifiers
 			if card.type=="Healing":
-				out=round((out*sqrt(does_action.base.stats.Sup/5)))
+				out=round((out*sqrt(does_action.base.stats.Sup)))
+			
 			#finishes the action
 			if CardFunc.type(card.type,"Harmful"):hit_target(recieves_action,out)
 			elif CardFunc.type(card.type,"Healing"):heal_target(recieves_action,out)
@@ -238,79 +243,95 @@ func activate_actions(enemy_turn=false):
 	return action_list
 #enemy actions
 func do_enemy_turns(enemy_neighbor,ally_neighbors):
-	for enemy in enemy_neighbor:
-		var enemy_neighbors=enemy_neighbor.duplicate(true)
-		enemy_neighbors.erase(enemy)
-		
-		#returns if enemy is in the middle of an action
-		for action in stored_enemy_actions:if action.Self == enemy:return
-		
-		var target_now = null;
-		
-		#health ratios of self and ally enemies
-		var ally_health_ratios = []
-		
-		
-		#chooses to heal an ally of itself
-		if enemy_neighbors!=null:
-			for ally in enemy_neighbors:
-				ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
-		
-		var target_action = "hit_target"
-		#will repeat until it has a target, and will target an enemy
-		while target_now==null:
-			var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
-			var least_health=1.0
+	while stored_enemy_actions.size()==0&&enemy_neighbor.size()!=0:
+		var ally_priorities ={}
+		var ally_to_choose=[]
+		var placehold=[]
+		for ally in ally_neighbors:
+			var stats = add_stats(ally.base.stats)
+			ally_priorities[ally]=stats
+			ally_to_choose.append(stats)
+		ally_to_choose.sort_custom(sorter)
+		for choice in ally_to_choose:
+			for ally in ally_priorities.keys():
+				if ally_priorities[ally]==choice:
+					placehold.append(ally);break
+		for enemy in enemy_neighbor:
+			var enemy_neighbors=enemy_neighbor.duplicate(true)
+			enemy_neighbors.erase(enemy)
 			
-			for ally in ally_health_ratios.size():
-				var health = ally_health_ratios[ally]
-				if randf_range(0.0,1.0)<=health:continue
-				if health <= heal_requirement_this_turn&&health<=least_health||target_now==null:
-					if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
-						target_now=enemy_neighbors[ally]
-						target_action="heal_target"
-						least_health=health
+			#returns if enemy is in the middle of an action
+			for action in stored_enemy_actions:if action.Self == enemy:return
 			
-			#health ratios for the allies of the player
-			var enemy_health_ratios = []
-			for enemyy in ally_neighbors:
-				enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+			var target_now = null;
 			
-			var attack_enemy=randf_range(0.5,1.0)
-			var lowest_ally_hp = 100.0
-			var target_now_a=null
+			#health ratios of self and ally enemies
+			var ally_health_ratios = []
 			
 			
-			for enemyy in enemy_health_ratios.size():
-				var health = enemy_health_ratios[enemyy]
-				if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
-					if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
-						target_now_a=ally_neighbors[enemyy]
-						lowest_ally_hp=health
-			#chooses if it will do a hurt action or heal action
+			#chooses to heal an ally of itself
+			if enemy_neighbors!=null:
+				for ally in enemy_neighbors:
+					ally_health_ratios.append(float(ally.base.stats.Hp)/float(ally.base.stats.maxHp))
 			
-			if lowest_ally_hp*randf_range(1.0,0.875) < least_health&&target_now_a!=null:
-				target_action="hit_target"
-				target_now = target_now_a
-		
-		
-		#gets the attribute to use for the action
-		var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target").duplicate(true)
-		
-		
-		#runs the base action code since CONVENIENCE
-		#storing previous information to re-apply after the action
-		var store_action = [{"Self":enemy,"Card":card,"Target":target_now}]
-		
-		
-		
-		stored_enemy_actions.append_array(store_action)
+			var target_action = "hit_target"
+			#will repeat until it has a target, and will target an enemy
+			while target_now==null:
+				var heal_requirement_this_turn = 1-pow(randf_range(0.95,1.0),pow(enemy.base.stats.Sup/2,1.25))
+				var least_health=1.0
+				
+				for ally in ally_health_ratios.size():
+					var health = ally_health_ratios[ally]
+					if randf_range(0.0,1.0)<=health:continue
+					if health <= heal_requirement_this_turn&&health<=least_health||target_now==null:
+						if target_now==null||target_now.base.stats.maxHp < enemy_neighbors[ally].base.stats.maxHp*randf_range(0.5,1.5):
+							target_now=enemy_neighbors[ally]
+							target_action="heal_target"
+							least_health=health
+				
+				#health ratios for the allies of the player
+				var enemy_health_ratios = []
+				for enemyy in placehold:
+					enemy_health_ratios.append(enemyy.base.stats.Hp/enemyy.base.stats.maxHp)
+				
+				
+				#prior method to choose to attack player, now it does a stat check as the base
+	#			var attack_enemy=randf_range(0.5,1.0)
+	#			var lowest_ally_hp = 100000.0
+	#			var target_now_a=null
+	#			var attack_enemy_stat_check=randi_range(placehold[placehold.size()-1],placehold[0])
+				
+	#			for enemyy in enemy_health_ratios.size():
+	#				var health = enemy_health_ratios[enemyy]
+	#
+	#				if health <=attack_enemy&&health <=lowest_ally_hp||(target_now==null&&target_now_a==null):
+	#					if target_now_a==null||target_now_a.base.stats.maxHp<ally_neighbors[enemyy].base.stats.maxHp*randf_range(0.5,1.5):
+	#						target_now_a=ally_neighbors[enemyy]
+	#						lowest_ally_hp=health
+				#chooses if it will do a hurt action or heal action
+				var dir =round(pow(randf_range(0,1),0.5));
+				var chosen = abs(round((dir-pow(randf_range(0.,1.),0.25))*(ally_to_choose.size()-1)))
+				if add_stats(enemy.base.stats) > ally_to_choose[chosen]*randf_range(0.75,1.0):
+					target_now=placehold[chosen]
+					target_action="hit_target"
+			
+			
+			#gets the attribute to use for the action
+			var card = choose_card_to_use(enemy.base.stats,target_now.base.stats,target_action!="hit_target").duplicate(true)
+			
+			
+			#runs the base action code since CONVENIENCE
+			#storing previous information to re-apply after the action
+			var store_action = [{"Self":enemy,"Card":card,"Target":target_now}]
+			
+			
+			
+			stored_enemy_actions.append_array(store_action)
 
 func do_enemy_action_in_full(data):
 	var card = data.Card
 	var n_card = card_object.new()
 	card = CardFunc.build_full_card(card.duplicate(true))
-	n_card.set_data(card)
 	n_card.call_deferred('set_data',card)
 	n_card.rect_position=Vector2(480,-64)
 	root.add_child(n_card)
@@ -328,12 +349,13 @@ func do_enemy_action_in_full(data):
 var enemy_turn_actions = []
 #enemy action trigger
 func trigger_enemy_action():
-	
+	call_deferred('full_enemy_trigger')
+func full_enemy_trigger():
 	var stored=action_list.duplicate(true)
 	enemy_action_list = stored_enemy_actions.duplicate(true)
-	action_list=enemy_action_list
+	action_list=stored_enemy_actions
 	if action_list.size()==0:action_list.append(null)
-	var done = trigger_action()
+	var done = trigger_action_enemy()
 	if done!=null:
 		stored_enemy_actions[0]=done
 	else:
@@ -356,7 +378,7 @@ func choose_card_to_use(my_stats,target_stats,do_heal=false):
 		var card = CardFunc.build_full_card(Data.cards[card_names])
 		if card.type=="Harmful"&&do_heal||card.type=="Healing"&&!do_heal:continue
 		
-		var output_power = full_enemy_action_calculation(card,recieves_action_defense,do_heal,my_stats,target_stats,basic_helper)
+		var output_power = abs(full_enemy_action_calculation(card,recieves_action_defense,do_heal,my_stats,target_stats,basic_helper))
 		if output_power>max_output:
 			max_output=output_power
 			max_output_card=card
@@ -367,27 +389,8 @@ func full_enemy_action_calculation(card,recieves_action_defense,do_heal,my_stats
 	var bonus_modifiers = CardFunc.damage_modified_by_bonus(card,null,null)
 	var does_action_power = action_strength_modifier(my_stats,card)
 	var output_power = round(bonus_modifiers+basic_helper.modify_action_power(card.strength,card.attribute,does_action_power,recieves_action_defense,!do_heal,my_stats.Attribute,target_stats.Attribute))
-	output_power += get_modified_action_power(card)
 	return output_power
 
-#applies the persiting effects that it can do
-func get_modified_action_power(card):
-	var effects = card.bonusactions.split(",")
-	var output_strength = 0
-	if effects[0]=="":return 0
-	for effect in effects:
-		var data = effect.split(":")
-		var name_of=data[0]
-		var attributes=data[1].split("|")
-		match name_of:
-			"inflict_effect_on_target":
-				var duration = round(attributes[2]/2)+1
-				var power = attributes[1]
-				output_strength+=power*duration
-			"hurt_user_mult":
-				var power = attributes[0]
-				output_strength-=round(power*card.strength*1.5)
-	return output_strength
 
 #gets the stats to use for the strength of the action
 func action_strength_modifier(does_action,card):
@@ -411,7 +414,7 @@ func action_strength_modifier(does_action,card):
 #makes them red and push back slightly
 func hit_target(target=null,strength_of=1):
 	if(target==null):return false
-	target.base.hurt(max(strength_of,1))
+	target.base.hurt(max(abs(strength_of),1))
 	shake_camera(0.125)
 	var tween:Tween=target.create_tween()
 	tween.parallel().tween_property(target,"rect_position",target.hit_direction(),0.125)
@@ -472,6 +475,7 @@ func trigger_action_enemy():
 		action.Card.delay-=1
 		action_list[0]=action
 		return action
+	action.Card=CardFunc.build_full_card(action.Card)
 	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self,action.Card,action)
 	return null
 
@@ -488,7 +492,8 @@ func trigger_action():
 		return
 	if action.Card.delay!=0:
 		activate_actions()
-		return
+		action.Card.delay-=1
+		return action
 	root.get_node("AttackPlayer").activate_action(action.Card.appearance,action.Target,action.Self,action.Card,action)
 
 
@@ -504,4 +509,17 @@ func check_teams():
 		action_list=[]
 		enemy_turn_actions=[]
 		enemy_action_list=[]
-		
+
+
+#adds up stats
+func add_stats(stats):
+	var out=0
+	out+=stats.Str
+	out+=stats.Def
+	out+=stats.Sup
+	out+=stats.Mag
+	return str2var(str(out))
+
+
+func sorter(a,b):
+	return a>b

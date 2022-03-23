@@ -42,7 +42,7 @@ func _ready():
 	#builds the type combat data
 	for type_rate in file_data["TypeMatches"]:
 		var type_name = type_rate.type
-		type_name[0]=type_name[0].to_upper()
+		type_name[0]=type_name[0].to_lower()
 		Combat.type_matches[type_name]=type_rate
 	
 
@@ -72,10 +72,10 @@ func random_entity():
 
 #game difficulties
 var difficulty_values={
-	"Easy":{"Ally":2.5,"Enemy":0.5},
+	"Easy":{"Ally":0.5,"Enemy":2.5},
 	"Normal":{"Ally":1.0,"Enemy":1.0},
-	"Hard":{"Ally":0.75,"Enemy":1.5},
-	"Hell":{"Ally": 0.5,"Enemy":2.5}
+	"Hard":{"Ally":1.5,"Enemy":0.75},
+	"Hell":{"Ally": 2.5,"Enemy":0.5}
 }
-var current_difficulty="Easy"
+var current_difficulty="Normal"
 func change_difficulty(difficulty_name):current_difficulty=difficulty_name

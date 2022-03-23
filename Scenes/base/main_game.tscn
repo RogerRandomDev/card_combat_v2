@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c0ve0pdr1ajbk"]
+[gd_scene load_steps=25 format=3 uid="uid://c0ve0pdr1ajbk"]
 
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="1_wyafj"]
 [ext_resource type="Script" path="res://Scripts/main_screen.gd" id="2_x4g7s"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://Scripts/Card_View.gd" id="5_rc02d"]
 [ext_resource type="Texture2D" uid="uid://i4u8ppyhu23v" path="res://icon.png" id="6_xkcl5"]
 [ext_resource type="Font" uid="uid://b7w13153ckv3i" path="res://fonts/basefont.tres" id="7_dwkex"]
-[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="8_g0dem"]
 [ext_resource type="Texture2D" uid="uid://d07sdv36ngsa3" path="res://Textures/icons/Menu/BargainsOfTheAbyss.png" id="9_7xvu4"]
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="9_8dhjf"]
 [ext_resource type="Texture2D" uid="uid://c72a3f1sfwp7p" path="res://Textures/World/objects/house0.png" id="10_lht8c"]
@@ -667,8 +666,6 @@ theme_override_styles/focus = SubResource( "StyleBoxEmpty_ixqb4" )
 theme_override_styles/disabled = SubResource( "StyleBoxEmpty_ixqb4" )
 theme_override_styles/normal = SubResource( "StyleBoxEmpty_ixqb4" )
 text = "X"
-
-[node name="shaders" parent="." instance=ExtResource( "8_g0dem" )]
 
 [node name="background" type="TextureRect" parent="."]
 show_behind_parent = true

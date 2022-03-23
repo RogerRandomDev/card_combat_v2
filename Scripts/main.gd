@@ -27,11 +27,11 @@ func enemy_turn_trigger() -> void:
 	enemy_actions = 0
 	
 	Combat.do_enemy_turns($EnemyList.get_children(),$AllyList.get_children())
-	$action_stopper.visible=true
+	$action_stopper.visible=true;$cur_action.visible=false
 	$AnimationPlayer.play("enemy_turn")
 #empty and refill the player's hand
 func reload_hand() -> void:
-	$action_stopper.visible=true
+	$action_stopper.visible=true;$cur_action.visible=false
 	$AnimationPlayer.play("flipcards")
 	for card in $CardList.get_children():
 		card.flipping_card()
@@ -47,7 +47,7 @@ func reload_hand() -> void:
 
 #removes a card
 func remove_card() -> void:
-	$action_stopper.visible=true
+	$action_stopper.visible=true;$cur_action.visible=false
 	if $CardList.get_child_count()==0:
 		shuffle_count=randi_range(10,20)
 		$AnimationPlayer.play("shuffle")
@@ -71,7 +71,7 @@ func remove_card() -> void:
 	get_node("Turn").text = "Ally's Turn"
 #shuffle the deck of cards
 func shuffle() -> void:
-	$action_stopper.visible=true
+	$action_stopper.visible=true;$cur_action.visible=false
 	if shuffle_count==0:
 		$AnimationPlayer.play("fillhand")
 		return
@@ -84,10 +84,17 @@ func shuffle() -> void:
 	
 	shuffle_count-=1
 
-
+func check_loss():
+	if($AllyList.get_child_count()==0):
+		$action_stopper.visible=true;$cur_action.visible=false
+		Combat.can_select=false
+		$game_end/box/label.text="GAME OVER\nYOU LOSE"
+		$AnimationPlayer.play("end_game")
+		return
 #adds the cards to your hand
 func add_card_to_hand() -> void:
-	$action_stopper.visible=true
+	check_loss()
+	$action_stopper.visible=true;$cur_action.visible=false
 	Data.shuffle_deck()
 	var cards_removed=[]
 	for card_id in $storestack.get_children():
@@ -103,7 +110,7 @@ func add_card_to_hand() -> void:
 	
 	if $CardList.get_child_count()>=hand_size-$storestack.get_child_count():
 		$AnimationPlayer.stop()
-		$action_stopper.visible=false
+		$action_stopper.visible=false;$cur_action.visible=true
 		Combat.can_select=true
 		for ally in $AllyList.get_children():
 			var do=true
@@ -121,6 +128,7 @@ func add_card_to_hand() -> void:
 
 #triggers combat global function for actions
 func trigger_action() -> void:
+	check_loss()
 	Combat.can_select=false
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	Combat.call_deferred('trigger_action')
@@ -130,7 +138,11 @@ var enemy_actions = 0
 var offset=0
 #does the enemy actions
 func trigger_enemy_action() -> void:
-	$action_stopper.visible=true
+	call_deferred('full_enemy_trigger')
+
+func full_enemy_trigger()->void:
+	check_loss()
+	$action_stopper.visible=true;$cur_action.visible=false
 	if get_tree().get_nodes_in_group("action_trigger").size()!=0:return
 	if enemy_actions >= $EnemyList.get_child_count():
 		offset=0
@@ -154,7 +166,8 @@ func show_card_description(card_data="") -> void:
 var persistent_id = 0
 #triggers persistent effects
 func trigger_persistent_effect() -> void:
-	$action_stopper.visible=true
+	check_loss()
+	$action_stopper.visible=true;$cur_action.visible=false
 	if persistent_id >= Combat.persisting_actions.size():
 		persistent_id = 0
 		Combat.check_teams()
@@ -176,7 +189,22 @@ func move_card(n_card,origin) -> void:
 	tween.tween_property(n_card,"rect_global_position",target_pos,0.225)
 	tween.tween_callback(fix_hand)
 
-
+#return to title
+func return_to_title():
+	for spoil in Combat.current_spoils.size():
+		var cur_spoil = Combat.current_spoils[spoil]
+		if spoil==Combat.current_spoils.size()-1&&spoil==root.max_rounds-1:
+			if !Data.owned_chars.keys().has(cur_spoil):
+				Data.owned_chars[cur_spoil]=1
+				continue
+			Data.owned_chars[cur_spoil]+=1
+		else:
+			if !Data.owned_cards.keys().has(cur_spoil):
+				Data.owned_cards[cur_spoil]=1
+				continue
+			Data.owned_cards[cur_spoil]+=1
+	
+	get_tree().change_scene("res://Scenes/base/main_game.tscn")
 #makes sure hand is working
 func fix_hand() -> void:
 	var maxx = $CardList.get_child_count()

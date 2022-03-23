@@ -47,6 +47,8 @@ func load_combat_scene() -> void:
 	if combat_scene!=null:
 		combat_scene.queue_free()
 	Combat.can_select=true
+	Combat.action_list=[]
+	Combat.stored_actions=[]
 	combat_scene = base_combat_scene.instantiate()
 	combat_scene.get_node("CombatContainer/game_combat").root=self
 	add_child(combat_scene)
@@ -95,12 +97,12 @@ func choose_random_enemy_from_dungeon():
 
 #shows panel for when completing the stage
 func show_end_panel() -> void:
-	if combat_scene!=null:
-		combat_scene.queue_free()
 	var tween:Tween=create_tween()
 	var ending_panel = $levelcontainer/levelscreen/end_panel
-	var score_out = round(Combat.total_damage/(1.+Combat.allies_dead^2)*(1./max(Combat.cards_used-15.,1.)))
+	var score_out = round(Combat.total_damage/(1.+pow(Combat.allies_dead,2.))*(1./max(Combat.cards_used-15.,1.)))
 	
 	ending_panel.get_node("body/score").text="Score:%s"%str(score_out)
 	tween.set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property(ending_panel,"rect_position",Vector2(128,48),1.5)
+	tween.tween_property(ending_panel,"rect_position",Vector2(128,48),0.5)
+	tween.tween_interval(2.0)
+	tween.tween_callback(combat_scene.get_node("CombatContainer/game_combat").return_to_title)

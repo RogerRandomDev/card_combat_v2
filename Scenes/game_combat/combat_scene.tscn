@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b61hhanf0pyp7"]
+[gd_scene load_steps=31 format=3 uid="uid://b61hhanf0pyp7"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ynivg"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_yjdqk"]
@@ -8,11 +8,13 @@
 [ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_cdkqj"]
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="6_ta01g"]
 [ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="7_itcfw"]
+[ext_resource type="Texture2D" uid="uid://cmlqnuu2smw4c" path="res://Textures/icons/combat/store_icon.png" id="7_u6bh0"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_8penj"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="11_2qu3r"]
 [ext_resource type="Material" uid="uid://cvgn0o0rhbqhm" path="res://shaders/COLcirlcexplosion.tres" id="12_o24g3"]
 [ext_resource type="Script" path="res://Scenes/game_combat/AttackPlayer.gd" id="12_sqm1e"]
 [ext_resource type="Material" uid="uid://bsjwapxhh4p6n" path="res://shaders/explosion0.tres" id="13_00kqd"]
+[ext_resource type="FontData" uid="uid://cuiklovah37q8" path="res://fonts/gamefont.TTF" id="13_i45lw"]
 [ext_resource type="Material" uid="uid://qsb51a0heh85" path="res://shaders/holy0.tres" id="14_p8mhc"]
 [ext_resource type="Material" uid="uid://bseh21ekg47cv" path="res://shaders/magic_projectile.tres" id="15_1w8jv"]
 
@@ -32,6 +34,48 @@ tracks/0/keys = {
 "values": [{
 "args": [],
 "method": &"trigger_action"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_e4jth"]
+resource_name = "end_game"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("game_end:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(256, 632), Vector2(256, 150)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("game_end/CanvasModulate:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"return_to_title"
 }]
 }
 
@@ -165,7 +209,16 @@ color_ramp = SubResource( "GradientTexture1D_km78f" )
 hue_variation_min = -0.13
 hue_variation_max = 0.13
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f331i"]
+
+[sub_resource type="Font" id="Font_k8qpc"]
+data/0 = ExtResource( "13_i45lw" )
+
 [node name="game_base" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [],
+"_edit_vertical_guides_": []
+}
 
 [node name="CombatContainer" type="Control" parent="."]
 rect_clip_content = true
@@ -317,11 +370,15 @@ text = "Store"
 horizontal_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="CombatContainer/game_combat/storestack/Label"]
+show_behind_parent = true
 position = Vector2(4, 16)
 scale = Vector2(8, 8)
+texture = ExtResource( "7_u6bh0" )
+centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CombatContainer/game_combat"]
 anims/activate_action = SubResource( "Animation_bw3in" )
+anims/end_game = SubResource( "Animation_e4jth" )
 anims/enemy_turn = SubResource( "Animation_igwnr" )
 anims/fillhand = SubResource( "Animation_ppuey" )
 anims/flipcards = SubResource( "Animation_utqgd" )
@@ -424,6 +481,49 @@ process_material = SubResource( "ParticlesMaterial_ah3kx" )
 
 [node name="AttackPlayer" type="Node" parent="CombatContainer/game_combat"]
 script = ExtResource( "12_sqm1e" )
+
+[node name="game_end" type="PanelContainer" parent="CombatContainer/game_combat"]
+rect_min_size = Vector2(512, 300)
+offset_left = 256.0
+offset_top = 632.0
+offset_right = 768.0
+offset_bottom = 932.0
+theme = ExtResource( "11_2qu3r" )
+theme_override_styles/panel = SubResource( "StyleBoxEmpty_f331i" )
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="box" type="VBoxContainer" parent="CombatContainer/game_combat/game_end"]
+offset_right = 512.0
+offset_bottom = 300.0
+
+[node name="label" type="Label" parent="CombatContainer/game_combat/game_end/box"]
+offset_right = 512.0
+offset_bottom = 33.0
+text = "LOSE"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
+
+[node name="CanvasModulate" type="CanvasModulate" parent="CombatContainer/game_combat/game_end"]
+
+[node name="cur_action" type="Label" parent="CombatContainer/game_combat"]
+offset_left = 384.0
+offset_top = 94.0
+offset_right = 640.0
+offset_bottom = 192.0
+theme_override_fonts/font = SubResource( "Font_k8qpc" )
+theme_override_font_sizes/font_size = 16
+text = "SELECT AN ALLY"
+horizontal_alignment = 1
+__meta__ = {
+"_edit_layout_mode": 0,
+"_edit_use_custom_anchors": false
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(1.00262, 1)

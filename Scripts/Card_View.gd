@@ -101,6 +101,7 @@ func show_Cards(data):
 		$DataShower/card/Attributelist.add_child(Sprite)
 		
 	$DataShower/card/Description_out.text = "(a)".replace("a",data.type)+"\n"+data.description
+	if(!data.keys().has("variance")):data["variance"]=0
 	$DataShower/card/power_out.text = str(data.strength-data.variance)+"-"+str(data.strength+data.variance)
 	$DataShower/card.show()
 	$DataShower/ent.hide()
@@ -196,7 +197,6 @@ func add_item_to_dek():
 		if Data.current_deck[cur_data.name]>=5:return
 		Data.current_deck[cur_data.name]+=1
 		load_deck()
-		Save.store_save()
 
 #update the creature deck
 func update_creature_deck():

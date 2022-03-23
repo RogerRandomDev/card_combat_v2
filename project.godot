@@ -40,6 +40,7 @@ Combat="*res://global/combat.gd"
 CardFunc="*res://global/CardFunc.gd"
 Classes="*res://global/classes.gd"
 Sound="*res://global/Sound.gd"
+Shaderlayer="*res://Scenes/shaderlayer.tscn"
 
 [display]
 

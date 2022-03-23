@@ -92,6 +92,8 @@ class combat_object extends Node:
 		if stats.Hp-val <0||stats.Hp-val > stats.maxHp:
 			val = stats.maxHp-stats.Hp
 		val *= sign(int(damaging)*2-1)
+		if sign(val)==1:val =min(val,stats.Hp)
+		else:val=min(val,stats.maxHp-stats.Hp)
 		stats.Hp=max(min(stats.Hp-val,stats.maxHp),0)
 		root.get_node("Hp").text = "Hp:"+str(stats.Hp)
 		
@@ -137,23 +139,29 @@ class combat_object extends Node:
 	func modify_action_power(base_power,attack_attribute,strength_of,defense_of,modify_with_stats=true,attacker_attribute="physical",defend_attribute="physical",attacker_buffs=[],defender_buffs=[]):
 		var modifier = 1.0
 		attack_attribute=attack_attribute.split(",")
-		
 		#attribute based modifiers
 		var modifier_for_attribute = 1.0
 		var my_attributes = attacker_attribute.split(",")
 		var your_attributes = defend_attribute.split(",")
 		var modified_attributes = []
-		
 		#modifies the power based on your attribute to your enemy attributes
-		for attribute in your_attributes:
+		var modified_count = 0
+		for attr in your_attributes:
+			var attribute=attr.to_lower()
 			if !Combat.type_matches.keys().has(attribute):continue
-			for enemy_attribute in my_attributes:
+			for enemy_attr in my_attributes:
+				var enemy_attribute=enemy_attr.to_lower()
 				if modified_attributes.has(enemy_attribute):continue
 				modified_attributes.append(enemy_attribute)
 				if attribute==enemy_attribute:
-					modifier_for_attribute*=0.75;continue
-				if !Combat.type_matches[attribute].keys().has(enemy_attribute):continue
-				modifier_for_attribute*=Combat.type_matches[attribute][enemy_attribute]
+					modified_count+=1
+					modifier_for_attribute+=0.75;continue
+				if !Combat.type_matches[attribute].keys().has(enemy_attribute):
+					continue
+				modified_count+=1
+				modifier_for_attribute+=Combat.type_matches[attribute][enemy_attribute]
+		if modified_count==0:modified_count=1
+		modifier_for_attribute/=modified_count
 		#modifiers based on buffs
 		var buff_based_modifiers = 1.0
 		for buff in attacker_buffs:
@@ -162,9 +170,9 @@ class combat_object extends Node:
 			if(buff.name=="Defense"):buff_based_modifiers*=(1/buff.value)
 		
 		#modifier for the power of the enemy to the current defense of the target
-		var modified_strength_to_defense=min(max(sqrt(strength_of/defense_of),0.5),1.5)
-		if modified_strength_to_defense<=0.125:
-			modified_strength_to_defense=0.125
+		var modified_strength_to_defense=min(max(pow(strength_of/defense_of,0.125),0.5),1.5)
+		if modified_strength_to_defense<0:
+			modified_strength_to_defense=abs(modified_strength_to_defense)
 		if !modify_with_stats:
 			modifier_for_attribute=1.0
 			modified_strength_to_defense=1.0

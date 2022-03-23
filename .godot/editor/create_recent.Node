@@ -1,12 +1,13 @@
+Label
+CanvasModulate
 VBoxContainer
+PanelContainer
+Control
 ItemList
 Button
 Window
-Label
-PanelContainer
 TextureRect
 Line2D
-Control
 Sprite2D
 GPUParticles2D
 Panel
@@ -29,4 +30,3 @@ CPUParticles2D
 AnimationPlayer
 Node
 TileMap
-GraphNode

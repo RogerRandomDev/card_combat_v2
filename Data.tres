@@ -1,7 +1,7 @@
 {
     "TypeMatches": [
         {
-            "type": "Air",
+            "type": "air",
             "air": 0.75,
             "earth": 0.75,
             "water": 1,
@@ -18,7 +18,7 @@
             "electric": 1.25
         },
         {
-            "type": "Earth",
+            "type": "earth",
             "air": 1.125,
             "earth": 0.75,
             "water": 1.5,
@@ -35,7 +35,7 @@
             "electric": 0.5
         },
         {
-            "type": "Water",
+            "type": "water",
             "air": 0.5,
             "earth": 1,
             "water": 0.75,
@@ -52,7 +52,7 @@
             "electric": 2
         },
         {
-            "type": "Fire",
+            "type": "fire",
             "air": 0.75,
             "earth": 1.5,
             "water": 2,
@@ -69,7 +69,7 @@
             "electric": 1
         },
         {
-            "type": "Sky",
+            "type": "sky",
             "air": 1,
             "earth": 0.75,
             "water": 1,
@@ -86,7 +86,7 @@
             "electric": 0.875
         },
         {
-            "type": "Plant",
+            "type": "plant",
             "air": 1,
             "earth": 0.5,
             "water": 0.5,
@@ -103,7 +103,7 @@
             "electric": 1.25
         },
         {
-            "type": "Blood",
+            "type": "blood",
             "air": 1,
             "earth": 1,
             "water": 1,
@@ -120,7 +120,7 @@
             "electric": 1.5
         },
         {
-            "type": "Soul",
+            "type": "soul",
             "air": 1.5,
             "earth": 0.75,
             "water": 0.75,
@@ -137,7 +137,7 @@
             "electric": 1.5
         },
         {
-            "type": "Physical",
+            "type": "physical",
             "air": 1.25,
             "earth": 1.25,
             "water": 1.25,
@@ -154,7 +154,7 @@
             "electric": 2
         },
         {
-            "type": "Holy",
+            "type": "holy",
             "air": 1,
             "earth": 1,
             "water": 1,
@@ -171,7 +171,7 @@
             "electric": 1
         },
         {
-            "type": "Evil",
+            "type": "evil",
             "air": 1,
             "earth": 1,
             "water": 1,
@@ -188,7 +188,7 @@
             "electric": 1
         },
         {
-            "type": "Dark",
+            "type": "dark",
             "air": 1,
             "earth": 1,
             "water": 1,
@@ -205,7 +205,7 @@
             "electric": 2
         },
         {
-            "type": "Light",
+            "type": "light",
             "air": 1,
             "earth": 1.5,
             "water": 1,
@@ -222,7 +222,7 @@
             "electric": 1
         },
         {
-            "type": "Electric",
+            "type": "electric",
             "air": 0.75,
             "earth": 2,
             "water": 1,
@@ -243,7 +243,7 @@
         {
             "name": "Punch",
             "description": "Punch Hard",
-            "strength": 5,
+            "strength": 2,
             "variance": 1,
             "type": "Harmful",
             "attribute": "Physical",
@@ -380,7 +380,7 @@
             "strength": 25,
             "variance": 20,
             "type": "Harmful",
-            "attribute": "Fire,Physical",
+            "attribute": "Physical",
             "delay": 0,
             "bonusactions": "hurt_user_mult:100%",
             "color": "#F7B6A3",
@@ -392,18 +392,18 @@
             "name": "Frog",
             "texture": "Frog",
             "hp": 30,
-            "str": 3,
+            "str": 2,
             "def": 3,
-            "mag": 1,
-            "sup": 1,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Earth,Water"
         },
         {
             "name": "Trider",
             "texture": "Trider",
             "hp": 35,
-            "str": 7,
-            "def": 7,
+            "str": 5,
+            "def": 4,
             "mag": 1,
             "sup": 1,
             "attribute": "Plant,Earth"
@@ -413,18 +413,18 @@
             "texture": "Mush",
             "hp": 45,
             "str": 1,
-            "def": 3,
-            "mag": 3,
-            "sup": 3,
+            "def": 1,
+            "mag": 5,
+            "sup": 5,
             "attribute": "Plant,Earth"
         },
         {
             "name": "Goblin",
             "texture": "Goblin",
             "hp": 45,
-            "str": 5,
-            "def": 4,
-            "mag": 1,
+            "str": 3,
+            "def": 3,
+            "mag": 2,
             "sup": 1,
             "attribute": "Earth,Blood"
         },
@@ -432,19 +432,19 @@
             "name": "Angel",
             "texture": "Angel",
             "hp": 50,
-            "str": 3,
+            "str": 2,
             "def": 3,
-            "mag": 7,
-            "sup": 7,
+            "mag": 5,
+            "sup": 5,
             "attribute": "Holy,Light,Sky"
         },
         {
             "name": "Demon",
             "texture": "Demon",
             "hp": 65,
-            "str": 7,
-            "def": 7,
-            "mag": 7,
+            "str": 5,
+            "def": 3,
+            "mag": 4,
             "sup": 1,
             "attribute": "Evil,Dark,Blood"
         },
@@ -452,9 +452,9 @@
             "name": "Ningcloud",
             "texture": "Ningcloud",
             "hp": 60,
-            "str": 2,
-            "def": 5,
-            "mag": 7,
+            "str": 1,
+            "def": 3,
+            "mag": 5,
             "sup": 3,
             "attribute": "Sky,Electric"
         },
@@ -462,19 +462,19 @@
             "name": "Flortle",
             "texture": "Flortle",
             "hp": 80,
-            "str": 3,
+            "str": 2,
             "def": 5,
-            "mag": 10,
-            "sup": 7,
+            "mag": 5,
+            "sup": 5,
             "attribute": "Plant,Earth,Dark"
         },
         {
             "name": "Vortle",
             "texture": "Vortle",
             "hp": 80,
-            "str": 8,
+            "str": 5,
             "def": 5,
-            "mag": 5,
+            "mag": 2,
             "sup": 2,
             "attribute": "Earth,Fire,Dark"
         },
@@ -483,8 +483,8 @@
             "texture": "ReaperPlant",
             "hp": 50,
             "str": 3,
-            "def": 2,
-            "mag": 10,
+            "def": 4,
+            "mag": 5,
             "sup": 2,
             "attribute": "Plant,Fire,Evil"
         },
@@ -492,9 +492,9 @@
             "name": "Mush Lord",
             "texture": "Mushlord",
             "hp": 60,
-            "str": 4,
-            "def": 3,
-            "mag": 10,
+            "str": 3,
+            "def": 4,
+            "mag": 4,
             "sup": 5,
             "attribute": "Plant,Evil,Dark,Earth,Sky,Water"
         },
@@ -502,60 +502,60 @@
             "name": "Wandering Soul",
             "texture": "Wanderingspirit",
             "hp": 50,
-            "str": 4,
-            "def": 2,
-            "mag": 10,
-            "sup": 5,
+            "str": 1,
+            "def": 4,
+            "mag": 5,
+            "sup": 3,
             "attribute": "Soul"
         },
         {
             "name": "Stone Golem",
             "texture": "Stonegolem",
             "hp": 90,
-            "str": 8,
-            "def": 10,
-            "mag": 2,
-            "sup": 2,
+            "str": 5,
+            "def": 5,
+            "mag": 5,
+            "sup": 1,
             "attribute": "Earth,Dark,Blood"
         },
         {
             "name": "Dirt Golem",
             "texture": "Dirtgolem",
             "hp": 80,
-            "str": 7,
-            "def": 10,
-            "mag": 10,
-            "sup": 7,
+            "str": 4,
+            "def": 4,
+            "mag": 4,
+            "sup": 4,
             "attribute": "Earth,Dark"
         },
         {
             "name": "Linny",
             "texture": "Linny",
             "hp": 30,
-            "str": 3,
-            "def": 3,
-            "mag": 10,
-            "sup": 10,
+            "str": 1,
+            "def": 4,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Water"
         },
         {
             "name": "Dream Eater",
             "texture": "DreamEater",
             "hp": 30,
-            "str": 3,
-            "def": 3,
-            "mag": 8,
-            "sup": 8,
+            "str": 2,
+            "def": 2,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Soul,Dark,Evil,Blood"
         },
         {
             "name": "Stone Wing",
             "texture": "StoneWing",
             "hp": 30,
-            "str": 8,
-            "def": 8,
-            "mag": 4,
-            "sup": 1,
+            "str": 2,
+            "def": 2,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Evil,Earth,Sky"
         },
         {
@@ -563,9 +563,9 @@
             "texture": "VaporSoul",
             "hp": 30,
             "str": 2,
-            "def": 3,
-            "mag": 6,
-            "sup": 4,
+            "def": 2,
+            "mag": 2,
+            "sup": 2,
             "attribute": "Soul,Sky,Water"
         }
     ]

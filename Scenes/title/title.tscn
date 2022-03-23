@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bvhwxl13glr42"]
+[gd_scene load_steps=7 format=3 uid="uid://bvhwxl13glr42"]
 
 [ext_resource type="Theme" uid="uid://cpy7ttnvoxkeh" path="res://fonts/titletheme.tres" id="1_ati3w"]
-[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="1_o8fwo"]
 [ext_resource type="Script" path="res://Scenes/title/title.gd" id="1_smx5k"]
 [ext_resource type="Script" path="res://Scenes/title/CharacterScrolling.gd" id="3_6tfye"]
 [ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="5_bq5ws"]
@@ -132,8 +131,6 @@ offset_right = 1024.0
 offset_bottom = 192.0
 theme = ExtResource( "1_ati3w" )
 script = ExtResource( "3_6tfye" )
-
-[node name="Node" parent="." instance=ExtResource( "1_o8fwo" )]
 
 [node name="background" type="TextureRect" parent="."]
 show_behind_parent = true

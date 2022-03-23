@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://b20kamvlp848"]
+[gd_scene load_steps=8 format=3 uid="uid://b20kamvlp848"]
 
 [ext_resource type="Script" path="res://Scripts/worldmap.gd" id="1_8pq0k"]
-[ext_resource type="PackedScene" uid="uid://htv8fosh42iq" path="res://Scenes/shaderlayer.tscn" id="2_thbnu"]
 [ext_resource type="Font" uid="uid://b7w13153ckv3i" path="res://fonts/basefont.tres" id="3_5ksbn"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="3_jnck7"]
 
@@ -37,8 +36,6 @@ corner_radius_bottom_left = 4
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( "1_8pq0k" )
-
-[node name="Node" parent="." instance=ExtResource( "2_thbnu" )]
 
 [node name="levelcontainer" type="SubViewportContainer" parent="."]
 top_level = true
