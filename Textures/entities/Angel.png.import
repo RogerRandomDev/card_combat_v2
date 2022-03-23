@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://bser6pjhwdfcb"
-path="res://.godot/imported/Angel.png-c35db5d62b7f0e02266cf747f9868424.ctex"
+path="res://.godot/imported/Angel.png-c35db5d62b7f0e02266cf747f9868424.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Angel.png"
-dest_files=["res://.godot/imported/Angel.png-c35db5d62b7f0e02266cf747f9868424.ctex"]
+dest_files=["res://.godot/imported/Angel.png-c35db5d62b7f0e02266cf747f9868424.stex"]
 
 [params]
 

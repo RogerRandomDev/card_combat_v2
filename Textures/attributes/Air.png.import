@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://dbt78ggbfkx6y"
-path="res://.godot/imported/Air.png-e5797a773b89a44bdc802c2621adcfa3.ctex"
+path="res://.godot/imported/Air.png-e5797a773b89a44bdc802c2621adcfa3.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Air.png"
-dest_files=["res://.godot/imported/Air.png-e5797a773b89a44bdc802c2621adcfa3.ctex"]
+dest_files=["res://.godot/imported/Air.png-e5797a773b89a44bdc802c2621adcfa3.stex"]
 
 [params]
 

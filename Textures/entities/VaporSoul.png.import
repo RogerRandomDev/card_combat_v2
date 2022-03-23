@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://dilijstbcdfkx"
-path="res://.godot/imported/VaporSoul.png-105a59e6407431a8ca8e806914650f67.ctex"
+path="res://.godot/imported/VaporSoul.png-105a59e6407431a8ca8e806914650f67.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/VaporSoul.png"
-dest_files=["res://.godot/imported/VaporSoul.png-105a59e6407431a8ca8e806914650f67.ctex"]
+dest_files=["res://.godot/imported/VaporSoul.png-105a59e6407431a8ca8e806914650f67.stex"]
 
 [params]
 

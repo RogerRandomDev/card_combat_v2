@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://cmg8ns3saiml4"
-path="res://.godot/imported/Punch.png-6919b400b18d77e52bc52dcc4b217ead.ctex"
+path="res://.godot/imported/Punch.png-6919b400b18d77e52bc52dcc4b217ead.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attackicons/Punch.png"
-dest_files=["res://.godot/imported/Punch.png-6919b400b18d77e52bc52dcc4b217ead.ctex"]
+dest_files=["res://.godot/imported/Punch.png-6919b400b18d77e52bc52dcc4b217ead.stex"]
 
 [params]
 

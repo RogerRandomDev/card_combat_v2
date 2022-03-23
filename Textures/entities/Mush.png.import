@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://bunb2o8q6pxs7"
-path="res://.godot/imported/Mush.png-88968c0151f4cf62a56a48cbcdf0484e.ctex"
+path="res://.godot/imported/Mush.png-88968c0151f4cf62a56a48cbcdf0484e.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Mush.png"
-dest_files=["res://.godot/imported/Mush.png-88968c0151f4cf62a56a48cbcdf0484e.ctex"]
+dest_files=["res://.godot/imported/Mush.png-88968c0151f4cf62a56a48cbcdf0484e.stex"]
 
 [params]
 

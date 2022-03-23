@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://biw3og1te444m"
-path="res://.godot/imported/Poison.png-8ae4e332d9242e8fc9372a51244ffa71.ctex"
+path="res://.godot/imported/Poison.png-8ae4e332d9242e8fc9372a51244ffa71.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/status_effects/Poison.png"
-dest_files=["res://.godot/imported/Poison.png-8ae4e332d9242e8fc9372a51244ffa71.ctex"]
+dest_files=["res://.godot/imported/Poison.png-8ae4e332d9242e8fc9372a51244ffa71.stex"]
 
 [params]
 

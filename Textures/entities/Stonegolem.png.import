@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://4720r226hp6c"
-path="res://.godot/imported/Stonegolem.png-b499c72b4d9828c1a2e3c4c93c025016.ctex"
+path="res://.godot/imported/Stonegolem.png-b499c72b4d9828c1a2e3c4c93c025016.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Stonegolem.png"
-dest_files=["res://.godot/imported/Stonegolem.png-b499c72b4d9828c1a2e3c4c93c025016.ctex"]
+dest_files=["res://.godot/imported/Stonegolem.png-b499c72b4d9828c1a2e3c4c93c025016.stex"]
 
 [params]
 

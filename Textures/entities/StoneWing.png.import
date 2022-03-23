@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://b0f5q180vkpo6"
-path="res://.godot/imported/StoneWing.png-6172a2a68dcfdcf408c0f3f2e2fc9f91.ctex"
+path="res://.godot/imported/StoneWing.png-6172a2a68dcfdcf408c0f3f2e2fc9f91.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/StoneWing.png"
-dest_files=["res://.godot/imported/StoneWing.png-6172a2a68dcfdcf408c0f3f2e2fc9f91.ctex"]
+dest_files=["res://.godot/imported/StoneWing.png-6172a2a68dcfdcf408c0f3f2e2fc9f91.stex"]
 
 [params]
 

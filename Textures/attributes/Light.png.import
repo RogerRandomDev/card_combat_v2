@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://b0kke8jqxo5q5"
-path="res://.godot/imported/Light.png-7ea0a4ec770d34f0a91f6e2651876169.ctex"
+path="res://.godot/imported/Light.png-7ea0a4ec770d34f0a91f6e2651876169.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Light.png"
-dest_files=["res://.godot/imported/Light.png-7ea0a4ec770d34f0a91f6e2651876169.ctex"]
+dest_files=["res://.godot/imported/Light.png-7ea0a4ec770d34f0a91f6e2651876169.stex"]
 
 [params]
 

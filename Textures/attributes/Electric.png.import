@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://coy6ybdh5rish"
-path="res://.godot/imported/Electric.png-7db6dce1c83f2230675bd215db6fd827.ctex"
+path="res://.godot/imported/Electric.png-7db6dce1c83f2230675bd215db6fd827.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Electric.png"
-dest_files=["res://.godot/imported/Electric.png-7db6dce1c83f2230675bd215db6fd827.ctex"]
+dest_files=["res://.godot/imported/Electric.png-7db6dce1c83f2230675bd215db6fd827.stex"]
 
 [params]
 

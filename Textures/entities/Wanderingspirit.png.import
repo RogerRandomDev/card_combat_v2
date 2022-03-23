@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="CompressedTexture2D"
+type="StreamTexture2D"
 uid="uid://dt5ycm7dq56fp"
-path="res://.godot/imported/Wanderingspirit.png-a452acced9888c5f6c22f4f06b495798.ctex"
+path="res://.godot/imported/Wanderingspirit.png-a452acced9888c5f6c22f4f06b495798.stex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Wanderingspirit.png"
-dest_files=["res://.godot/imported/Wanderingspirit.png-a452acced9888c5f6c22f4f06b495798.ctex"]
+dest_files=["res://.godot/imported/Wanderingspirit.png-a452acced9888c5f6c22f4f06b495798.stex"]
 
 [params]
 
