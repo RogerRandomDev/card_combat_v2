@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://c72a3f1sfwp7p"
-path="res://.godot/imported/house0.png-e7a17984b121b800d2174f325b756f7e.stex"
+path="res://.godot/imported/house0.png-e7a17984b121b800d2174f325b756f7e.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/World/objects/house0.png"
-dest_files=["res://.godot/imported/house0.png-e7a17984b121b800d2174f325b756f7e.stex"]
+dest_files=["res://.godot/imported/house0.png-e7a17984b121b800d2174f325b756f7e.ctex"]
 
 [params]
 

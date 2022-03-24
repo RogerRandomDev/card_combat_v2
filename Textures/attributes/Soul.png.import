@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://c1q1qmuwx7xvy"
-path="res://.godot/imported/Soul.png-e887c2c91f0a8c97426e81a71b50ae11.stex"
+path="res://.godot/imported/Soul.png-e887c2c91f0a8c97426e81a71b50ae11.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Soul.png"
-dest_files=["res://.godot/imported/Soul.png-e887c2c91f0a8c97426e81a71b50ae11.stex"]
+dest_files=["res://.godot/imported/Soul.png-e887c2c91f0a8c97426e81a71b50ae11.ctex"]
 
 [params]
 

@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://c4ib3i082e53p"
-path="res://.godot/imported/Earth.png-a7153d4a3c2bfe580dd551e9c9339c9c.stex"
+path="res://.godot/imported/Earth.png-a7153d4a3c2bfe580dd551e9c9339c9c.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attributes/Earth.png"
-dest_files=["res://.godot/imported/Earth.png-a7153d4a3c2bfe580dd551e9c9339c9c.stex"]
+dest_files=["res://.godot/imported/Earth.png-a7153d4a3c2bfe580dd551e9c9339c9c.ctex"]
 
 [params]
 

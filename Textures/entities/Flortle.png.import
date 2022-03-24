@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://d0ejg5h2fjlci"
-path="res://.godot/imported/Flortle.png-fe27545553bb32331a934378b615c22e.stex"
+path="res://.godot/imported/Flortle.png-fe27545553bb32331a934378b615c22e.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Flortle.png"
-dest_files=["res://.godot/imported/Flortle.png-fe27545553bb32331a934378b615c22e.stex"]
+dest_files=["res://.godot/imported/Flortle.png-fe27545553bb32331a934378b615c22e.ctex"]
 
 [params]
 

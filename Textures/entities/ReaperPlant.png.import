@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://cdpm5kc87omhr"
-path="res://.godot/imported/ReaperPlant.png-c934d0cf8b002ad4510ec45a3f412618.stex"
+path="res://.godot/imported/ReaperPlant.png-c934d0cf8b002ad4510ec45a3f412618.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/ReaperPlant.png"
-dest_files=["res://.godot/imported/ReaperPlant.png-c934d0cf8b002ad4510ec45a3f412618.stex"]
+dest_files=["res://.godot/imported/ReaperPlant.png-c934d0cf8b002ad4510ec45a3f412618.ctex"]
 
 [params]
 

@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://do88enexe7ikk"
-path="res://.godot/imported/background0.png-bd7b3a86ead6adfb7a4696fc63ba163f.stex"
+path="res://.godot/imported/background0.png-bd7b3a86ead6adfb7a4696fc63ba163f.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/background/background0.png"
-dest_files=["res://.godot/imported/background0.png-bd7b3a86ead6adfb7a4696fc63ba163f.stex"]
+dest_files=["res://.godot/imported/background0.png-bd7b3a86ead6adfb7a4696fc63ba163f.ctex"]
 
 [params]
 

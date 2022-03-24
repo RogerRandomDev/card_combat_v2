@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://b6136gkquhffp"
-path="res://.godot/imported/Goblin.png-fab4c196d4381927b0bc6c27ade84511.stex"
+path="res://.godot/imported/Goblin.png-fab4c196d4381927b0bc6c27ade84511.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/entities/Goblin.png"
-dest_files=["res://.godot/imported/Goblin.png-fab4c196d4381927b0bc6c27ade84511.stex"]
+dest_files=["res://.godot/imported/Goblin.png-fab4c196d4381927b0bc6c27ade84511.ctex"]
 
 [params]
 

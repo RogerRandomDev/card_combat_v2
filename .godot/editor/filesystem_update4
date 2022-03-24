@@ -1,5 +1,12 @@
+res://Scenes/game_combat/combat_scene.tscn
 res://Scenes/game_world/worldmap.tscn
-res://Scenes/shaderlayer.tscn
+res://Scenes/title/title.tscn
+res://Scripts/Card_View.gd
 res://fonts/basefont.tres
 res://fonts/basetheme.tres
+res://fonts/combatenttheme.tres
+res://fonts/gametheme.tres
+res://shaders/COLcirlcexplosion.tres
+res://shaders/explosion0.tres
+res://shaders/holy0.tres
 res://shaders/magic_projectile.tres

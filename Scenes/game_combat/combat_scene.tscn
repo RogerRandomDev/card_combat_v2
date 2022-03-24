@@ -1,14 +1,10 @@
-[gd_scene load_steps=31 format=3 uid="uid://b61hhanf0pyp7"]
+[gd_scene load_steps=27 format=3 uid="uid://b61hhanf0pyp7"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ynivg"]
 [ext_resource type="Theme" uid="uid://depumydraltld" path="res://fonts/gametheme.tres" id="2_yjdqk"]
 [ext_resource type="PackedScene" uid="uid://bf60m6chm01yy" path="res://Scenes/game_combat/enemy.tscn" id="3_d3qg3"]
 [ext_resource type="PackedScene" uid="uid://dsoibnltwojmr" path="res://Scenes/game_combat/ally.tscn" id="4_7drwm"]
-[ext_resource type="Texture2D" uid="uid://cu3fyp100elcq" path="res://Textures/Card.png" id="5_lo7w4"]
 [ext_resource type="Script" path="res://Scripts/storestack.gd" id="6_cdkqj"]
-[ext_resource type="Texture2D" uid="uid://do88enexe7ikk" path="res://Textures/background/background0.png" id="6_ta01g"]
-[ext_resource type="Texture2D" uid="uid://txqxc2bts3kc" path="res://Textures/background/table_base.png" id="7_itcfw"]
-[ext_resource type="Texture2D" uid="uid://cmlqnuu2smw4c" path="res://Textures/icons/combat/store_icon.png" id="7_u6bh0"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="10_8penj"]
 [ext_resource type="Theme" uid="uid://t1fx64h2rttm" path="res://fonts/basetheme.tres" id="11_2qu3r"]
 [ext_resource type="Material" uid="uid://cvgn0o0rhbqhm" path="res://shaders/COLcirlcexplosion.tres" id="12_o24g3"]
@@ -327,8 +323,6 @@ offset_top = -47.0
 offset_right = 32.0
 offset_bottom = 47.0
 theme = ExtResource( "2_yjdqk" )
-texture = ExtResource( "5_lo7w4" )
-stretch_mode = 5
 
 [node name="c2" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
 modulate = Color(0.501961, 0.423529, 0.345098, 1)
@@ -337,8 +331,6 @@ offset_top = -47.0
 offset_right = 32.0
 offset_bottom = 47.0
 theme = ExtResource( "2_yjdqk" )
-texture = ExtResource( "5_lo7w4" )
-stretch_mode = 5
 
 [node name="c3" type="TextureRect" parent="CombatContainer/game_combat/cardstack"]
 modulate = Color(0.501961, 0.423529, 0.345098, 1)
@@ -347,8 +339,6 @@ offset_top = -47.0
 offset_right = 32.0
 offset_bottom = 47.0
 theme = ExtResource( "2_yjdqk" )
-texture = ExtResource( "5_lo7w4" )
-stretch_mode = 5
 
 [node name="storestack" type="TextureRect" parent="CombatContainer/game_combat"]
 process_priority = 2
@@ -358,8 +348,6 @@ offset_top = 424.0
 offset_right = 96.0
 offset_bottom = 518.0
 theme = ExtResource( "2_yjdqk" )
-texture = ExtResource( "5_lo7w4" )
-stretch_mode = 5
 script = ExtResource( "6_cdkqj" )
 
 [node name="Label" type="Label" parent="CombatContainer/game_combat/storestack"]
@@ -373,8 +361,6 @@ horizontal_alignment = 1
 show_behind_parent = true
 position = Vector2(4, 16)
 scale = Vector2(8, 8)
-texture = ExtResource( "7_u6bh0" )
-centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CombatContainer/game_combat"]
 anims/activate_action = SubResource( "Animation_bw3in" )
@@ -391,8 +377,6 @@ offset_top = -96.0
 offset_right = 1024.0
 offset_bottom = 416.0
 mouse_filter = 2
-texture = ExtResource( "6_ta01g" )
-stretch_mode = 5
 
 [node name="table" type="TextureRect" parent="CombatContainer/game_combat"]
 show_behind_parent = true
@@ -400,8 +384,6 @@ offset_top = 320.0
 offset_right = 1024.0
 offset_bottom = 832.0
 mouse_filter = 2
-texture = ExtResource( "7_itcfw" )
-stretch_mode = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }

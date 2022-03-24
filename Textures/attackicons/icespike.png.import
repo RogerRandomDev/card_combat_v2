@@ -1,9 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://bq3pfjcgmem2j"
-path="res://.godot/imported/icespike.png-ebbe7b5d3176f0564cb3369cd9129015.stex"
+path="res://.godot/imported/icespike.png-ebbe7b5d3176f0564cb3369cd9129015.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Textures/attackicons/icespike.png"
-dest_files=["res://.godot/imported/icespike.png-ebbe7b5d3176f0564cb3369cd9129015.stex"]
+dest_files=["res://.godot/imported/icespike.png-ebbe7b5d3176f0564cb3369cd9129015.ctex"]
 
 [params]
 

@@ -15,6 +15,7 @@ func _ready():
 #loads the types to the typelist
 func load_typelist():
 	for type in Combat.type_matches.keys():
+		type = type[0].to_upper()+type.substr(1,-1)
 		$Type_Matches/TypeList.add_item(type,load("res://Textures/attributes/"+type+".png"))
 	for item in $Type_Matches/TypeList.get_item_count():
 		$Type_Matches/TypeList.set_item_tooltip_enabled(item,false)
@@ -97,7 +98,7 @@ func show_Cards(data):
 		Sprite.rect_min_size=Vector2(64,64)
 		Sprite.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		Sprite.ignore_texture_size=true
-		Sprite.texture = load("res://Textures/attributes/"+type+".png")
+		Sprite.texture = load("res://Textures/attributes/"+type.to_lower()+".png")
 		$DataShower/card/Attributelist.add_child(Sprite)
 		
 	$DataShower/card/Description_out.text = "(a)".replace("a",data.type)+"\n"+data.description
